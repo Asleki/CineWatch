@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Alex Malunda">
+    <meta name="description" content="Detailed attributions and sources for all third-party content, data, and assets used on the CineWatch website.">
+    <title>CineWatch Attributions and Sources (Consolidated)</title>
+    <!-- Tailwind CSS CDN (retained as it was in original sources.html) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for icons (retained as it was in original sources.html) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts for consistency (Poppins, Roboto, Inter from previous files) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === Consolidated CSS for Header and Footer === */
+
+        /* Root Theme Variables (from standalone_header.css & main_styles.css combined) */
+        :root {
+          --bg: #fff;
+          --text: #111;
+          --header-bg: #f0ecec;
+          --search-bg: #f4f4f4;
+          --highlight: rgb(28, 12, 241); /* This is the blue used for highlight */
+          --danger: #f44336;
+          --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+
+          /* Variables for custom message box & dropdown in light mode */
+          --message-box-bg: #fff;
+          --message-box-text: #111;
+          --message-box-border: #ccc;
+          --message-box-button-bg: #007bff;
+          --message-box-button-text: white;
+          --message-box-button-hover-bg: #0056b3;
+
+          --dropdown-bg: #fff;
+          --dropdown-item-hover-bg: #f0f0f0;
+          --dropdown-border: #ddd;
+
+            /* Light Mode Palette: Fresh Blues (from main_styles.css) */
+            --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+            --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+            --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+            --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+            --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+            --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+            --border-color-light: #A0D9EF; /* Medium blue for borders */
+            --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+            --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+        }
+
+        body.dark-mode {
+          --bg: #111;
+          --text: #f4f4f4;
+          --header-bg: #8d8181;
+          --search-bg: #0a06ff;
+          --cinewatch-blue: #2d05f8; /* Lighter blue for dark mode contrast */
+
+          /* Variables for custom message box & dropdown in dark mode */
+          --message-box-bg: #2a2a2a;
+          --message-box-text: #f4f4f4;
+          --message-box-border: #444;
+          --message-box-button-bg: #6200ea;
+          --message-box-button-text: white;
+          --message-box-button-hover-bg: #3700b3;
+
+          --dropdown-bg: #2a2a2a;
+          --dropdown-item-hover-bg: #3a3a3a;
+          --dropdown-border: #555;
+
+            /* Dark Mode Palette: Existing Grays/Blacks (from main_styles.css) */
+            --text-color-dark: #f0f0f0; /* Light text on dark backgrounds */
+            --background-color-dark: #1a1a1a; /* Dark page background */
+            --section-bg-dark: #2a2a2a; /* Dark section background */
+            --border-color-dark: #4a4a4a; /* Dark border color */
+            --shadow-color-dark: rgba(0, 0, 0, 0.4);
+            --header-bg-dark: #464343;
+        }
+
+        /* General Reset for elements handled by consolidated CSS */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ONLY APPLY HEADER/FOOTER RELATED BODY STYLES */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif; /* Consistent font */
+            /* Do NOT apply general background-color, color, min-height, flex-direction etc. here */
+            /* These are already handled by Tailwind classes in the body tag or specific to main content */
+            line-height: 1.6;
+        }
+
+        /* Dark Mode Body Styles (only apply if the main body.dark-mode is toggled) */
+        body.dark-mode #mainHeader,
+        body.dark-mode .site-footer {
+            /* These specifically target header/footer when body has dark-mode */
+            background-color: var(--header-bg-dark);
+            color: var(--text-color-dark);
+        }
+
+
+        /* --- Utility Header Styles (from watch.css, adapted) --- */
+        .utility-header {
+            background-color: var(--header-bg-light); /* Use variable */
+            color: var(--text-color-light); /* Use variable */
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        body.dark-mode .utility-header {
+            background-color: var(--header-bg-dark);
+            color: var(--text-color-dark);
+        }
+        body.dark-mode .utility-header .header-action img {
+            filter: invert(1);
+        }
+        body.dark-mode .utility-header .join-cinewatch {
+            color: #8ab4f8;
+        }
+        body.dark-mode .utility-header .join-cinewatch:hover {
+            color: #a7c7ff;
+        }
+
+        .utility-left, .utility-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: inherit;
+        }
+        .mode-icon {
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+            display: block;
+        }
+        .mode-icon.active {
+            display: block;
+        }
+        .light-mode-icon, .dark-mode-icon {
+            transition: transform 0.3s ease;
+        }
+        .light-mode-icon:hover, .dark-mode-icon:hover {
+            transform: scale(1.1);
+        }
+        body.dark-mode .dark-mode-icon {
+            filter: invert(1);
+        }
+        body.dark-mode .light-mode-icon {
+            filter: invert(0);
+        }
+
+        .header-action {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.2s ease;
+        }
+
+        .header-action:hover {
+            opacity: 0.7;
+        }
+
+        .header-action img {
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+        }
+
+        .join-cinewatch {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .join-cinewatch:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Main Header (from standalone_header.css) */
+        #mainHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background-color: var(--header-bg);
+          color: var(--text);
+          padding: 10px 20px;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+
+        /* Stylish CineWatch Logo/Site Name */
+        .logo a {
+          font-family: 'Georgia', serif;
+          font-size: 2.4rem;
+          font-weight: bold;
+          color: var(--cinewatch-blue);
+          text-decoration: none;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+          transition: color 0.3s ease, transform 0.2s ease;
+          display: inline-block;
+        }
+
+        .logo a:hover {
+          color: var(--highlight);
+          transform: scale(1.03);
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-icons i {
+          margin-left: 15px;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: color 0.3s, transform 0.3s;
+        }
+
+        .yellow-icon {
+          color: var(--highlight);
+        }
+
+        .red-icon {
+          color: var(--danger);
+        }
+
+        .nav-icons i:hover {
+          transform: scale(1.2);
+        }
+
+        body.dark-mode #searchIcon {
+          color: var(--highlight);
+        }
+
+        /* Search Subheader */
+        #searchSubheader {
+          background-color: var(--search-bg);
+          padding: 10px 20px;
+          display: none;
+          flex-direction: column;
+          gap: 10px;
+          width: 100%;
+          box-sizing: border-box;
+          position: relative;
+          z-index: 999;
+        }
+
+        #searchSubheader:not(.hidden) {
+            display: flex;
+            animation: slideDown 0.3s ease-in-out;
+        }
+
+        .hidden {
+          display: none !important;
+        }
+
+        .search-bar-container {
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
+
+        #searchInput {
+          flex-grow: 1;
+          padding: 10px;
+          font-size: 1rem;
+          width: 100%;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          outline: none;
+        }
+
+        .voice-icon, .clear-icon {
+          position: absolute;
+          right: 35px;
+          font-size: 1rem;
+          color: var(--text);
+          cursor: pointer;
+        }
+
+        .clear-icon {
+          right: 10px;
+        }
+
+        .suggestions-box {
+          background: var(--bg);
+          border: 1px solid var(--dropdown-border);
+          border-radius: 6px;
+          max-height: 250px;
+          overflow-y: auto;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .suggestions-box div {
+          padding: 10px;
+          border-bottom: 1px solid var(--dropdown-border);
+          cursor: pointer;
+          color: var(--text);
+        }
+
+        .suggestions-box div:last-child {
+            border-bottom: none;
+        }
+
+        .suggestions-box div:hover {
+          background-color: #eee;
+        }
+
+        body.dark-mode .suggestions-box div:hover {
+            background-color: #555;
+        }
+
+        /* --- Custom Alert/Message Box --- */
+        #customAlert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #customAlert.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .alert-content {
+            background: var(--message-box-bg);
+            color: var(--message-box-text);
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 90%;
+            width: 350px;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid var(--message-box-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: zoomIn 0.3s ease-out;
+        }
+
+        .alert-icon {
+            font-size: 3em;
+            color: var(--highlight);
+        }
+        .alert-icon.red-icon {
+            color: var(--danger);
+        }
+        .alert-icon.blue-icon {
+            color: var(--secondary-color);
+        }
+        .alert-icon.green-icon {
+            color: #28a745;
+        }
+
+        .alert-content p {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .close-alert-btn {
+            background-color: var(--message-box-button-bg);
+            color: var(--message-box-button-text);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .close-alert-btn:hover {
+            background-color: var(--message-box-button-hover-bg);
+            transform: translateY(-1px);
+        }
+
+        /* --- Account Dropdown Menu Styles --- */
+        .account-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--dropdown-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-width: 180px;
+            z-index: 1050;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .account-dropdown.visible {
+            display: flex;
+        }
+
+        .account-dropdown a {
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .account-dropdown a:hover {
+            background-color: var(--dropdown-item-hover-bg);
+        }
+
+        .account-dropdown a i {
+            font-size: 1em;
+            margin-left: 0;
+            color: var(--text);
+        }
+
+        .account-dropdown a.logout-item {
+            border-top: 1px solid var(--dropdown-border);
+            margin-top: 5px;
+            padding-top: 15px;
+            color: var(--danger);
+            font-weight: bold;
+        }
+        .account-dropdown a.logout-item:hover {
+            background-color: rgba(var(--danger-rgb), 0.1);
+        }
+        body.dark-mode .account-dropdown a.logout-item {
+            color: var(--danger);
+        }
+
+        /* Styling for disabled/info links in dropdown */
+        .account-dropdown a.disabled-link {
+            color: #888;
+            cursor: default;
+            pointer-events: auto;
+            background-color: transparent;
+        }
+        .account-dropdown a.disabled-link:hover {
+            background-color: transparent;
+        }
+
+        /* --- Footer Styles (from watch.css, adapted) --- */
+        .site-footer {
+            background-color: var(--header-bg-light);
+            color: var(--text-color-light);
+            padding: 2rem 0;
+            margin-top: auto;
+            box-shadow: 0 -2px 5px var(--shadow-color-light);
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark-mode .site-footer {
+            background-color: var(--header-bg-dark);
+            color: var(--text-color-dark);
+            box-shadow: 0 -2px 5px var(--shadow-color-dark);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .footer-section h3 {
+            color: var(--accent-color);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 0.9rem;
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color-light);
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        body.dark-mode .footer-bottom {
+            border-top-color: var(--border-color-dark);
+            color: #bbb;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-icons img {
+            height: 30px;
+            width: 30px;
+            transition: transform 0.2s ease, filter 0.3s ease;
+        }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        body.dark-mode .social-icons img {
+            filter: invert(1);
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+          from { transform: translateY(-20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInOverlay {
+            from { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0px); }
+            to { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Media Queries for responsiveness (targeting header/footer elements) */
+        @media (max-width: 768px) {
+            .site-header .header-container { /* This rule is from main_styles.css version header */
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .utility-icons { /* from main_styles.css version header */
+                justify-content: center;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .search-subheader {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .search-suggestions {
+                position: static;
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-section {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .nav-icons i {
+                margin-left: 10px;
+                font-size: 1.1rem;
+            }
+            .logo a {
+                font-size: 1.8rem;
+            }
+            #mainHeader {
+                padding: 10px;
+            }
+            .search-bar-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            #searchInput {
+                width: calc(100% - 20px);
+                border-radius: 6px;
+            }
+            .voice-icon, .clear-icon {
+                right: 10px;
+            }
+            .voice-icon {
+                top: 50%;
+                transform: translateY(-50%);
+                right: 35px;
+            }
+            .clear-icon {
+                top: 50%;
+                transform: translateY(-50%);
+                right: 10px;
+            }
+            .suggestions-box {
+                margin-top: 5px;
+            }
+            .alert-content {
+                width: 95%;
+                padding: 20px;
+            }
+            .account-dropdown {
+                min-width: unset;
+                width: 160px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Main Header -->
+    <header id="mainHeader">
+        <div class="logo"><a href="discover.html">CineWatch</a></div>
+        <nav class="nav-icons">
+            <i id="searchIcon" class="fas fa-search" title="Search"></i>
+            <i id="addIcon" class="fas fa-plus-circle yellow-icon" title="Add to Watchlist"></i>
+            <i id="accountIcon" class="fas fa-user-circle yellow-icon" title="Account"></i>
+            <i id="darkModeToggle" class="fas fa-moon yellow-icon" title="Toggle Mode"></i>
+
+            <!-- Account Dropdown Menu (initially hidden) -->
+            <div id="accountDropdown" class="account-dropdown">
+                <!-- Content will be dynamically added by JavaScript based on login status -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search Subheader -->
+    <div id="searchSubheader" class="hidden">
+        <div class="search-bar-container">
+            <input type="text" id="searchInput" placeholder="Search movies, shows..." autocomplete="off" />
+            <i class="fas fa-microphone voice-icon" title="Voice Search"></i>
+            <i id="clearSearch" class="fas fa-times clear-icon" title="Clear"></i>
+        </div>
+        <div id="suggestionsBox" class="suggestions-box"></div>
+    </div>
+
+    <!-- Main Content Area (Original content from sources.html, no direct styling from consolidated CSS) -->
+    <main class="flex-grow flex justify-center p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl w-full bg-white shadow-lg rounded-lg p-6 sm:p-8 lg:p-10 border border-gray-200">
+            <h1 class="text-center text-gray-800 mb-8">Attributions and Sources</h1>
+            <p class="text-gray-700 mb-6">This page details the third-party content, data, and assets used on CineWatch, along with their respective sources and licenses.</p>
+            <hr class="border-gray-300 my-8">
+
+            <section class="mb-8">
+                <h2 class="text-gray-700 mb-4">I. Movie & Series Data</h2>
+                <ul class="list-disc list-inside ml-4 space-y-3">
+                    <li>
+                        <strong>The Movie Database (TMDB):</strong> Core movie and series metadata, including titles, synopses, categories, release dates, seasons, episode counts, languages, genres, creators, network details, and primary cast names, are primarily provided by The Movie Database (TMDB). This product uses the TMDB API but is not endorsed or certified by TMDB. Data obtained via <a href="https://www.themoviedb.org/" class="text-blue-600 hover:text-blue-800 underline">https://www.themoviedb.org/</a>.
+                    </li>
+                    <li>
+                        <strong>IMDb:</strong> Specific IMDb ratings (e.g., '8.2/10') for films and series are sourced directly from IMDb's extensive database.
+                    </li>
+                    <li>
+                        <strong>Cast Biographies:</strong> Short cast biographies are compiled from publicly available information and research conducted via general search engines like Google (e.g., for 'Úrsula Corberó,' 'Leonardo DiCaprio,' 'Bryan Cranston').
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-gray-700 mb-4">II. Images</h2>
+                <ul class="list-disc list-inside ml-4 space-y-3">
+                    <li>
+                        <strong>Movie Posters, Hero Section Backdrops, and Stills:</strong> All movie and series posters (e.g., 'moneyheistposter1.webp', 'inceptioposter1.webp'), prominent hero section backdrops, and related stills are sourced from The Movie Database (TMDB) and are used under terms permitted by their API and applicable fair use guidelines for commentary and promotion.
+                    </li>
+                    <li>
+                        <strong>Cast Images:</strong> Images of cast members (e.g., 'Úrsula Corberó.webp', 'Chris Hemsworth.webp') are sourced from The Movie Database (TMDB) and, in some instances, from Wikipedia (e.g., specific actor pages on Wikipedia.org).
+                    </li>
+                    <li>
+                        <strong>Network Logos:</strong> Logos for streaming platforms (e.g., Netflix, Hulu, Prime Video, Peacock, YouTube, Showmax) are used for informational purposes to indicate availability and are presumed to be publicly available for such use. All rights reserved to their respective owners.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-gray-700 mb-4">III. Icons</h2>
+                <ul class="list-disc list-inside ml-4 space-y-3">
+                    <li>
+                        <strong>Font Awesome:</strong> Icons used under the <a href="https://fontawesome.com/license/free" class="text-blue-600 hover:text-blue-800 underline">Font Awesome Free License</a>.
+                    </li>
+                    <li>
+                        <strong>Phosphor Icons:</strong> Icons used under the <a href="https://phosphoricons.com/" class="text-blue-600 hover:text-blue-800 underline">MIT License</a>.
+                    </li>
+                    <li>
+                        <strong>Lucide React:</strong> Icons used under the <a href="https://lucide.dev/" class="text-blue-600 hover:text-blue-800 underline">MIT License</a>.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-gray-700 mb-4">IV. Fonts</h2>
+                <ul class="list-disc list-inside ml-4 space-y-3">
+                    <li>
+                        <strong>Inter:</strong> Provided by Google Fonts under the <a href="https://fonts.google.com/specimen/Inter/about" class="text-blue-600 hover:text-blue-800 underline">SIL Open Font License (OFL)</a>.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mb-8">
+                <h2 class="text-gray-700 mb-4">V. Development Frameworks & Libraries</h2>
+                <ul class="list-disc list-inside ml-4 space-y-3">
+                    <li>
+                        <strong>Tailwind CSS:</strong> Used for styling. <a href="https://tailwindcss.com/license" class="text-blue-600 hover:text-blue-800 underline">MIT License</a>.
+                    </li>
+                </ul>
+            </section>
+
+            <p class="text-gray-700 mt-8">Please ensure this page is updated with the specific details for every piece of external content used on CineWatch. Consulting a legal professional is highly recommended to ensure full compliance.</p>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section centered-info">
+                <p>&copy; Copyright Alex Malunda 2025</p>
+                <p><a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Notice</a></p>
+                <p><a href="sources.html" target="_blank" rel="noopener noreferrer">Sources</a></p>
+                <p>Last Modified: <span id="last-modified"></span></p>
+            </div>
+            <div class="footer-section social-links">
+                <a href="developer.html" target="_blank" rel="noopener noreferrer">About the Developer</a>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram">
+                    </a>
+                    <a href="https://www.facebook.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook">
+                    </a>
+                    <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn">
+                    </a>
+                    <a href="https://x.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                        <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Alert/Message Box -->
+    <div id="customAlert" class="custom-alert">
+        <div class="alert-content">
+            <i class="fas fa-exclamation-triangle alert-icon yellow-icon"></i>
+            <p id="alertMessage"></p>
+            <button id="closeAlert" class="close-alert-btn">OK</button>
+        </div>
+    </div>
+
+    <script>
+        /* === Consolidated JavaScript for Header and Footer === */
+
+        // Data for all shows (canonical source from app_core.js) - Required for search functionality
+        const allShows = [
+            {
+                id: "moneyheist",
+                title: "Money Heist (La Casa de Papel)",
+                categories: ["Trending", "International"],
+                poster: "moneyheistposter1.webp",
+                imdb: "8.2/10 (Crime)",
+                releaseDate: "May 2, 2017",
+                seasons: "5 (Netflix Parts)",
+                episodes: "41",
+                languages: "Spanish",
+                genre: "Heist, Crime, Drama, Thriller",
+                creators: "Alex Pina",
+                cast: "Úrsula Corberó, Álvaro Morte, Itziar Ituño",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "A mysterious man known as 'The Professor' recruits a band of eight robbers to carry out an ambitious plan: to steal billions of euros from the Royal Mint of Spain. As the heist unfolds, the team grapples with hostages, police, and personal conflicts, turning the robbery into a complex game of cat and mouse. Known for its intricate plot twists and strong character development."
+            },
+            {
+                id: "moneyheistk",
+                title: "Money Heist (K-Drama)",
+                categories: ["K-Drama", "Coming Soon"],
+                poster: "moneyheistkoreaposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: December 2024 (Season 2)",
+                seasons: "2 (Expected)",
+                episodes: "N/A",
+                languages: "Korean",
+                genre: "Heist, Crime, Drama, Thriller",
+                creators: "Kim Hong-sun",
+                cast: "Yoo Ji-tae, Kim Yun-jin, Park Hae-soo",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "A Korean adaptation of the hit Spanish series, 'Money Heist', this version reinterprets the original's compelling narrative with a fresh, distinct Korean perspective, focusing on a major heist orchestrated by the Professor and his team of diverse personalities. Fans eagerly await the next installment."
+            },
+            {
+                id: "prisonbreak",
+                title: "Prison Break",
+                categories: ["Action", "Hollywood"],
+                poster: "prisonbreakposter1.webp",
+                imdb: "8.3/10 (Action)",
+                releaseDate: "August 29, 2005",
+                seasons: "5",
+                episodes: "90",
+                languages: "English",
+                genre: "Action, Crime, Drama, Thriller",
+                creators: "Paul Scheuring",
+                cast: "Wentworth Miller, Dominic Purcell, Amaury Nolasco",
+                networkLogo: "hululogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "When his brother, Lincoln Burrows, is wrongly sentenced to death, a structural engineer, Michael Scofield, devises an elaborate plan to break him out of prison—starting by getting incarcerated himself. A thrilling ride full of twists, tension, and brotherly loyalty as they navigate their escape and evade authorities."
+            },
+            {
+                id: "inception",
+                title: "Inception",
+                categories: ["Hollywood"],
+                poster: "inceptioposter1.webp",
+                imdb: "8.8/10 (Sci-Fi)",
+                releaseDate: "July 16, 2010",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "English",
+                genre: "Action, Sci-Fi, Thriller",
+                creators: "Christopher Nolan",
+                cast: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
+                networkLogo: "hbo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription/Rent/Buy",
+                synopsis: "A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the mission and his team to disaster."
+            },
+            {
+                id: "breakingbad",
+                title: "Breaking Bad",
+                categories: ["Trending", "Hollywood"],
+                poster: "breakingbadposter1.webp",
+                imdb: "9.5/10 (Crime)",
+                releaseDate: "January 20, 2008",
+                seasons: "5",
+                episodes: "62",
+                languages: "English",
+                genre: "Crime, Drama, Thriller",
+                creators: "Vince Gilligan",
+                cast: "Bryan Cranston, Aaron Paul, Anna Gunn",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "Breaking Bad follows Walter White, a high school chemistry teacher turned methamphetamine producer, as he partners with former student Jesse Pinkman. Faced with a cancer diagnosis and financial hardship, Walter descends into a criminal underworld that transforms his identity and relationships, exploring themes of morality, family, and ambition."
+            },
+            {
+                id: "theoffice",
+                title: "The Office",
+                categories: ["Hollywood"],
+                poster: "theofficeposter1.webp",
+                imdb: "9.0/10 (Comedy)",
+                releaseDate: "March 24, 2005",
+                seasons: "9",
+                episodes: "201",
+                languages: "English",
+                genre: "Comedy",
+                creators: "Ricky Gervais, Stephen Merchant, Greg Daniels",
+                cast: "Steve Carell, Rainn Wilson, John Krasinski",
+                networkLogo: "pecock-logo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium. The everyday lives of the employees are seen through the lens of a documentary film crew."
+            },
+            {
+                id: "yourhonor",
+                title: "Your Honor",
+                categories: ["Hollywood", "Coming Soon"],
+                poster: "yourhonorposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: Coming Soon (Season 3)",
+                seasons: "3 (Expected)",
+                episodes: "N/A",
+                languages: "English",
+                genre: "Crime, Drama, Thriller",
+                creators: "Peter Moffat",
+                cast: "Bryan Cranston",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "A respected New Orleans judge's life is turned upside down when his teenage son is involved in a hit-and-run, leading to a high-stakes game of lies, deceit, and impossible choices to protect his family. Season 3 is highly anticipated."
+            },
+            {
+                id: "3idiots",
+                title: "3 Idiots",
+                categories: ["Bollywood"],
+                poster: "3idiotsposter1.webp",
+                imdb: "8.4/10 (Comedy)",
+                releaseDate: "December 25, 2009",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "Hindi",
+                genre: "Comedy, Drama, Romance",
+                creators: "Rajkumar Hirani",
+                cast: "Aamir Khan, Madhavan, Sharman Joshi",
+                networkLogo: "primevideologo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription/Rent/Buy",
+                synopsis: "Two friends embark on a quest for a third, long-lost friend, while reminiscing about their college days and the profound impact their eccentric, brilliant buddy had on their lives and perspectives on education and success."
+            },
+            {
+                id: "ghoul",
+                title: "Ghoul",
+                categories: ["Bollywood"],
+                poster: "ghoulposter1.webp",
+                imdb: "7.1/10 (Horror)",
+                releaseDate: "August 24, 2018",
+                seasons: "1",
+                episodes: "3",
+                languages: "Hindi, English",
+                genre: "Horror, Thriller",
+                creators: "Patrick Graham",
+                cast: "Radhika Apte, Manav Kaul, Ratnabali Bhattacharjee",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "A newly appointed interrogator arrives at a remote military detention center to question a dangerous terrorist, only to discover that the detainee is not what he seems and harbors a terrifying supernatural entity."
+            },
+            {
+                id: "dangal",
+                title: "Dangal",
+                categories: ["Bollywood"],
+                poster: "dangalposter1.webp",
+                imdb: "8.3/10 (Biography)",
+                releaseDate: "December 23, 2016",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "Hindi",
+                genre: "Biography, Drama, Sport",
+                creators: "Nitesh Tiwari",
+                cast: "Aamir Khan, Fatima Sana Shaikh, Sanya Malhotra",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription/Rent/Buy",
+                synopsis: "Based on the true story of Mahavir Singh Phogat, a former wrestler who trains his daughters Geeta Phogat and Babita Kumari to become world-class female wrestlers, challenging societal norms and achieving international success."
+            },
+            {
+                id: "nairobihalflife",
+                title: "Nairobi Half Life",
+                categories: ["Kenyan Drama"],
+                poster: "nairobihalflifeposter1.webp",
+                imdb: "7.8/10 (Crime)",
+                releaseDate: "October 31, 2012",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "Swahili, Kikuyu, English",
+                genre: "Crime, Drama",
+                creators: "David 'Tosh' Gitonga (Director)",
+                cast: "Joseph Wairimu, Olwenya Maina, Mugambi Nthiga",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Now",
+                subscription: "May require Rent/Buy",
+                synopsis: "Nairobi Half Life tells the story of Mwas, an aspiring actor from a rural town who travels to Nairobi to pursue his dreams. Faced with harsh city life, he’s pulled into a world of crime and must struggle to stay true to his dreams while surviving the city’s brutal realities. It's a powerful and gritty portrayal of urban life in Kenya."
+            },
+            {
+                id: "crimeandjustice",
+                title: "Crime and Justice",
+                categories: ["Kenyan Drama", "Trending", "Coming Soon"],
+                poster: "crimeandjusticeposter1.webp",
+                imdb: "7.0/10 (Crime)",
+                releaseDate: "February 22, 2021",
+                seasons: "3",
+                episodes: "N/A",
+                languages: "English, Swahili",
+                genre: "Crime, Drama, Legal",
+                creators: "Showmax Original",
+                cast: "Sarah Hassan, Alfred Munyua, Maqbul Mohammed",
+                networkLogo: "showmaxlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "A Kenyan police procedural series that follows two detectives as they investigate various crimes in Nairobi. The show delves into the dark side of the city, exploring themes of corruption, greed, and the pursuit of justice."
+            },
+            {
+                id: "dayofthejackal",
+                title: "The Day Of The Jackal",
+                categories: ["International", "Coming Soon"],
+                poster: "thedayofthejackalposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: November 2024 (Series)",
+                seasons: "1 (Upcoming Series)",
+                episodes: "N/A",
+                languages: "English",
+                genre: "Thriller",
+                creators: "Ronan Bennett",
+                cast: "Eddie Redmayne, Lashana Lynch",
+                networkLogo: "pecock-logo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "An upcoming modern-day reimagining of the iconic novel and film, following a professional assassin known as 'The Jackal' as he undertakes a mission to assassinate a high-profile target."
+            },
+            {
+                id: "traintobusan",
+                title: "Train To Busan",
+                categories: ["K-Drama"],
+                poster: "traintobusanposter1.webp",
+                imdb: "7.6/10 (Action)",
+                releaseDate: "July 20, 2016",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "Korean",
+                genre: "Action, Horror, Thriller",
+                creators: "Yeon Sang-ho (Director)",
+                cast: "Gong Yoo, Jung Yu-mi, Ma Dong-seok",
+                networkLogo: "amazon-prime-logo-free-png.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription/Rent/Buy",
+                synopsis: "While a zombie apocalypse breaks out in South Korea, a father and daughter, along with other passengers, are trapped on a high-speed train fighting for their lives as the infection spreads rapidly."
+            },
+            {
+                id: "extraction",
+                title: "Extraction",
+                categories: ["Hollywood", "Coming Soon"],
+                poster: "extractionposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: 2025 (Extraction 3)",
+                seasons: "3 (Expected)",
+                episodes: "N/A",
+                languages: "English",
+                genre: "Action, Thriller",
+                creators: "Sam Hargrave (Director)",
+                cast: "Chris Hemsworth",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "Extraction follows a black market mercenary who embarks on a deadly mission to rescue the kidnapped son of an imprisoned international crime lord. The highly anticipated third installment will continue the high-octane action."
+            },
+            {
+                id: "allofusaredead",
+                title: "All Of Us Are Dead",
+                categories: ["K-Drama", "Coming Soon"],
+                poster: "allofusaredeadposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: 2025 (Season 2)",
+                seasons: "2 (Expected)",
+                episodes: "N/A",
+                languages: "Korean",
+                genre: "Action, Drama, Horror",
+                creators: "Lee Jae-kyoo, Kim Nam-su",
+                cast: "Park Ji-hu, Yoon Chan-young, Cho Yi-hyun",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "When a zombie virus breaks out in a high school, trapped students must fight their way out or turn into one of the infected. The second season is set to continue their struggle for survival."
+            },
+            {
+                id: "strangerthings",
+                title: "Stranger Things",
+                categories: ["Hollywood"],
+                poster: "strangerthingsposter1.webp",
+                imdb: "8.7/10 (Drama)",
+                releaseDate: "July 15, 2016",
+                seasons: "5",
+                episodes: "34",
+                languages: "English",
+                genre: "Drama, Fantasy, Horror",
+                creators: "The Duffer Brothers",
+                cast: "Millie Bobby Brown, Finn Wolfhard, Winona Ryder",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl with extraordinary powers."
+            },
+            {
+                id: "lupin",
+                title: "Lupin",
+                categories: ["International"],
+                poster: "lupinposter1.webp",
+                imdb: "7.5/10 (Crime)",
+                releaseDate: "January 8, 2021",
+                seasons: "3 (Parts)",
+                episodes: "17",
+                languages: "French",
+                genre: "Crime, Drama, Mystery",
+                creators: "George Kay, François Uzan",
+                cast: "Omar Sy, Ludivine Sagnier, Clotilde Hesme",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "Inspired by the adventures of Arsène Lupin, master of disguise and gentleman thief Assane Diop sets out to avenge his father for an injustice inflicted by a wealthy family."
+            },
+            {
+                id: "squidgame",
+                title: "Squid Game",
+                categories: ["Trending", "K-Drama", "Coming Soon"],
+                poster: "squidgameposter1.webp",
+                imdb: "8.0/10 (Action)",
+                releaseDate: "September 17, 2021",
+                seasons: "2 (Expected)",
+                episodes: "9 (Season 1)",
+                languages: "Korean, English",
+                genre: "Action, Thriller, Drama",
+                creators: "Hwang Dong-hyuk",
+                cast: "Lee Jung-jae, Park Hae-soo, Jung Ho-yeon",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "When a man with a huge debt is invited to play a series of children's games for a life-changing sum of money. The catch is, losing means death. The second season is highly anticipated."
+            },
+            {
+                id: "secondwife",
+                title: "Second Wife",
+                categories: ["Kenyan Drama", "Coming Soon"],
+                poster: "secondfamilyposter1.webp",
+                imdb: "Expected",
+                releaseDate: "Expected Premier: TBA",
+                seasons: "N/A",
+                episodes: "N/A",
+                languages: "Swahili, English",
+                genre: "Drama",
+                creators: "N/A",
+                cast: "N/A",
+                networkLogo: "youtubelogo.webp",
+                networkText: "Watch Trailer",
+                subscription: "Free",
+                synopsis: "Details for 'Second Wife' are scarce, but it's expected to be a compelling Kenyan drama exploring familial and marital complexities, possibly revolving around the theme of polygamy or a new spouse in a family."
+            },
+            {
+                id: "40sticks",
+                title: "40 Sticks",
+                categories: ["Kenyan Drama"],
+                poster: "40sticksposter1.webp",
+                imdb: "6.2/10 (Action)",
+                releaseDate: "October 2, 2020",
+                seasons: "1 (Film)",
+                episodes: "N/A (Film)",
+                languages: "Swahili, English",
+                genre: "Action, Crime, Thriller",
+                creators: "Victor Gatonye (Director)",
+                cast: "Robert Agengo, Mwaura Bilal, Andreo Kamau",
+                networkLogo: "netflixlogo.webp",
+                networkText: "Watch Now",
+                subscription: "Subscription Required",
+                synopsis: "When a prison bus crashes in the middle of a forest, a group of convicts must work together to survive the harsh wilderness while evading an unknown, deadly threat lurking in the shadows."
+            }
+        ];
+
+        // Global variables for header search functionality
+        let searchScope = null;
+        let selectedIndex = -1;
+        let userLoggedIn = true; // Placeholder, adjust as needed for actual login
+        let currentUsername = "Jane Doe"; // Default username
+
+        // Functions for header search and dropdown
+        const primaryFilters = [
+            { type: "show", display: "Search by Show Title" },
+            { type: "network", display: "Filter by Network" },
+            { type: "release year", display: "Filter by Release Year" },
+            { type: "creator", display: "Filter by Creator" },
+            { type: "cast", display: "Filter by Cast" },
+            { type: "category", display: "Filter by Category" },
+            { type: "genre", display: "Filter by Genre" },
+        ];
+
+        function getUniqueValues(key) {
+            const values = allShows.map(show => show[key]).flat();
+            return [...new Set(values)].filter(Boolean).sort();
+        }
+
+        function showPrimarySuggestions() {
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            if (!suggestionsBox) return;
+            suggestionsBox.innerHTML = "";
+            primaryFilters.forEach((filter, index) => {
+                const div = document.createElement("div");
+                div.textContent = filter.display;
+                div.dataset.type = filter.type;
+                div.dataset.index = index;
+                if (index === selectedIndex) div.classList.add("selected");
+                suggestionsBox.appendChild(div);
+            });
+            suggestionsBox.classList.add("active");
+        }
+
+        function renderScopedValueSuggestions(val) {
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            if (!suggestionsBox) return;
+            suggestionsBox.innerHTML = "";
+
+            let uniqueValues = [];
+            if (searchScope === "release year") {
+                uniqueValues = [...new Set(allShows.map(show => show.releaseDate.match(/\d{4}/)?.[0]).filter(Boolean))].sort();
+            } else {
+                uniqueValues = getUniqueValues(searchScope.replace(/\s/g, ''));
+            }
+
+            const filteredValues = uniqueValues.filter(value =>
+                value.toLowerCase().includes(val.toLowerCase())
+            );
+
+            if (filteredValues.length > 0) {
+                filteredValues.forEach((value, index) => {
+                    const div = document.createElement("div");
+                    div.textContent = value;
+                    div.dataset.type = `${searchScope}:${value}`;
+                    div.dataset.index = index;
+                    if (index === selectedIndex) div.classList.add("selected");
+                    suggestionsBox.appendChild(div);
+                });
+                suggestionsBox.classList.add("active");
+            } else {
+                suggestionsBox.classList.remove("active");
+            }
+        }
+
+        function renderShowTitleSuggestions(val, currentScope = null) {
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            if (!suggestionsBox) return;
+            suggestionsBox.innerHTML = "";
+
+            let filteredShows = allShows;
+            if (currentScope && currentScope.includes(':')) {
+                const [type, value] = currentScope.split(':');
+                filteredShows = allShows.filter(show => {
+                    if (Array.isArray(show[type.replace(/\s/g, '')])) {
+                        return show[type.replace(/\s/g, '')].includes(value);
+                    }
+                    return String(show[type.replace(/\s/g, '')]) === value;
+                });
+            }
+
+            const matchedShows = filteredShows.filter(show =>
+                show.title.toLowerCase().includes(val.toLowerCase())
+            );
+
+            if (matchedShows.length > 0) {
+                matchedShows.forEach((show, index) => {
+                    const div = document.createElement("div");
+                    div.textContent = show.title;
+                    div.dataset.type = "show";
+                    div.dataset.title = show.title;
+                    div.dataset.index = index;
+                    if (index === selectedIndex) div.classList.add("selected");
+                    suggestionsBox.appendChild(div);
+                });
+                suggestionsBox.classList.add("active");
+            } else {
+                suggestionsBox.classList.remove("active");
+            }
+        }
+
+        /**
+         * Displays a custom styled message box with an icon.
+         * This is the canonical showMessageBox function, now using the existing #customAlert element.
+         * @param {string} message The message to display.
+         * @param {string} [iconClass='fas fa-info-circle'] Font Awesome icon class.
+         */
+        function showMessageBox(message, iconClass = 'fas fa-info-circle') {
+            const customAlert = document.getElementById('customAlert');
+            const alertMessage = document.getElementById('alertMessage');
+            const alertIcon = customAlert.querySelector('.alert-icon');
+            const closeAlertBtn = document.getElementById('closeAlert');
+
+            if (!customAlert || !alertMessage || !alertIcon || !closeAlertBtn) {
+                console.error("Custom alert elements not found. Cannot display message box.");
+                alert(message); // Fallback to browser alert
+                return;
+            }
+
+            alertMessage.textContent = message;
+            alertIcon.className = 'alert-icon';
+            iconClass.split(' ').forEach(cls => alertIcon.classList.add(cls));
+
+            customAlert.classList.add('show');
+
+            const newCloseHandler = () => {
+                customAlert.classList.remove('show');
+            };
+            // Ensure only one listener is active at a time for this specific close button
+            closeAlertBtn.onclick = null; // Clear previous handler
+            closeAlertBtn.onclick = newCloseHandler; // Assign new handler
+
+            if (customAlert.dataset.hideTimeout) {
+                clearTimeout(customAlert.dataset.hideTimeout);
+            }
+            customAlert.dataset.hideTimeout = setTimeout(() => {
+                if (customAlert.classList.contains('show')) {
+                    customAlert.classList.remove('show');
+                }
+            }, 5000);
+        }
+
+        function updateAccountDropdown() {
+            const accountDropdown = document.getElementById("accountDropdown");
+            if (!accountDropdown) return;
+            accountDropdown.innerHTML = ""; // Clear existing content
+
+            if (userLoggedIn) {
+                // Logged in menu
+                const profileLink = document.createElement("a");
+                profileLink.href = "profile.html";
+                profileLink.innerHTML = `<i class="fas fa-user-circle"></i> View Profile (${currentUsername})`;
+                accountDropdown.appendChild(profileLink);
+
+                const playlistLink = document.createElement("a");
+                playlistLink.href = "playlist.html";
+                playlistLink.innerHTML = `<i class="fas fa-list-ul"></i> Playlist`;
+                accountDropdown.appendChild(playlistLink);
+
+                const favoriteLink = document.createElement("a");
+                favoriteLink.href = "favorite.html";
+                favoriteLink.innerHTML = `<i class="fas fa-heart"></i> Favorite`;
+                accountDropdown.appendChild(favoriteLink);
+
+                const settingsLink = document.createElement("a");
+                settingsLink.href = "settings.html";
+                settingsLink.innerHTML = `<i class="fas fa-cog"></i> Settings`;
+                accountDropdown.appendChild(settingsLink);
+
+                const logoutLink = document.createElement("a");
+                logoutLink.href = "#";
+                logoutLink.classList.add("logout-item");
+                logoutLink.innerHTML = `<i class="fas fa-sign-out-alt"></i> Logout`;
+                logoutLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    userLoggedIn = false;
+                    updateAccountDropdown();
+                    showMessageBox("You have been logged out.", "fas fa-check-circle green-icon");
+                    accountDropdown.classList.remove("visible");
+                });
+                accountDropdown.appendChild(logoutLink);
+            } else {
+                // Not logged in menu
+                const loginLink = document.createElement("a");
+                loginLink.href = "login.html";
+                loginLink.innerHTML = `<i class="fas fa-sign-in-alt"></i> Login`;
+                accountDropdown.appendChild(loginLink);
+
+                const signupLink = document.createElement("a");
+                signupLink.href = "signup.html";
+                signupLink.innerHTML = `<i class="fas fa-user-plus"></i> Sign Up`;
+                accountDropdown.appendChild(signupLink);
+
+                const playlistLink = document.createElement("a");
+                playlistLink.href = "#";
+                playlistLink.classList.add("disabled-link");
+                playlistLink.innerHTML = `<i class="fas fa-list-ul"></i> Playlist`;
+                playlistLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showMessageBox("You can't view playlist without logging in.", "fas fa-info-circle blue-icon");
+                });
+                accountDropdown.appendChild(playlistLink);
+
+                const favoriteLink = document.createElement("a");
+                favoriteLink.href = "#";
+                favoriteLink.classList.add("disabled-link");
+                favoriteLink.innerHTML = `<i class="fas fa-heart"></i> Favorite`;
+                favoriteLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    showMessageBox("You can't view playlist without logging in.", "fas fa-info-circle blue-icon");
+                });
+                accountDropdown.appendChild(favoriteLink);
+            }
+        }
+
+        // --- Main execution logic for consolidated scripts ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Last Modified Date
+            const lastModifiedSpan = document.getElementById('last-modified');
+            if (lastModifiedSpan) {
+                lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+            } else {
+                console.warn("Last Modified span not found.");
+            }
+
+            // Dark Mode Toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', () => {
+                    body.classList.toggle('dark-mode');
+                    if (body.classList.contains('dark-mode')) {
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            } else {
+                console.warn("Dark mode toggle element not found. Dark mode functionality skipped.");
+            }
+
+            // Header Action Button Logic
+            const addIcon = document.getElementById("addIcon");
+            const accountIcon = document.getElementById("accountIcon");
+            const accountDropdown = document.getElementById("accountDropdown");
+            const searchIcon = document.getElementById("searchIcon");
+            const searchSubheader = document.getElementById("searchSubheader");
+            const searchInput = document.getElementById("searchInput");
+            const clearSearch = document.getElementById("clearSearch");
+            const suggestionsBox = document.getElementById("suggestionsBox");
+
+
+            // Populate initial account dropdown state
+            updateAccountDropdown();
+
+            // Add Show Icon click handler
+            if (addIcon) {
+                addIcon.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    if (userLoggedIn) {
+                        showMessageBox("Add to Watchlist functionality is coming soon!", "fas fa-info-circle blue-icon");
+                    } else {
+                        showMessageBox("You must be logged in to add shows!", "fas fa-exclamation-triangle red-icon");
+                    }
+                });
+            }
+
+            // Account Icon click handler
+            if (accountIcon) {
+                accountIcon.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    accountDropdown.classList.toggle("visible");
+                });
+            }
+
+
+            // Search Icon/Subheader Logic
+            if (searchIcon && searchSubheader && searchInput && suggestionsBox) {
+                searchIcon.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    searchSubheader.classList.toggle("hidden");
+                    if (!searchSubheader.classList.contains("hidden")) {
+                        searchInput.focus();
+                        showPrimarySuggestions();
+                    } else {
+                        suggestionsBox.classList.remove("active");
+                        searchInput.value = "";
+                        searchScope = null;
+                    }
+                });
+
+                clearSearch.addEventListener("click", () => {
+                    searchInput.value = "";
+                    searchScope = null;
+                    showPrimarySuggestions();
+                    searchInput.focus();
+                });
+
+                searchInput.addEventListener("focus", () => {
+                    if (searchInput.value.trim() === "" && !searchScope) {
+                        showPrimarySuggestions();
+                    } else if (searchScope && !searchScope.includes(':')) {
+                        renderScopedValueSuggestions(searchInput.value.trim());
+                    } else if (searchScope && searchScope.includes(':')) {
+                        renderShowTitleSuggestions(searchInput.value.trim(), searchScope);
+                    }
+                });
+
+                searchInput.addEventListener("blur", (e) => {
+                    setTimeout(() => {
+                        if (!suggestionsBox.contains(document.activeElement)) {
+                            suggestionsBox.classList.remove("active");
+                        }
+                    }, 100);
+                });
+
+                suggestionsBox.addEventListener("click", (event) => {
+                    const target = event.target;
+                    if (target.closest('.suggestions-box div')) {
+                        const type = target.dataset.type;
+                        if (type && type.includes(':')) {
+                            searchScope = type;
+                            searchInput.value = `${type} `;
+                            renderShowTitleSuggestions("", searchScope);
+                            searchInput.focus();
+                        } else if (type && type !== "show") {
+                            searchScope = type;
+                            searchInput.value = `${type}: `;
+                            renderScopedValueSuggestions("");
+                            searchInput.focus();
+                        } else if (type === "show") {
+                            const title = target.dataset.title;
+                            window.location.href = `details.html?title=${title}`;
+                        }
+                        selectedIndex = -1;
+                    }
+                });
+
+                searchInput.addEventListener("input", () => {
+                    selectedIndex = -1;
+                    const val = searchInput.value.trim();
+
+                    if (!searchScope) {
+                        if (val === "") {
+                            showPrimarySuggestions();
+                        } else {
+                            renderShowTitleSuggestions(val);
+                        }
+                    } else {
+                        if (searchScope.includes(':')) {
+                            renderShowTitleSuggestions(val, searchScope);
+                        } else {
+                            renderScopedValueSuggestions(val);
+                        }
+                    }
+                });
+
+                // Close search subheader and account dropdown if clicked outside
+                document.addEventListener("click", e => {
+                    const isClickInsideSearchIcon = searchIcon && searchIcon.contains(e.target);
+                    const isClickInsideSearchSubheader = searchSubheader && searchSubheader.contains(e.target);
+                    const isClickInsideAccountIcon = accountIcon && accountIcon.contains(e.target);
+                    const isClickInsideAccountDropdown = accountDropdown && accountDropdown.contains(e.target);
+
+                    if (!searchSubheader.classList.contains("hidden") && !isClickInsideSearchIcon && !isClickInsideSearchSubheader) {
+                        searchSubheader.classList.add("hidden");
+                        suggestionsBox.classList.remove("active");
+                        searchInput.value = "";
+                        searchScope = null;
+                    }
+
+                    if (accountDropdown && accountDropdown.classList.contains("visible") && !isClickInsideAccountIcon && !isClickInsideAccountDropdown) {
+                        accountDropdown.classList.remove("visible");
+                    }
+                });
+
+            } else {
+                console.warn("Search elements not found. Search functionality skipped.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineWatch - FAQs</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font (for consistent typography across the site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Root Theme Variables (Light Mode) */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue for CineWatch logo */
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-color: #ddd;
+      --card-bg: #fdfdfd;
+      --link-hover: #0056b3;
+      --dropdown-bg: #fff;
+      --dropdown-border: #ccc;
+      --modal-bg: #fff;
+      --modal-border: 1px solid #ccc;
+      --form-bg: #f9f9f9;
+      --input-border: #ccc;
+
+      /* Additional variables for the new footer */
+      --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+      --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+      --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+      --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+      --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+      --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+      --border-color-light: #A0D9EF; /* Medium blue for borders */
+      --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+      --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+
+      /* Footer specific grey colors */
+      --footer-bg-light-grey: #e0e0e0; /* Light grey for footer in light mode */
+      --footer-bg-dark-grey: #333333; /* Darker grey for footer in dark mode */
+    }
+
+    /* Dark Mode Variables */
+    body.dark-mode {
+      --bg: #1a1a2e; /* Deep dark blue */
+      --text: #e9ecef; /* Off-white */
+      --header-bg: #2c3e50; /* Dark blue-grey */
+      --search-bg: #34495e; /* Slightly lighter dark blue-grey */
+      --highlight: #89cff0; /* Sky blue */
+      --danger: #ef5350; /* Softer red */
+      --cinewatch-blue: #add8e6; /* Lighter blue for dark mode logo */
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --border-color: #4a4a4a;
+      --card-bg: #212130;
+      --link-hover: #a3daff;
+      --dropdown-bg: #34495e;
+      --dropdown-border: #555;
+      --modal-bg: #2c3e50;
+      --modal-border: 1px solid #4a4a4a;
+      --form-bg: #34495e;
+      --input-border: #555;
+
+      /* Additional variables for the new footer in dark mode */
+      --text-color-dark: #f0f0f0;
+      --background-color-dark: #1a1a1a;
+      --section-bg-dark: #2a2a2a;
+      --border-color-dark: #4a4a4a;
+      --shadow-color-dark: rgba(0, 0, 0, 0.4);
+      --header-bg-dark: #464343;
+    }
+
+    /* General Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Utility Header - Unified structure */
+    #utilityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--header-bg);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #utilityHeader .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    #utilityHeader .logo a {
+      text-decoration: none;
+      color: var(--cinewatch-blue);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .logo a:hover {
+      color: var(--highlight);
+    }
+
+    #utilityHeader .header-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #utilityHeader .header-icons i {
+      font-size: 1.2em;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .header-icons i:hover {
+      color: var(--highlight);
+    }
+
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dropdown-bg);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      right: 0; /* Align dropdown to the right of the icon */
+      border: 1px solid var(--dropdown-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px; /* Space from icon */
+    }
+
+    .account-dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .account-dropdown-content a:hover {
+      background-color: var(--search-bg);
+      color: var(--highlight);
+    }
+
+    .account-dropdown:hover .account-dropdown-content {
+      display: block;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger-menu {
+        display: none; /* Hidden by default, shown on mobile */
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    /* Mobile Navigation Overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start off-screen to the left */
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg); /* Use theme background */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s ease-in-out; /* Slide in animation */
+    }
+
+    .mobile-nav-overlay.show {
+        left: 0; /* Slide in */
+    }
+
+    .mobile-nav-overlay .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2em;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .mobile-nav-overlay .nav-links {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mobile-nav-overlay .nav-links li {
+        margin-bottom: 25px;
+    }
+
+    .mobile-nav-overlay .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.8em;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .nav-links a:hover {
+        color: var(--highlight);
+    }
+
+    .mobile-nav-overlay .social-icons {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .mobile-nav-overlay .social-icons i {
+        font-size: 1.8em;
+        color: var(--text);
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .social-icons i:hover {
+        color: var(--highlight);
+    }
+
+    /* Main Content Area */
+    main {
+      flex-grow: 1;
+      padding: 40px 30px;
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    main h1 {
+      color: var(--highlight);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .faq-section {
+      margin-bottom: 30px;
+    }
+
+    .faq-item {
+      background-color: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .faq-question {
+      padding: 15px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1em;
+      color: var(--text);
+      transition: background-color 0.2s;
+    }
+
+    .faq-question:hover {
+      background-color: var(--search-bg);
+    }
+
+    .faq-question .icon {
+      margin-left: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+      background-color: var(--form-bg); /* Slightly different background for answer */
+      color: var(--text);
+    }
+
+    .faq-answer p {
+      padding-bottom: 15px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px; /* Adjust as needed for content length */
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .faq-item.active .faq-question .icon {
+      transform: rotate(180deg);
+    }
+
+    /* Footer Styles */
+    .site-footer {
+        background-color: var(--footer-bg-light-grey); /* Changed to light grey */
+        color: var(--text-color-light);
+        padding: 2rem 0;
+        margin-top: auto;
+        box-shadow: 0 -2px 5px var(--shadow-color-light);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .site-footer {
+        background-color: var(--footer-bg-dark-grey); /* Changed to darker grey */
+        color: var(--text-color-dark);
+        box-shadow: 0 -2px 5px var(--shadow-color-dark);
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: row; /* Single row on large screens */
+        flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+        justify-content: space-around; /* Distribute items with space around them */
+        gap: 20px;
+        max-width: 1200px; /* Increased max-width for better multi-column display */
+        margin: 0 auto; /* Center the footer content */
+        padding: 0 20px; /* Add padding for content inside footer */
+        text-align: left; /* Default text alignment for multi-column */
+    }
+
+    .footer-section {
+        flex: 1; /* Allow sections to grow and shrink */
+        min-width: 200px; /* Minimum width for each column */
+        max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+        text-align: left; /* Align text left within each section */
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    body.dark-mode .footer-section h3 {
+        color: var(--accent-color);
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color); /* Apply hover color */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Social Icons Container */
+    .social-icons { 
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .social-icons img {
+        height: 30px;
+        width: 30px;
+        transition: transform 0.2s ease, filter 0.3s ease;
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    body.dark-mode .social-icons img {
+        filter: invert(1);
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 15px 20px;
+        }
+
+        #utilityHeader .header-icons {
+            display: none; /* Hide desktop icons */
+        }
+
+        .hamburger-menu {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        main {
+            padding: 20px 15px;
+            margin: 10px auto;
+        }
+
+        main h1 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .faq-question {
+            font-size: 1em;
+            padding: 12px 15px;
+        }
+        
+        .footer-content {
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center;
+            text-align: center; /* Center text for stacked layout */
+        }
+        .footer-section {
+            width: 100%; /* Full width for sections on small screens */
+            max-width: unset; /* Remove max-width constraint */
+            text-align: center; /* Center text within sections on mobile */
+        }
+        .social-icons {
+            justify-content: center; /* Ensure social icons remain centered on mobile */
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <div class="account-dropdown">
+        <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+        <div class="account-dropdown-content" id="accountDropdownContent">
+          <a href="#">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <i class="fas fa-bars hamburger-menu" id="hamburgerMenu"></i>
+  </header>
+
+  <!-- Mobile Navigation Overlay (Hidden by default) -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+    <ul class="nav-links">
+      <li><a href="cinewatch_home.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="tv_shows.html">TV Shows</a></li>
+      <li><a href="cinema_guide.html">Cinema Guide</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="faqs.html">FAQs</a></li> <!-- Link to this page -->
+      <li><a href="privacy_policy.html">Privacy Policy</a></li>
+      <li><a href="copyright_information.html">Copyright Information</a></li>
+      <li><a href="termsof_services.html">Terms of Service</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="#" id="mobileProfileLink" style="display:none;">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="mobileLogoutLink" style="display:none;">Logout</a></li>
+    </ul>
+    <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+    </div>
+  </div>
+
+
+  <main>
+    <h1>Frequently Asked Questions</h1>
+
+    <div class="faq-section">
+      <div class="faq-item">
+        <div class="faq-question">
+          What is CineWatch?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>CineWatch is your ultimate entertainment platform for streaming and discovering movies and TV shows. We also offer a comprehensive cinema guide to help you find and book tickets for the latest releases in theaters near you.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How do I stream movies and TV shows on CineWatch?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>After creating an account (or logging in), you can browse our extensive library of movies and TV shows. Simply click on a title to view its details, and if available for streaming, you'll see an option to "Watch Now".</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Is CineWatch free to use?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>CineWatch offers a range of content, some of which may be free, while premium content or certain features might require a subscription or purchase. Please check the specific content details for more information.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How can I find cinema showtimes?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Navigate to the "Cinema Guide" section of our website. You can filter by city and browse available cinema halls and their current showtimes for various movies.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Can I book movie tickets through CineWatch?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>Yes, our Cinema Guide integrates a multi-step booking modal that allows you to select showtimes and proceed with booking tickets for your preferred cinema halls. (Note: Actual booking may link to third-party providers.)</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How does the dark mode feature work?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>You can toggle between light and dark mode by clicking the moon/sun icon in the header. Your preference will be saved for future visits.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          How do I add a movie/show to my Watchlist?
+          <i class="fas fa-chevron-down icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p>When viewing the details of a movie or TV show, you'll find an "Add to Watchlist" icon or button. Clicking this will save the title to your personal watchlist for easy access later.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Common elements
+      const body = document.body;
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const accountIcon = document.getElementById('accountIcon');
+      const accountDropdownContent = document.getElementById('accountDropdownContent');
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+      const closeMobileNavBtn = document.getElementById('closeMobileNav');
+      const mobileProfileLink = document.getElementById('mobileProfileLink');
+      const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+
+      // --- Dark Mode Toggle ---
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+          } else {
+            localStorage.setItem('theme', 'light');
+            darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+          }
+        });
+      }
+
+      // Initial dark mode setup on page load
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+          darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+          darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+        }
+      }
+
+      // --- Account Dropdown Toggle ---
+      if (accountIcon) {
+        accountIcon.addEventListener('click', (event) => {
+          accountDropdownContent.classList.toggle('show');
+          event.stopPropagation(); // Prevent clicks on body from closing immediately
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+          if (!accountDropdownContent.contains(event.target) && event.target !== accountIcon) {
+            accountDropdownContent.classList.remove('show');
+          }
+        });
+      }
+
+      // --- Mobile Navigation (Hamburger Menu) ---
+      if (hamburgerMenu && mobileNavOverlay && closeMobileNavBtn) {
+          hamburgerMenu.addEventListener('click', () => {
+              mobileNavOverlay.classList.add('show');
+          });
+
+          // Close mobile nav when clicking on overlay itself or a link inside
+          mobileNavOverlay.addEventListener('click', (event) => {
+              if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                  mobileNavOverlay.classList.remove('show');
+              }
+          });
+          // Close button inside mobile nav
+          closeMobileNavBtn.addEventListener('click', () => {
+              mobileNavOverlay.classList.remove('show');
+          });
+      }
+
+      // --- FAQ Accordion Functionality ---
+      const faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+          // Toggle 'active' class on the clicked item
+          item.classList.toggle('active');
+
+          // Close other open items
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+            }
+          });
+        });
+      });
+
+
+      // --- Footer Dynamic Content ---
+      // Update the current year in the footer
+      const currentYearSpan = document.getElementById('current-year');
+      if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+      }
+
+      // Last Modified Date (footer)
+      const lastModifiedSpan = document.getElementById('last-modified');
+      if (lastModifiedSpan) {
+        lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+      } else {
+        console.warn("Last Modified span not found.");
+      }
+    });
+  </script>
+</body>
+</html>

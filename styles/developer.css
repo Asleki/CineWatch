@@ -1,0 +1,798 @@
+   /*
+     * File: main.css (Embedded Styles for Developer Page)
+     * Description: Consolidated and updated styles for the CineWatch application,
+     * including responsive design, header, footer, and dark mode theming.
+     */
+
+    /* Root Theme Variables */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+
+      /* Variables for custom message box & dropdown in light mode */
+      --message-box-bg: #fff;
+      --message-box-text: #111;
+      --message-box-border: #ccc;
+      --message-box-button-bg: #007bff;
+      --message-box-button-text: white;
+      --message-box-button-hover-bg: #0056b3;
+
+      --dropdown-bg: #fff;
+      --dropdown-item-hover-bg: #f0f0f0;
+      --dropdown-border: #ddd;
+
+      /* Specific for carousel (though not directly used on this page, kept for consistency) */
+      --carousel-bg: #f0f0f0;
+      --card-bg: #ffffff;
+      --card-border: #e0e0e0;
+    }
+
+    /* Dark Mode Theme Variables */
+    body.dark-mode {
+      --bg: #111;
+      --text: #f4f4f4;
+      --header-bg: #222;
+      --search-bg: #333;
+      --highlight: #6495ed; /* Lighter blue for dark mode */
+      --danger: #ff6347;
+      --cinewatch-blue: #6495ed; /* Lighter blue for dark mode contrast */
+
+      /* Variables for custom message box & dropdown in dark mode */
+      --message-box-bg: #333;
+      --message-box-text: #f4f4f4;
+      --message-box-border: #555;
+      --message-box-button-bg: #6495ed;
+      --message-box-button-text: #111;
+      --message-box-button-hover-bg: #4169e1;
+
+      --dropdown-bg: #444;
+      --dropdown-item-hover-bg: #555;
+      --dropdown-border: #666;
+
+      /* Specific for carousel in dark mode */
+      --carousel-bg: #1a1a1a;
+      --card-bg: #2a2a2a;
+      --card-border: #444444;
+    }
+
+    /* General Body and Layout */
+    body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: var(--bg);
+        color: var(--text);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    main {
+        flex: 1; /* Allows main content to grow and push footer down */
+        padding: 20px;
+        max-width: 1200px;
+        margin: 20px auto; /* Center content with margin */
+        width: 100%;
+        box-sizing: border-box; /* Include padding in width */
+    }
+
+    /* --- Header Styling (Unified) --- */
+    #utilityHeader {
+        background-color: var(--header-bg);
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    #utilityHeader .logo a {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: var(--cinewatch-blue);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    #utilityHeader .logo a:hover {
+        color: var(--highlight);
+    }
+
+    .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 20px; /* Space between icons */
+    }
+
+    .header-icons i {
+        font-size: 1.5rem;
+        color: var(--text);
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .header-icons i:hover {
+        color: var(--highlight);
+        transform: scale(1.1);
+    }
+
+    /* Hamburger menu (hidden by default on desktop) */
+    #hamburgerMenu {
+        display: none; /* Hidden by default */
+        font-size: 1.8rem;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    /* --- Search Subheader (Unified) --- */
+    .search-subheader {
+        background-color: var(--header-bg);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        position: absolute; /* Position relative to header or body */
+        width: 100%;
+        left: 0;
+        top: 60px; /* Position below header */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        transform: translateY(-100%); /* Start hidden above */
+        opacity: 0;
+        visibility: hidden;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .search-subheader.show {
+        transform: translateY(0%);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        background-color: var(--search-bg);
+        border-radius: 25px;
+        padding: 5px 15px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #searchInput {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 8px 10px;
+        font-size: 1rem;
+        color: var(--text);
+        outline: none;
+    }
+
+    #searchInput::placeholder {
+        color: var(--text);
+        opacity: 0.7;
+    }
+
+    #clearSearch {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        margin-left: 5px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+
+    #clearSearch:hover {
+        opacity: 1;
+    }
+
+    /* Search Suggestions Box */
+    .suggestions-box {
+        position: absolute;
+        width: calc(100% - 40px); /* Adjust for padding of searchSubheader */
+        max-width: 580px; /* Aligns with search input max-width */
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--dropdown-border);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1001; /* Above search subheader */
+        top: calc(100% + 5px); /* Position below search input */
+        left: 20px; /* Aligns with searchSubheader padding */
+        max-height: 300px;
+        overflow-y: auto;
+        display: none; /* Hidden by default, show with JS */
+        padding: 10px 0;
+    }
+
+    .suggestions-box.active {
+        display: block; /* Show when active */
+    }
+
+    .suggestion-group {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        color: var(--text);
+        opacity: 0.8;
+        border-bottom: 1px solid var(--dropdown-border);
+        margin-bottom: 5px;
+    }
+
+    .suggestion-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        color: var(--text);
+        transition: background-color 0.2s ease;
+        border-radius: 5px; /* Slight rounding */
+        margin: 0 5px; /* Small margin */
+    }
+
+    .suggestion-item:hover, .suggestion-item.selected {
+        background-color: var(--dropdown-item-hover-bg);
+    }
+
+    /* --- Account Dropdown Menu (Unified) --- */
+    .account-dropdown {
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        right: 20px;
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--dropdown-border);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        min-width: 180px;
+        z-index: 1000;
+        display: none; /* Hidden by default */
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .account-dropdown.visible {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .account-dropdown a {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        color: var(--text);
+        text-decoration: none;
+        white-space: nowrap; /* Prevent text wrapping */
+        transition: background-color 0.2s ease;
+    }
+
+    .account-dropdown a:hover {
+        background-color: var(--dropdown-item-hover-bg);
+    }
+
+    .account-dropdown a i {
+        margin-right: 10px;
+        width: 20px; /* Fixed width for icons */
+        text-align: center;
+    }
+
+    .account-dropdown .logout-item {
+        color: var(--danger); /* Make logout stand out */
+        border-top: 1px solid var(--dropdown-border);
+        margin-top: 5px;
+        padding-top: 10px;
+    }
+
+    .account-dropdown .logout-item:hover {
+        background-color: var(--danger);
+        color: white;
+    }
+
+    .account-dropdown .disabled-link {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: var(--dropdown-item-hover-bg); /* Indicate disabled state */
+    }
+
+    .account-dropdown .disabled-link:hover {
+        background-color: var(--dropdown-item-hover-bg); /* Keep background on hover */
+        color: var(--text); /* Keep text color */
+    }
+
+    /* --- Mobile Navigation Overlay (Unified) --- */
+    .mobile-nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s ease, opacity 0.3s ease;
+    }
+
+    .mobile-nav-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .mobile-nav-content {
+      background-color: var(--bg);
+      padding: 30px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      width: 80%; /* Adjust for mobile screen */
+      max-width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-nav-content .close-mobile-nav-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .mobile-nav-content a {
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      display: flex; /* For icons */
+      align-items: center; /* For icons */
+      justify-content: center; /* Center text and icon */
+    }
+    .mobile-nav-content a i {
+        margin-right: 10px;
+    }
+
+    .mobile-nav-content a:hover,
+    .mobile-nav-content a.active {
+      background-color: var(--highlight);
+      color: white;
+      text-decoration: none;
+    }
+
+    .mobile-login-btn, .mobile-logout-btn {
+      margin-top: 20px;
+      background-color: var(--cinewatch-blue);
+      color: white;
+      font-weight: bold;
+    }
+
+    .mobile-login-btn:hover, .mobile-logout-btn:hover {
+        background-color: var(--highlight);
+    }
+
+    /* --- Custom Alert/Message Box (Unified) --- */
+    .custom-alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s ease, opacity 0.3s ease;
+    }
+
+    .custom-alert-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .alert-content {
+      background-color: var(--message-box-bg);
+      color: var(--message-box-text);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid var(--message-box-border);
+    }
+
+    .alert-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    /* Icon Colors */
+    .blue-icon { color: var(--highlight); }
+    .green-icon { color: #28a745; }
+    .red-icon { color: var(--danger); }
+    .orange-icon { color: #ffc107; }
+
+    #alertMessage {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      word-wrap: break-word;
+    }
+
+    .close-alert-btn {
+      background-color: var(--message-box-button-bg);
+      color: var(--message-box-button-text);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .close-alert-btn:hover {
+      background-color: var(--message-box-button-hover-bg);
+      transform: translateY(-1px);
+    }
+
+
+    /* --- Developer Page Specific Styles --- */
+    .developer-hero {
+        text-align: center;
+        padding: 60px 20px;
+        background-color: var(--highlight);
+        color: white;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .developer-hero .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        margin: 0 auto 20px auto;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    .developer-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+
+    .developer-hero .tagline {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    section {
+        background-color: var(--card-bg);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        border: 1px solid var(--card-border);
+    }
+
+    section h2 {
+        color: var(--highlight);
+        font-size: 2rem;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    section h3 {
+        color: var(--text);
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    section p {
+        line-height: 1.7;
+        margin-bottom: 15px;
+        color: var(--text);
+        font-size: 1rem;
+    }
+
+    .skill-category ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center; /* Center skills within category */
+    }
+
+    .skill-category li {
+        background-color: var(--search-bg); /* Lighter background for skill tags */
+        color: var(--text);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        border: 1px solid var(--dropdown-border);
+    }
+
+    .project-item {
+        margin-bottom: 25px;
+        border-bottom: 1px dashed var(--dropdown-border);
+        padding-bottom: 20px;
+    }
+
+    .project-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .project-item h3 {
+        color: var(--cinewatch-blue);
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .project-item ul {
+        list-style: disc;
+        margin-left: 20px;
+        margin-bottom: 15px;
+        color: var(--text);
+    }
+
+    .project-item a {
+        color: var(--highlight);
+        text-decoration: underline;
+    }
+
+    .contact p {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .contact a {
+        color: var(--highlight);
+        text-decoration: none;
+    }
+
+    .contact a:hover {
+        text-decoration: underline;
+    }
+
+    .contact p img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+    }
+
+    /* --- Footer Styling (Unified) --- */
+    footer {
+        background-color: var(--header-bg);
+        color: var(--text);
+        padding: 30px 20px;
+        margin-top: 40px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: column; /* Stack vertically by default */
+        align-items: center;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .footer-section {
+        width: 100%; /* Take full width on small screens */
+        text-align: center;
+    }
+
+    .footer-section h3 {
+        color: var(--cinewatch-blue);
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
+
+    .footer-section p, .footer-section a {
+        color: var(--text);
+        font-size: 0.95rem;
+        text-decoration: none;
+        line-height: 1.6;
+    }
+
+    .footer-section a:hover {
+        color: var(--highlight);
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .social-icons img {
+        width: 30px;
+        height: 30px;
+        transition: transform 0.2s ease;
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    .legal-links ul, .quick-links ul, .developer-info ul {
+        list-style: none;
+        padding: 0;
+    }
+    .legal-links li, .quick-links li, .developer-info li {
+        margin-bottom: 5px;
+    }
+
+
+    /* --- Responsive Design (Media Queries) --- */
+
+    /* Desktop view: Hide hamburger menu, show nav icons */
+    @media (min-width: 769px) {
+        #hamburgerMenu {
+            display: none; /* Hide hamburger on desktop */
+        }
+        .header-icons .fas:not(#hamburgerMenu) {
+            display: inline-block; /* Ensure nav icons are visible on desktop */
+        }
+        .mobile-nav-overlay {
+            display: none; /* Ensure overlay is hidden */
+        }
+
+        /* Footer layout for larger screens */
+        .footer-content {
+            flex-direction: row; /* Arrange sections horizontally */
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 180px; /* Prevent sections from getting too small */
+            margin-bottom: 0;
+            text-align: left; /* Align text left within sections */
+        }
+
+        .contact-social {
+            text-align: center;
+        }
+        .contact-social .social-icons {
+            justify-content: center;
+        }
+    }
+
+    /* Tablet view adjustments (768px and below) */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 10px 15px;
+        }
+        .header-icons i {
+            font-size: 1.3rem;
+            margin-left: 15px;
+        }
+        #utilityHeader .logo a {
+            font-size: 2rem;
+        }
+        .search-subheader {
+            top: 55px; /* Adjust if header height changes */
+        }
+
+        /* Show hamburger menu, hide nav icons */
+        #hamburgerMenu {
+            display: block; /* Show hamburger */
+        }
+        .header-icons .fas:not(#hamburgerMenu) {
+            display: none; /* Hide traditional nav icons for tablets, shown via mobile nav overlay */
+        }
+
+        .developer-hero h1 {
+            font-size: 2.5rem;
+        }
+        .developer-hero .tagline {
+            font-size: 1rem;
+        }
+        section h2 {
+            font-size: 1.8rem;
+        }
+        section h3 {
+            font-size: 1.3rem;
+        }
+        .skill-category ul {
+            justify-content: flex-start; /* Align skills left on smaller screens */
+        }
+    }
+
+    /* Mobile view adjustments (600px and below) */
+    @media (max-width: 600px) {
+        #utilityHeader {
+            padding: 8px 10px;
+            gap: 10px;
+        }
+        #utilityHeader .logo a {
+            font-size: 1.5rem;
+        }
+        #hamburgerMenu {
+            font-size: 1.5rem;
+        }
+        .search-subheader {
+            top: 45px; /* Adjust for smaller header height */
+            padding: 8px 10px;
+        }
+        .search-bar-container {
+            padding: 3px 10px;
+            flex-direction: column; /* Stack input and clear button if needed */
+            gap: 5px;
+        }
+        #searchInput {
+            width: 100%; /* Full width input */
+            padding: 5px;
+        }
+        .suggestions-box {
+            left: 10px;
+            width: calc(100% - 20px);
+        }
+
+        .developer-hero h1 {
+            font-size: 2rem;
+        }
+        .developer-hero .tagline {
+            font-size: 0.9rem;
+        }
+        section {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        section h2 {
+            font-size: 1.5rem;
+        }
+        section h3 {
+            font-size: 1.2rem;
+        }
+        section p {
+            font-size: 0.9rem;
+        }
+    }

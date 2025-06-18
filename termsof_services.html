@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineWatch - Terms of Service</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font (for consistent typography across the site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Root Theme Variables (Light Mode) */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue for CineWatch logo */
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-color: #ddd;
+      --card-bg: #fdfdfd;
+      --link-hover: #0056b3;
+      --dropdown-bg: #fff;
+      --dropdown-border: #ccc;
+      --modal-bg: #fff;
+      --modal-border: 1px solid #ccc;
+      --form-bg: #f9f9f9;
+      --input-border: #ccc;
+
+      /* Additional variables for the new footer */
+      --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+      --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+      --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+      --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+      --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+      --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+      --border-color-light: #A0D9EF; /* Medium blue for borders */
+      --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+      --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+
+      /* Footer specific grey colors */
+      --footer-bg-light-grey: #e0e0e0; /* Light grey for footer in light mode */
+      --footer-bg-dark-grey: #333333; /* Darker grey for footer in dark mode */
+    }
+
+    /* Dark Mode Variables */
+    body.dark-mode {
+      --bg: #1a1a2e; /* Deep dark blue */
+      --text: #e9ecef; /* Off-white */
+      --header-bg: #2c3e50; /* Dark blue-grey */
+      --search-bg: #34495e; /* Slightly lighter dark blue-grey */
+      --highlight: #89cff0; /* Sky blue */
+      --danger: #ef5350; /* Softer red */
+      --cinewatch-blue: #add8e6; /* Lighter blue for dark mode logo */
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --border-color: #4a4a4a;
+      --card-bg: #212130;
+      --link-hover: #a3daff;
+      --dropdown-bg: #34495e;
+      --dropdown-border: #555;
+      --modal-bg: #2c3e50;
+      --modal-border: 1px solid #4a4a4a;
+      --form-bg: #34495e;
+      --input-border: #555;
+
+      /* Additional variables for the new footer in dark mode */
+      --text-color-dark: #f0f0f0;
+      --background-color-dark: #1a1a1a;
+      --section-bg-dark: #2a2a2a;
+      --border-color-dark: #4a4a4a;
+      --shadow-color-dark: rgba(0, 0, 0, 0.4);
+      --header-bg-dark: #464343;
+    }
+
+    /* General Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Utility Header - Unified structure */
+    #utilityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--header-bg);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #utilityHeader .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    #utilityHeader .logo a {
+      text-decoration: none;
+      color: var(--cinewatch-blue);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .logo a:hover {
+      color: var(--highlight);
+    }
+
+    #utilityHeader .header-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #utilityHeader .header-icons i {
+      font-size: 1.2em;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .header-icons i:hover {
+      color: var(--highlight);
+    }
+
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dropdown-bg);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      right: 0; /* Align dropdown to the right of the icon */
+      border: 1px solid var(--dropdown-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px; /* Space from icon */
+    }
+
+    .account-dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .account-dropdown-content a:hover {
+      background-color: var(--search-bg);
+      color: var(--highlight);
+    }
+
+    .account-dropdown:hover .account-dropdown-content {
+      display: block;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger-menu {
+        display: none; /* Hidden by default, shown on mobile */
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    /* Mobile Navigation Overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start off-screen to the left */
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg); /* Use theme background */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s ease-in-out; /* Slide in animation */
+    }
+
+    .mobile-nav-overlay.show {
+        left: 0; /* Slide in */
+    }
+
+    .mobile-nav-overlay .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2em;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .mobile-nav-overlay .nav-links {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mobile-nav-overlay .nav-links li {
+        margin-bottom: 25px;
+    }
+
+    .mobile-nav-overlay .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.8em;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .nav-links a:hover {
+        color: var(--highlight);
+    }
+
+    .mobile-nav-overlay .social-icons {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .mobile-nav-overlay .social-icons i {
+        font-size: 1.8em;
+        color: var(--text);
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .social-icons i:hover {
+        color: var(--highlight);
+    }
+
+    /* Main Content Area */
+    main {
+      flex-grow: 1;
+      padding: 40px 30px;
+      max-width: 900px;
+      margin: 20px auto;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    main h1 {
+      color: var(--highlight);
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    main h2 {
+      color: var(--highlight);
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+    }
+
+    main p, main ul {
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    main ul {
+      padding-left: 25px;
+    }
+
+    main ul li {
+      margin-bottom: 8px;
+    }
+
+    main a {
+      color: var(--highlight);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    main a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer Styles */
+    .site-footer {
+        background-color: var(--footer-bg-light-grey); /* Changed to light grey */
+        color: var(--text-color-light);
+        padding: 2rem 0;
+        margin-top: auto;
+        box-shadow: 0 -2px 5px var(--shadow-color-light);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .site-footer {
+        background-color: var(--footer-bg-dark-grey); /* Changed to darker grey */
+        color: var(--text-color-dark);
+        box-shadow: 0 -2px 5px var(--shadow-color-dark);
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: row; /* Single row on large screens */
+        flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+        justify-content: space-around; /* Distribute items with space around them */
+        gap: 20px;
+        max-width: 1200px; /* Increased max-width for better multi-column display */
+        margin: 0 auto; /* Center the footer content */
+        padding: 0 20px; /* Add padding for content inside footer */
+        text-align: left; /* Default text alignment for multi-column */
+    }
+
+    .footer-section {
+        flex: 1; /* Allow sections to grow and shrink */
+        min-width: 200px; /* Minimum width for each column */
+        max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+        text-align: left; /* Align text left within each section */
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    body.dark-mode .footer-section h3 {
+        color: var(--accent-color);
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color); /* Apply hover color */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Social Icons Container */
+    .social-icons { 
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .social-icons img {
+        height: 30px;
+        width: 30px;
+        transition: transform 0.2s ease; /* Only transform transition */
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    body.dark-mode .social-icons img {
+        /* No filter: invert(1) here to retain original colors in dark mode */
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 15px 20px;
+        }
+
+        #utilityHeader .header-icons {
+            display: none; /* Hide desktop icons */
+        }
+
+        .hamburger-menu {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        main {
+            padding: 20px 15px;
+            margin: 10px auto;
+        }
+
+        main h1 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        main h2 {
+            font-size: 1.3em;
+        }
+        
+        .footer-content {
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center;
+            text-align: center; /* Center text for stacked layout */
+        }
+        .footer-section {
+            width: 100%; /* Full width for sections on small screens */
+            max-width: unset; /* Remove max-width constraint */
+            text-align: center; /* Center text within sections on mobile */
+        }
+        .social-icons {
+            justify-content: center; /* Ensure social icons remain centered on mobile */
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <div class="account-dropdown">
+        <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+        <div class="account-dropdown-content" id="accountDropdownContent">
+          <a href="#">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <i class="fas fa-bars hamburger-menu" id="hamburgerMenu"></i>
+  </header>
+
+  <!-- Mobile Navigation Overlay (Hidden by default) -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+    <ul class="nav-links">
+      <li><a href="cinewatch_home.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="tv_shows.html">TV Shows</a></li>
+      <li><a href="cinema_guide.html">Cinema Guide</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="faqs.html">FAQs</a></li>
+      <li><a href="privacy_policy.html">Privacy Policy</a></li>
+      <li><a href="copyright_information.html">Copyright Information</a></li>
+      <li><a href="termsof_services.html">Terms of Service</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="#" id="mobileProfileLink" style="display:none;">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="mobileLogoutLink" style="display:none;">Logout</a></li>
+    </ul>
+    <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+    </div>
+  </div>
+
+
+  <main>
+    <h1>Terms of Service for CineWatch</h1>
+    <p><strong>Last Updated: June 16, 2025</strong></p>
+
+    <p>Welcome to CineWatch! These Terms of Service ("Terms") govern your access to and use of the CineWatch website, applications, and services (collectively, the "Services"). By accessing or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, please do not use our Services.</p>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>By creating an account, accessing, or using CineWatch, you acknowledge that you have read, understood, and agree to be bound by these Terms, including any future modifications. We reserve the right to modify these Terms at any time. We will provide notice of any material changes by posting the updated Terms on our website and updating the "Last Updated" date. Your continued use of the Services after such modifications constitutes your acceptance of the revised Terms.</p>
+
+    <h2>2. Eligibility</h2>
+    <p>You must be at least 13 years old to use our Services. If you are under 18, you represent that you have reviewed these Terms with your parent or legal guardian and that they agree to these Terms on your behalf. If you are accessing or using the Services on behalf of another person or entity, you represent that you are authorized to accept these Terms on that person or entity's behalf and that the person or entity agrees to be responsible to us if you or the other person or entity violates these Terms.</p>
+
+    <h2>3. Your Account</h2>
+    <p>You may need to register for an account to access some features of our Services. When you create an account, you agree to:</p>
+    <ul>
+      <li>Provide accurate, current, and complete information.</li>
+      <li>Maintain the security of your password and accept all risks of unauthorized access to your account.</li>
+      <li>Promptly notify us if you discover or otherwise suspect any security breaches related to the Services or your account.</li>
+      <li>Be responsible for all activities that occur under your account.</li>
+    </ul>
+
+    <h2>4. Permitted Use</h2>
+    <p>You are granted a limited, non-exclusive, non-transferable, and revocable license to access and use our Services for your personal, non-commercial use, subject to these Terms. You agree not to use the Services for any purpose that is unlawful or prohibited by these Terms.</p>
+
+    <h2>5. Prohibited Conduct</h2>
+    <p>You agree not to engage in any of the following prohibited activities:</p>
+    <ul>
+      <li>Copying, distributing, or disclosing any part of the Services in any medium.</li>
+      <li>Using any automated system, including "robots," "spiders," "offline readers," etc., to access the Services.</li>
+      <li>Transmitting spam, chain letters, or other unsolicited email.</li>
+      <li>Attempting to interfere with, compromise the system integrity or security, or decipher any transmissions to or from the servers running the Services.</li>
+      <li>Taking any action that imposes, or may impose, an unreasonable or disproportionately large load on our infrastructure.</li>
+      <li>Uploading invalid data, viruses, worms, or other software agents through the Services.</li>
+      <li>Collecting or harvesting any personally identifiable information from the Services.</li>
+      <li>Using the Services for any commercial solicitation purposes.</li>
+      <li>Impersonating another person or otherwise misrepresenting your affiliation with a person or entity.</li>
+      <li>Interfering with the proper working of the Services.</li>
+      <li>Accessing any content through any technology or means other than those provided or authorized by the Services.</li>
+      <li>Bypassing the measures we may use to prevent or restrict access to the Services.</li>
+    </ul>
+
+    <h2>6. Content and Intellectual Property</h2>
+    <p>All content on CineWatch, including text, graphics, images, video, audio, and software, is the property of CineWatch or its licensors and is protected by copyright, trademark, and other intellectual property laws. You may not modify, reproduce, distribute, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our Services, except as generally permitted by the Services or with our prior written consent.</p>
+    <p>Content from third-party streaming services or cinema providers displayed on CineWatch is subject to their respective terms and conditions and intellectual property rights. CineWatch does not own or claim rights to this third-party content.</p>
+
+    <h2>7. Third-Party Links and Services</h2>
+    <p>The Services may contain links to third-party websites or services that are not owned or controlled by CineWatch. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services. You acknowledge and agree that CineWatch shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such websites or services.</p>
+
+    <h2>8. Disclaimers and Limitation of Liability</h2>
+    <p>THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. CINEWATCH MAKES NO WARRANTIES, EXPRESS OR IMPLIED, AND HEREBY DISCLAIMS ALL OTHER WARRANTIES, INCLUDING WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. CINEWATCH DOES NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
+    <p>IN NO EVENT SHALL CINEWATCH, ITS AFFILIATES, DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM (I) YOUR ACCESS TO OR USE OF OR INABILITY TO ACCESS OR USE THE SERVICES; (II) ANY CONDUCT OR CONTENT OF ANY THIRD PARTY ON THE SERVICES; (III) ANY CONTENT OBTAINED FROM THE SERVICES; AND (IV) UNAUTHORIZED ACCESS, USE, OR ALTERATION OF YOUR TRANSMISSIONS OR CONTENT, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, WHETHER OR NOT WE HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGE, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED OF ITS ESSENTIAL PURPOSE.</p>
+
+    <h2>9. Governing Law</h2>
+    <p>These Terms shall be governed and construed in accordance with the laws of [Your Jurisdiction, e.g., the State of California, USA], without regard to its conflict of law provisions.</p>
+
+    <h2>10. Changes to Terms</h2>
+    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Services after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Services.</p>
+
+    <h2>11. Contact Us</h2>
+    <p>If you have any questions about these Terms, please contact us at:</p>
+    <p>Email: <a href="mailto:support@cinewatch.com">support@cinewatch.com</a></p>
+  </main>
+
+  <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Common elements
+      const body = document.body;
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const accountIcon = document.getElementById('accountIcon');
+      const accountDropdownContent = document.getElementById('accountDropdownContent');
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+      const closeMobileNavBtn = document.getElementById('closeMobileNav');
+      const mobileProfileLink = document.getElementById('mobileProfileLink');
+      const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+
+      // --- Dark Mode Toggle ---
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+          } else {
+            localStorage.setItem('theme', 'light');
+            darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+          }
+        });
+      }
+
+      // Initial dark mode setup on page load
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+          darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+          darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+        }
+      }
+
+      // --- Account Dropdown Toggle ---
+      if (accountIcon) {
+        accountIcon.addEventListener('click', (event) => {
+          accountDropdownContent.classList.toggle('show');
+          event.stopPropagation(); // Prevent clicks on body from closing immediately
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+          if (!accountDropdownContent.contains(event.target) && event.target !== accountIcon) {
+            accountDropdownContent.classList.remove('show');
+          }
+        });
+      }
+
+      // --- Mobile Navigation (Hamburger Menu) ---
+      if (hamburgerMenu && mobileNavOverlay && closeMobileNavBtn) {
+          hamburgerMenu.addEventListener('click', () => {
+              mobileNavOverlay.classList.add('show');
+          });
+
+          // Close mobile nav when clicking on overlay itself or a link inside
+          mobileNavOverlay.addEventListener('click', (event) => {
+              if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                  mobileNavOverlay.classList.remove('show');
+              }
+          });
+          // Close button inside mobile nav
+          closeMobileNavBtn.addEventListener('click', () => {
+              mobileNavOverlay.classList.remove('show');
+          });
+      }
+
+      // --- Footer Dynamic Content ---
+      // Update the current year in the footer
+      const currentYearSpan = document.getElementById('current-year');
+      if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+      }
+
+      // Last Modified Date (footer)
+      const lastModifiedSpan = document.getElementById('last-modified');
+      if (lastModifiedSpan) {
+        lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+      } else {
+        console.warn("Last Modified span not found.");
+      }
+    });
+  </script>
+</body>
+</html>

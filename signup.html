@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineWatch - Sign Up</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font (for consistent typography across the site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Root Theme Variables (Light Mode) */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue for CineWatch logo */
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-color: #ddd;
+      --card-bg: #fdfdfd;
+      --link-hover: #0056b3;
+      --dropdown-bg: #fff;
+      --dropdown-border: #ccc;
+      --modal-bg: #fff;
+      --modal-border: 1px solid #ccc;
+      --form-bg: #f9f9f9;
+      --input-border: #ccc;
+
+      /* Additional variables for the new footer */
+      --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+      --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+      --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+      --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+      --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+      --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+      --border-color-light: #A0D9EF; /* Medium blue for borders */
+      --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+      --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+
+      /* Footer specific grey colors */
+      --footer-bg-light-grey: #e0e0e0; /* Light grey for footer in light mode */
+      --footer-bg-dark-grey: #333333; /* Darker grey for footer in dark mode */
+    }
+
+    /* Dark Mode Variables */
+    body.dark-mode {
+      --bg: #1a1a2e; /* Deep dark blue */
+      --text: #e9ecef; /* Off-white */
+      --header-bg: #2c3e50; /* Dark blue-grey */
+      --search-bg: #34495e; /* Slightly lighter dark blue-grey */
+      --highlight: #89cff0; /* Sky blue */
+      --danger: #ef5350; /* Softer red */
+      --cinewatch-blue: #add8e6; /* Lighter blue for dark mode logo */
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --border-color: #4a4a4a;
+      --card-bg: #212130;
+      --link-hover: #a3daff;
+      --dropdown-bg: #34495e;
+      --dropdown-border: #555;
+      --modal-bg: #2c3e50;
+      --modal-border: 1px solid #4a4a4a;
+      --form-bg: #34495e;
+      --input-border: #555;
+
+      /* Additional variables for the new footer in dark mode */
+      --text-color-dark: #f0f0f0;
+      --background-color-dark: #1a1a1a;
+      --section-bg-dark: #2a2a2a;
+      --border-color-dark: #4a4a4a;
+      --shadow-color-dark: rgba(0, 0, 0, 0.4);
+      --header-bg-dark: #464343;
+    }
+
+    /* General Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Utility Header - Unified structure */
+    #utilityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--header-bg);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #utilityHeader .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    #utilityHeader .logo a {
+      text-decoration: none;
+      color: var(--cinewatch-blue);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .logo a:hover {
+      color: var(--highlight);
+    }
+
+    #utilityHeader .header-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #utilityHeader .header-icons i {
+      font-size: 1.2em;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .header-icons i:hover {
+      color: var(--highlight);
+    }
+
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dropdown-bg);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      right: 0; /* Align dropdown to the right of the icon */
+      border: 1px solid var(--dropdown-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px; /* Space from icon */
+    }
+
+    .account-dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .account-dropdown-content a:hover {
+      background-color: var(--search-bg);
+      color: var(--highlight);
+    }
+
+    .account-dropdown:hover .account-dropdown-content {
+      display: block;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger-menu {
+        display: none; /* Hidden by default, shown on mobile */
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    /* Mobile Navigation Overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start off-screen to the left */
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg); /* Use theme background */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s ease-in-out; /* Slide in animation */
+    }
+
+    .mobile-nav-overlay.show {
+        left: 0; /* Slide in */
+    }
+
+    .mobile-nav-overlay .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2em;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .mobile-nav-overlay .nav-links {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mobile-nav-overlay .nav-links li {
+        margin-bottom: 25px;
+    }
+
+    .mobile-nav-overlay .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.8em;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .nav-links a:hover {
+        color: var(--highlight);
+    }
+
+    .mobile-nav-overlay .social-icons {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .mobile-nav-overlay .social-icons i {
+        font-size: 1.8em;
+        color: var(--text);
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .social-icons i:hover {
+        color: var(--highlight);
+    }
+
+    /* Main Content Area - Centered Form */
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-color: var(--bg);
+      transition: background-color 0.3s;
+    }
+
+    .signup-container {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .signup-container h1 {
+      color: var(--highlight);
+      margin-bottom: 30px;
+      font-size: 2.2em;
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group input[type="date"],
+    .form-group select {
+      width: calc(100% - 24px); /* Account for padding */
+      padding: 12px;
+      border: 1px solid var(--input-border);
+      border-radius: 5px;
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 1em;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="email"]:focus,
+    .form-group input[type="password"]:focus,
+    .form-group input[type="date"]:focus,
+    .form-group select:focus {
+      border-color: var(--highlight);
+      outline: none;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 10px;
+        top: 60%; /* Adjust based on label and input height */
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #777;
+        transition: color 0.3s;
+    }
+
+    .password-toggle:hover {
+        color: var(--highlight);
+    }
+
+    .password-strength {
+        margin-top: 5px;
+        font-size: 0.85em;
+        color: #777;
+        height: 1.2em; /* Reserve space */
+    }
+
+    .strength-indicator {
+        height: 5px;
+        background-color: #ccc;
+        border-radius: 2.5px;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+
+    .strength-bar {
+        width: 0%;
+        height: 100%;
+        background-color: #f44336; /* Weak default */
+        transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    }
+
+    .strength-bar.weak { background-color: #f44336; }
+    .strength-bar.medium { background-color: #ff9800; }
+    .strength-bar.strong { background-color: #4CAF50; }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+    }
+
+    .categories-genres {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .categories-genres h3 {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--search-bg);
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+      border: 1px solid var(--input-border);
+    }
+
+    .category-item.selected {
+      background-color: var(--highlight);
+      color: #fff;
+      border-color: var(--highlight);
+    }
+
+    .submit-button {
+      padding: 12px 25px;
+      background-color: var(--highlight);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .submit-button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Search Overlay Styles */
+    .search-subheader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align to top */
+        padding-top: 80px; /* Space from header */
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .search-subheader-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .search-content {
+        background: var(--search-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        position: relative; /* For positioning close button */
+    }
+
+    .search-content .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: var(--text);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .search-content .close-btn:hover {
+        color: var(--danger);
+    }
+
+    .search-input-group {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-input-group input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        font-size: 1em;
+        background-color: var(--bg); /* Use theme background */
+        color: var(--text);
+    }
+
+    .search-input-group button {
+        padding: 10px 15px;
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-input-group button:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .search-scope-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap; /* Allow buttons to wrap */
+    }
+
+    .search-scope-buttons button {
+        padding: 8px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background-color: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .search-scope-buttons button.active,
+    .search-scope-buttons button:hover {
+        background-color: var(--highlight);
+        color: #fff;
+        border-color: var(--highlight);
+    }
+
+    .suggestions-box {
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--dropdown-border);
+        border-radius: 5px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none; /* Hidden by default */
+    }
+
+    .suggestions-box.active {
+        display: block; /* Show when active */
+    }
+
+    .suggestions-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .suggestions-box li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s;
+        color: var(--text);
+    }
+
+    .suggestions-box li:last-child {
+        border-bottom: none;
+    }
+
+    .suggestions-box li:hover {
+        background-color: var(--search-bg);
+        color: var(--highlight);
+    }
+
+    /* Custom Alert/Message Box */
+    .custom-alert-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .custom-alert-overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .alert-content {
+        background-color: var(--bg);
+        color: var(--text);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease-out;
+    }
+
+    .custom-alert-overlay.show .alert-content {
+        transform: translateY(0);
+    }
+
+    .alert-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .alert-icon.blue-icon { color: var(--highlight); }
+    .alert-icon.green-icon { color: #4CAF50; }
+    .alert-icon.red-icon { color: var(--danger); }
+    .alert-icon.yellow-icon { color: #ffeb3b; }
+
+    #alertMessage {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    .close-alert-btn {
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .close-alert-btn:hover {
+        background-color: var(--secondary-color);
+    }
+
+    /* Footer Styles */
+    .site-footer {
+        background-color: var(--footer-bg-light-grey); /* Changed to light grey */
+        color: var(--text-color-light);
+        padding: 2rem 0;
+        margin-top: auto;
+        box-shadow: 0 -2px 5px var(--shadow-color-light);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .site-footer {
+        background-color: var(--footer-bg-dark-grey); /* Changed to darker grey */
+        color: var(--text-color-dark);
+        box-shadow: 0 -2px 5px var(--shadow-color-dark);
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: row; /* Single row on large screens */
+        flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+        justify-content: space-around; /* Distribute items with space around them */
+        gap: 20px;
+        max-width: 1200px; /* Increased max-width for better multi-column display */
+        margin: 0 auto; /* Center the footer content */
+        padding: 0 20px; /* Add padding for content inside footer */
+        text-align: left; /* Default text alignment for multi-column */
+    }
+
+    .footer-section {
+        flex: 1; /* Allow sections to grow and shrink */
+        min-width: 200px; /* Minimum width for each column */
+        max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+        text-align: left; /* Align text left within each section */
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    body.dark-mode .footer-section h3 {
+        color: var(--accent-color);
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color); /* Apply hover color */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Social Icons Container */
+    .social-icons { 
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .social-icons img {
+        height: 30px;
+        width: 30px;
+        transition: transform 0.2s ease; /* Only transform transition */
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    body.dark-mode .social-icons img {
+        /* No filter: invert(1) here to retain original colors in dark mode */
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 15px 20px;
+        }
+
+        #utilityHeader .header-icons {
+            display: none; /* Hide desktop icons */
+        }
+
+        .hamburger-menu {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        .signup-container {
+            padding: 25px;
+        }
+
+        .signup-container h1 {
+            font-size: 1.8em;
+        }
+
+        .footer-content {
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center;
+            text-align: center; /* Center text for stacked layout */
+        }
+        .footer-section {
+            width: 100%; /* Full width for sections on small screens */
+            max-width: unset; /* Remove max-width constraint */
+            text-align: center; /* Center text within sections on mobile */
+        }
+        .social-icons {
+            justify-content: center; /* Ensure social icons remain centered on mobile */
+        }
+
+        .category-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <div class="account-dropdown">
+        <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+        <div class="account-dropdown-content" id="accountDropdownContent">
+          <a href="#">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <i class="fas fa-bars hamburger-menu" id="hamburgerMenu"></i>
+  </header>
+
+  <!-- Mobile Navigation Overlay (Hidden by default) -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+    <ul class="nav-links">
+      <li><a href="cinewatch_home.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="tv_shows.html">TV Shows</a></li>
+      <li><a href="cinema_guide.html">Cinema Guide</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="faqs.html">FAQs</a></li>
+      <li><a href="privacy_policy.html">Privacy Policy</a></li>
+      <li><a href="copyright_information.html">Copyright Information</a></li>
+      <li><a href="termsof_services.html">Terms of Service</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="#" id="mobileProfileLink" style="display:none;">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="mobileLogoutLink" style="display:none;">Logout</a></li>
+    </ul>
+    <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+    </div>
+  </div>
+
+  <main>
+    <div class="signup-container">
+      <h1>Create Your CineWatch Account</h1>
+      <form id="signupForm" class="signup-form">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required minlength="3">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <span class="password-toggle" id="togglePassword">
+            <i class="fas fa-eye-slash"></i>
+          </span>
+          <div class="password-strength">
+            Strength: <span id="strengthText">Very Weak</span>
+            <div class="strength-indicator">
+              <div class="strength-bar" id="strengthBar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required>
+          <span class="password-toggle" id="toggleConfirmPassword">
+            <i class="fas fa-eye-slash"></i>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required>
+          <p id="dobError" style="color: var(--danger); font-size: 0.9em; margin-top: 5px;"></p>
+        </div>
+
+        <div class="categories-genres">
+          <h3>Select Your Favorite Categories/Genres (at least 5):</h3>
+          <div class="category-grid" id="categoryGrid">
+            <!-- Categories will be dynamically added here -->
+          </div>
+          <p id="categoryError" style="color: var(--danger); font-size: 0.9em; margin-top: 10px;"></p>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="weeklyUpdates" name="weeklyUpdates">
+          <label for="weeklyUpdates">Receive weekly updates on new releases and screenings</label>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="rememberMe" name="rememberMe">
+          <label for="rememberMe">Remember me on this device</label>
+        </div>
+
+        <button type="submit" class="submit-button">Create Account</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Search Subheader Overlay (Hidden by default) -->
+  <div class="search-subheader-overlay" id="searchSubheaderOverlay">
+    <div class="search-content">
+      <button class="close-btn" id="closeSearchBtn">&times;</button>
+      <h3>Search CineWatch</h3>
+      <div class="search-input-group">
+        <input type="text" id="searchInput" placeholder="Search for movies, TV shows, or cinemas...">
+        <button id="searchSubmitBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="search-scope-buttons" id="searchScopeButtons">
+        <button data-scope="all" class="active">All</button>
+        <button data-scope="movies">Movies</button>
+        <button data-scope="tv_shows">TV Shows</button>
+        <button data-scope="cinemas">Cinemas</button>
+      </div>
+      <div class="suggestions-box" id="suggestionsBox">
+        <ul>
+          <!-- Search suggestions will be inserted here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
+  <div id="customAlert" class="custom-alert-overlay">
+    <div class="alert-content">
+        <i class="fas fa-info-circle alert-icon blue-icon"></i>
+        <p id="alertMessage">This is a custom message.</p>
+        <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    // Global function to show custom message box (used across pages)
+    function showMessageBox(message, iconClass = 'blue-icon', duration = 3000) {
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = customAlert.querySelector('.alert-icon');
+        const closeAlertBtn = document.getElementById('closeAlertBtn');
+
+        alertMessage.textContent = message;
+        // Remove all existing icon classes before adding the new one
+        alertIcon.className = 'fas alert-icon'; // Reset to base classes
+        alertIcon.classList.add(iconClass); // Add the specific icon class
+
+        customAlert.classList.add('show');
+
+        // Automatically hide after a duration
+        const timeoutId = setTimeout(() => {
+            customAlert.classList.remove('show');
+        }, duration);
+
+        // Close button functionality
+        closeAlertBtn.onclick = () => {
+            customAlert.classList.remove('show');
+            clearTimeout(timeoutId); // Clear auto-hide timeout if manually closed
+        };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Common elements (from other pages)
+      const body = document.body;
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const accountIcon = document.getElementById('accountIcon');
+      const accountDropdownContent = document.getElementById('accountDropdownContent');
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+      const closeMobileNavBtn = document.getElementById('closeMobileNav');
+      const mobileProfileLink = document.getElementById('mobileProfileLink');
+      const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+      const mobileLoginLink = document.getElementById('mobileLoginLink'); // Added for completeness
+
+      // Search Overlay Elements (from other pages)
+      const searchIcon = document.getElementById('searchIcon');
+      const searchSubheaderOverlay = document.getElementById('searchSubheaderOverlay');
+      const closeSearchBtn = document.getElementById('closeSearchBtn');
+      const searchInput = document.getElementById('searchInput');
+      const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+      const searchScopeButtons = document.getElementById('searchScopeButtons');
+      const suggestionsBox = document.getElementById('suggestionsBox');
+      let searchScope = 'all'; // Default search scope
+
+      // Sample Data for Search Suggestions (from other pages)
+      const allSuggestions = [
+          "Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse",
+          "The Marvels", "The Last of Us", "Succession", "Ted Lasso", "Breaking Bad",
+          "Better Call Saul", "The Crown", "Stranger Things", "Westworld",
+          "AMC Cinemas", "IMAX Theaters", "Grand Cinemas"
+      ];
+      const movieSuggestions = ["Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse", "The Marvels"];
+      const tvShowSuggestions = ["The Last of Us", "Succession", "Ted Lasso", "Breaking Bad", "Better Call Saul", "The Crown", "Stranger Things", "Westworld"];
+      const cinemaSuggestions = ["AMC Cinemas", "IMAX Theaters", "Grand Cinemas", "Cinema Paradiso", "Starflix"];
+
+
+      // --- Dark Mode Toggle ---
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+          } else {
+            localStorage.setItem('theme', 'light');
+            darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+          }
+        });
+      }
+
+      // Initial dark mode setup on page load
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+          darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+          darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+        }
+      }
+
+      // --- Account Dropdown Toggle ---
+      if (accountIcon) {
+        accountIcon.addEventListener('click', (event) => {
+          accountDropdownContent.classList.toggle('show');
+          event.stopPropagation(); // Prevent clicks on body from closing immediately
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+          if (!accountDropdownContent.contains(event.target) && event.target !== accountIcon) {
+            accountDropdownContent.classList.remove('show');
+          }
+        });
+      }
+
+      // --- Mobile Navigation (Hamburger Menu) ---
+      if (hamburgerMenu && mobileNavOverlay && closeMobileNavBtn) {
+          hamburgerMenu.addEventListener('click', () => {
+              mobileNavOverlay.classList.add('show');
+          });
+
+          // Close mobile nav when clicking on overlay itself or a link inside
+          mobileNavOverlay.addEventListener('click', (event) => {
+              if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                  mobileNavOverlay.classList.remove('show');
+              }
+          });
+          // Close button inside mobile nav
+          closeMobileNavBtn.addEventListener('click', () => {
+              mobileNavOverlay.classList.remove('show');
+          });
+      }
+
+      // --- Search Functionality (from other pages) ---
+      if (searchIcon && searchSubheaderOverlay && closeSearchBtn && searchInput && searchSubmitBtn && searchScopeButtons && suggestionsBox) {
+          searchIcon.addEventListener('click', () => {
+              searchSubheaderOverlay.classList.add('show');
+              searchInput.focus(); // Focus on the input when search opens
+          });
+
+          closeSearchBtn.addEventListener('click', () => {
+              searchSubheaderOverlay.classList.remove('show');
+              suggestionsBox.classList.remove("active");
+              searchInput.value = ""; // Clear search input on close
+              searchScope = 'all'; // Reset search scope
+              document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                  button.classList.remove('active');
+                  if (button.dataset.scope === 'all') {
+                      button.classList.add('active');
+                  }
+              });
+          });
+
+          searchScopeButtons.addEventListener('click', (event) => {
+              if (event.target.tagName === 'BUTTON') {
+                  document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                      button.classList.remove('active');
+                  });
+                  event.target.classList.add('active');
+                  searchScope = event.target.dataset.scope;
+                  renderSuggestions(searchInput.value); // Re-render suggestions based on new scope
+              }
+          });
+
+          searchInput.addEventListener('input', (event) => {
+              const query = event.target.value;
+              renderSuggestions(query);
+          });
+
+          // Handle clicking on a suggestion
+          suggestionsBox.addEventListener('click', (event) => {
+              if (event.target.tagName === 'LI') {
+                  searchInput.value = event.target.textContent;
+                  suggestionsBox.classList.remove('active'); // Hide suggestions after selection
+                  performSearch(searchInput.value, searchScope); // Perform search with selected suggestion
+              }
+          });
+
+
+          searchSubmitBtn.addEventListener('click', () => {
+              performSearch(searchInput.value, searchScope);
+          });
+
+          searchInput.addEventListener('keypress', (event) => {
+              if (event.key === 'Enter') {
+                  performSearch(searchInput.value, searchScope);
+              }
+          });
+
+          // Function to filter and render suggestions
+          function renderSuggestions(query) {
+              suggestionsBox.innerHTML = ''; // Clear previous suggestions
+              if (query.length === 0) {
+                  suggestionsBox.classList.remove('active');
+                  return;
+              }
+
+              let currentSuggestions = [];
+              if (searchScope === 'all') {
+                  currentSuggestions = allSuggestions;
+              } else if (searchScope === 'movies') {
+                  currentSuggestions = movieSuggestions;
+              } else if (searchScope === 'tv_shows') {
+                  currentSuggestions = tvShowSuggestions;
+              } else if (searchScope === 'cinemas') {
+                  currentSuggestions = cinemaSuggestions;
+              }
+
+              const filteredSuggestions = currentSuggestions.filter(item =>
+                  item.toLowerCase().includes(query.toLowerCase())
+              );
+
+              if (filteredSuggestions.length > 0) {
+                  const ul = document.createElement('ul');
+                  filteredSuggestions.forEach(item => {
+                      const li = document.createElement('li');
+                      li.textContent = item;
+                      ul.appendChild(li);
+                  });
+                  suggestionsBox.appendChild(ul);
+                  suggestionsBox.classList.add('active');
+              } else {
+                  suggestionsBox.classList.remove('active');
+              }
+          }
+
+          // Function to perform search (simulated)
+          function performSearch(query, scope) {
+              searchSubheaderOverlay.classList.remove('show'); // Hide search overlay
+              suggestionsBox.classList.remove("active"); // Hide suggestions
+              searchInput.value = ""; // Clear input
+
+              console.log(`Performing search for "${query}" within scope "${scope}"`);
+              showMessageBox(`Searching for "${query}" in ${scope}... (Feature under development)`, 'blue-icon');
+          }
+
+
+          // Close search subheader and account dropdown if clicked outside
+          document.addEventListener("click", e => {
+              const isClickInsideSearchIcon = searchIcon && searchIcon.contains(e.target);
+              const isClickInsideSearchSubheader = searchSubheaderOverlay && searchSubheaderOverlay.contains(e.target);
+              const isClickInsideAccountIcon = accountIcon && accountIcon.contains(e.target);
+              const isClickInsideAccountDropdown = accountDropdownContent && accountDropdownContent.contains(e.target);
+
+              if (searchSubheaderOverlay.classList.contains("show") && !isClickInsideSearchIcon && !isClickInsideSearchSubheader) {
+                   searchSubheaderOverlay.classList.remove("show");
+                   suggestionsBox.classList.remove("active");
+                   searchInput.value = "";
+                   searchScope = 'all'; // Reset search scope
+                   document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                       button.classList.remove('active');
+                       if (button.dataset.scope === 'all') {
+                           button.classList.add('active');
+                       }
+                   });
+              }
+
+              if (accountDropdownContent && accountDropdownContent.classList.contains("show") && !isClickInsideAccountIcon && !isClickInsideAccountDropdown) {
+                  accountDropdownContent.classList.remove("show");
+              }
+          });
+
+      } else {
+          console.warn("Search elements not found. Search functionality skipped.");
+      }
+
+      // --- Sign Up Page Specific Logic ---
+      const signupForm = document.getElementById('signupForm');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const togglePassword = document.getElementById('togglePassword');
+      const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+      const strengthText = document.getElementById('strengthText');
+      const strengthBar = document.getElementById('strengthBar');
+      const dobInput = document.getElementById('dob');
+      const dobError = document.getElementById('dobError');
+      const categoryGrid = document.getElementById('categoryGrid');
+      const categoryError = document.getElementById('categoryError');
+
+      const categories = [
+        "Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary",
+        "Drama", "Family", "Fantasy", "Film-Noir", "History", "Horror", "Music",
+        "Musical", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western"
+      ];
+      let selectedCategories = new Set();
+
+      // Render categories
+      function renderCategories() {
+        categoryGrid.innerHTML = '';
+        categories.forEach(category => {
+          const div = document.createElement('div');
+          div.classList.add('category-item');
+          div.textContent = category;
+          div.addEventListener('click', () => {
+            if (selectedCategories.has(category)) {
+              selectedCategories.delete(category);
+              div.classList.remove('selected');
+            } else {
+              selectedCategories.add(category);
+              div.classList.add('selected');
+            }
+            validateCategories();
+          });
+          categoryGrid.appendChild(div);
+        });
+      }
+
+      // Password strength checker
+      passwordInput.addEventListener('keyup', () => {
+        const password = passwordInput.value;
+        let strength = 0;
+        let text = "Very Weak";
+        let barWidth = 0;
+        let barClass = "weak";
+
+        if (password.length > 5) strength++;
+        if (password.length > 8) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++; // Special character
+
+        switch (strength) {
+          case 0:
+          case 1:
+            text = "Very Weak"; barWidth = 20; barClass = "weak"; break;
+          case 2:
+            text = "Weak"; barWidth = 40; barClass = "weak"; break;
+          case 3:
+            text = "Medium"; barWidth = 60; barClass = "medium"; break;
+          case 4:
+          case 5:
+            text = "Strong"; barWidth = 80; barClass = "strong"; break;
+          case 6:
+            text = "Very Strong"; barWidth = 100; barClass = "strong"; break;
+          default:
+            text = "Very Weak"; barWidth = 20; barClass = "weak"; break;
+        }
+
+        strengthText.textContent = text;
+        strengthBar.style.width = `${barWidth}%`;
+        strengthBar.className = `strength-bar ${barClass}`;
+      });
+
+      // Show/hide password toggles
+      togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.querySelector('i').classList.toggle('fa-eye');
+        togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+      });
+
+      toggleConfirmPassword.addEventListener('click', () => {
+        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordInput.setAttribute('type', type);
+        toggleConfirmPassword.querySelector('i').classList.toggle('fa-eye');
+        toggleConfirmPassword.querySelector('i').classList.toggle('fa-eye-slash');
+      });
+
+      // DOB validation
+      function validateDob() {
+        const dob = new Date(dobInput.value);
+        const today = new Date();
+        const age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        
+        // Adjust age if birthday hasn't occurred yet this year
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        if (isNaN(dob.getTime()) || dobInput.value === "") { // Check if date is valid or empty
+            dobError.textContent = "Please select your date of birth.";
+            return false;
+        } else if (age < 18) {
+          dobError.textContent = "You must be at least 18 years old to create an account.";
+          showMessageBox("You must be at least 18 years old to create an account.", 'red-icon');
+          return false;
+        } else {
+          dobError.textContent = "";
+          return true;
+        }
+      }
+      dobInput.addEventListener('change', validateDob);
+
+      // Category validation
+      function validateCategories() {
+        if (selectedCategories.size < 5) {
+          categoryError.textContent = `Please select at least 5 categories/genres. Currently selected: ${selectedCategories.size}`;
+          return false;
+        } else {
+          categoryError.textContent = "";
+          return true;
+        }
+      }
+
+      // Form submission handler
+      signupForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const weeklyUpdates = document.getElementById('weeklyUpdates').checked;
+        const rememberMe = document.getElementById('rememberMe').checked;
+
+        let isValid = true;
+
+        // Basic validation for empty fields (handled by 'required' mostly)
+        // Manual check for username/email as minlength is client-side only for 'required'
+        if (!username || username.length < 3) {
+            showMessageBox('Username must be at least 3 characters long.', 'red-icon');
+            isValid = false;
+        }
+        if (!email || !email.includes('@')) { // Simple email format check
+            showMessageBox('Please enter a valid email address.', 'red-icon');
+            isValid = false;
+        }
+
+        // Password match
+        if (password !== confirmPassword) {
+          showMessageBox('Passwords do not match.', 'red-icon');
+          isValid = false;
+        }
+
+        // Password strength (simple check)
+        if (password.length < 6) { // Re-check a basic strength
+             showMessageBox('Password is too short. Must be at least 6 characters.', 'red-icon');
+             isValid = false;
+        }
+
+        // DOB validation
+        if (!validateDob()) { // This function also shows its own messageBox
+          isValid = false;
+        }
+
+        // Categories validation
+        if (!validateCategories()) {
+          isValid = false;
+        }
+        
+        if (isValid) {
+          // Simulate account creation
+          console.log('Account Details:', {
+            username,
+            email,
+            password: '***masked***', // Never log actual password
+            dob: dobInput.value,
+            selectedCategories: Array.from(selectedCategories),
+            weeklyUpdates,
+            rememberMe
+          });
+          showMessageBox('Account created successfully! Redirecting to login...', 'green-icon', 2000); // Show message for 2 seconds
+          signupForm.reset(); // Clear form
+          // Reset password strength bar
+          strengthText.textContent = "Very Weak";
+          strengthBar.style.width = '0%';
+          strengthBar.className = 'strength-bar weak';
+          selectedCategories.clear();
+          document.querySelectorAll('.category-item').forEach(item => item.classList.remove('selected'));
+
+          // Redirect to login page after a short delay
+          setTimeout(() => {
+              window.location.href = 'cinewatch_home.html'; // Or 'login.html' if you create one
+          }, 2500); // Redirect after 2.5 seconds
+        } else {
+          // Message boxes are shown by individual validation functions
+        }
+      });
+
+      // Initial render of categories on page load
+      renderCategories();
+
+      // --- Footer Dynamic Content (from other pages) ---
+      // Update the current year in the footer (if element exists)
+      const currentYearSpan = document.getElementById('current-year');
+      if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+      }
+
+      // Last Modified Date (footer)
+      const lastModifiedSpan = document.getElementById('last-modified');
+      if (lastModifiedSpan) {
+        lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+      } else {
+        console.warn("Last Modified span not found.");
+      }
+    });
+  </script>
+</body>
+</html>

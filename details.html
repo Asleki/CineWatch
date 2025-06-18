@@ -1,0 +1,3065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineWatch - Show Details</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font (for consistent typography across the site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Consolidated Main Stylesheet (copied from main.css) -->
+  <style>
+    /*
+     * File: main.css
+     * Description: Consolidated and updated styles for the CineWatch application,
+     * including responsive design, new carousel layout, redesigned show cards,
+     * and dark mode theming.
+     * This version includes styling for new hero show/quote cards,
+     * removal of border-radius in the hero section,
+     * and reduced width for show cards in carousels.
+     */
+
+    /* Root Theme Variables */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+
+      /* Variables for custom message box & dropdown in light mode */
+      --message-box-bg: #fff;
+      --message-box-text: #111;
+      --message-box-border: #ccc;
+      --message-box-button-bg: #007bff;
+      --message-box-button-text: white;
+      --message-box-button-hover-bg: #0056b3;
+
+      --dropdown-bg: #fff;
+      --dropdown-item-hover-bg: #f0f0f0;
+      --dropdown-border: #ddd;
+
+      /* Specific for carousel */
+      --carousel-bg: #f0f0f0;
+      --card-bg: #ffffff;
+      --card-border: #e0e0e0;
+      --card-shadow: rgba(0, 0, 0, 0.1);
+      --play-icon-color: rgba(255, 255, 255, 0.8);
+      --play-icon-hover-color: rgba(255, 255, 255, 1);
+    }
+
+    /* Dark Mode Theme Variables */
+    body.dark-mode {
+      --bg: #1a1a1a;
+      --text: #f0f0f0;
+      --header-bg: #2a2a2a;
+      --search-bg: #3a3a3a;
+      --highlight: #6699ff; /* Lighter blue for dark mode highlight */
+      --danger: #ff6b6b;
+      --cinewatch-blue: #ADD8E6; /* Light blue for CineWatch name in dark mode */
+
+      /* Variables for custom message box & dropdown in dark mode */
+      --message-box-bg: #333;
+      --message-box-text: #f0f0f0;
+      --message-box-border: #555;
+      --message-box-button-bg: #6699ff;
+      --message-box-button-text: #111;
+      --message-box-button-hover-bg: #4477ee;
+
+      --dropdown-bg: #333;
+      --dropdown-item-hover-bg: #444;
+      --dropdown-border: #555;
+
+      /* Specific for carousel in dark mode */
+      --carousel-bg: #2a2a2a;
+      --card-bg: #3a3a3a;
+      --card-border: #444;
+      --card-shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    a {
+      color: var(--highlight);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block; /* Removes extra space below image */
+    }
+
+    /* --- Header --- */
+    #utilityHeader {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: var(--header-bg);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    #utilityHeader .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    #utilityHeader .logo a {
+      color: var(--cinewatch-blue);
+      text-decoration: none;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .header-icons i {
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .header-icons i:hover {
+      color: var(--highlight);
+      transform: scale(1.1);
+    }
+
+    /* --- Search Subheader --- */
+    .search-subheader {
+      position: absolute;
+      top: 60px; /* Below the header */
+      right: 0; /* Start from the right */
+      width: 100%;
+      max-width: 500px; /* Limit width to give animation space */
+      background-color: var(--search-bg);
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 999; /* Below header, above main content */
+      transform: translateX(100%); /* Start hidden off-screen to the right */
+      transition: transform 0.3s ease-in-out;
+      display: flex; /* Use flex for layout */
+      flex-direction: column; /* Stack input and suggestions */
+      gap: 10px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    .search-subheader.visible {
+      transform: translateX(0); /* Slide in from the right */
+    }
+
+    .search-bar-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border: 1px solid var(--dropdown-border);
+      border-radius: 20px;
+      background-color: var(--bg);
+      padding: 5px 15px;
+    }
+
+    #searchInput {
+      flex-grow: 1;
+      border: none;
+      padding: 8px;
+      font-size: 1rem;
+      background-color: transparent;
+      color: var(--text);
+      outline: none;
+    }
+
+    #searchInput::placeholder {
+      color: var(--text); /* Adjust placeholder color */
+      opacity: 0.7;
+    }
+
+    .clear-search-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 5px;
+      transition: color 0.2s ease;
+    }
+
+    .clear-search-btn:hover {
+      color: var(--danger);
+    }
+
+    .suggestions-box {
+      width: calc(100% - 40px); /* Adjust for padding of search-subheader */
+      background-color: var(--dropdown-bg);
+      border: 1px solid var(--dropdown-border);
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative; /* Relative to search-subheader */
+      left: 0;
+      top: 0;
+      display: none; /* Hidden by default */
+    }
+
+    .suggestions-box.visible {
+      display: block;
+    }
+
+    .suggestion-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      color: var(--text);
+      border-bottom: 1px solid var(--dropdown-border);
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-item:hover {
+      background-color: var(--dropdown-item-hover-bg);
+    }
+
+    .suggestion-item.primary-suggestion {
+      font-weight: 500;
+      color: var(--highlight);
+    }
+
+
+    /* --- Account Dropdown --- */
+    .account-dropdown {
+      position: absolute;
+      top: 60px; /* Below header */
+      right: 20px;
+      background-color: var(--dropdown-bg);
+      border: 1px solid var(--dropdown-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: none; /* Hidden by default */
+      flex-direction: column;
+      min-width: 180px; /* Increased min-width for new links */
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .account-dropdown.visible {
+      display: flex;
+    }
+
+    .account-dropdown a {
+      padding: 10px 15px;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background-color 0.2s ease;
+      display: flex; /* For icons */
+      align-items: center; /* For icons */
+    }
+
+    .account-dropdown a i {
+        margin-right: 10px; /* Space between icon and text */
+    }
+
+    .account-dropdown a:hover {
+      background-color: var(--dropdown-item-hover-bg);
+      text-decoration: none;
+    }
+
+    .account-dropdown .logout-item {
+        color: var(--danger);
+        border-top: 1px solid var(--dropdown-border);
+        margin-top: 5px;
+        padding-top: 10px;
+    }
+
+    .account-dropdown .logout-item:hover {
+        background-color: var(--danger);
+        color: white;
+    }
+
+
+    /* --- Main Subheader with Tagline and Nav --- */
+    .main-subheader {
+        background-color: var(--header-bg);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 990; /* Below search subheader, above main content */
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .site-tagline {
+        font-size: 1.1rem;
+        color: var(--text);
+        font-weight: 500;
+        margin: 5px 0;
+    }
+
+    .main-nav ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+    }
+
+    .main-nav a {
+        color: var(--cinewatch-blue);
+        font-weight: 600;
+        font-size: 1rem;
+        transition: color 0.2s ease, text-decoration 0.2s ease;
+        white-space: nowrap; /* Prevent nav items from wrapping */
+    }
+
+    .main-nav a:hover {
+        color: var(--highlight);
+        text-decoration: underline;
+    }
+
+
+    /* --- Mobile Navigation Overlay --- */
+    .mobile-nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s ease, opacity 0.3s ease;
+    }
+
+    .mobile-nav-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .mobile-nav-content {
+      background-color: var(--bg);
+      padding: 30px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      width: 80%; /* Adjust for mobile screen */
+      max-width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-nav-content .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .mobile-nav-content a {
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      display: flex; /* For icons */
+      align-items: center; /* For icons */
+      justify-content: center; /* Center text and icon */
+    }
+    .mobile-nav-content a i {
+        margin-right: 10px;
+    }
+
+    .mobile-nav-content a:hover,
+    .mobile-nav-content a.active {
+      background-color: var(--highlight);
+      color: white;
+      text-decoration: none;
+    }
+
+    .mobile-login-btn, .mobile-logout-btn {
+      margin-top: 20px;
+      background-color: var(--cinewatch-blue);
+      color: white;
+      font-weight: bold;
+    }
+
+    .mobile-login-btn:hover, .mobile-logout-btn:hover {
+        background-color: var(--highlight);
+    }
+
+
+    /* --- Hero Section (Not used on details.html, but included for consistency) --- */
+    /*
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      transition: background-image 0.5s ease-in-out;
+      border-radius: 0;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: center;
+      padding: 20px;
+      max-width: 1200px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-show-card {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 250px;
+        min-width: 200px;
+    }
+
+    .hero-poster {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-quote-card {
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 25px 35px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        flex-grow: 1;
+        max-width: 600px;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-quote {
+      font-size: 2.2rem;
+      font-weight: 600;
+      font-style: italic;
+      text-align: center;
+    }
+    */
+
+    /* --- Category Sections (Not used on details.html, but included for consistency) --- */
+    /*
+    .category-sections {
+      padding: 40px 20px;
+      background-color: var(--bg);
+      transition: background-color 0.3s ease;
+    }
+
+    .category-section {
+      margin-bottom: 50px;
+    }
+
+    .category-section .category-title {
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 30px;
+      border-bottom: 3px solid var(--highlight);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+    */
+
+    /* --- Carousel Container (Not used on details.html, but included for consistency) --- */
+    /*
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      padding: 10px 0;
+      background-color: var(--carousel-bg);
+      border-radius: 15px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      padding: 10px 20px;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      transition: scroll-left 0.3s ease-in-out;
+    }
+
+    .carousel-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 15px 10px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-nav-btn:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .carousel-nav-btn.prev {
+      left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .carousel-nav-btn.next {
+      right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    */
+
+    /* --- Show Card (Not used on details.html, but included for consistency) --- */
+    /*
+    .show-card {
+      flex: 0 0 auto;
+      width: 250px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px var(--card-shadow);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-right: 0;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .show-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px var(--card-shadow);
+    }
+
+    .show-card-poster-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 140%;
+      overflow: hidden;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .show-card-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .play-button-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .show-card-poster-container:hover .play-button-overlay {
+      opacity: 1;
+    }
+
+    .play-icon {
+      font-size: 3.5rem;
+      color: var(--play-icon-color);
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .play-icon:hover {
+      color: var(--play-icon-hover-color);
+      transform: scale(1.1);
+    }
+
+
+    .show-card-details {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .show-card-title {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--text);
+      line-height: 1.2;
+      cursor: pointer;
+    }
+
+    .show-card-title:hover {
+        text-decoration: underline;
+    }
+
+    .show-card-meta {
+      font-size: 0.9rem;
+      color: var(--text);
+      opacity: 0.7;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .show-card-meta span {
+        white-space: nowrap;
+    }
+
+    .show-card-rating i {
+      color: gold;
+    }
+
+    .show-card-description {
+      font-size: 0.9rem;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .show-card-cast {
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.8;
+        margin-bottom: 10px;
+    }
+
+    .show-card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .show-card-actions button {
+      flex-grow: 1;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .add-to-watchlist-btn {
+      background-color: var(--highlight);
+      color: white;
+    }
+
+    .add-to-watchlist-btn:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    .share-btn {
+      background-color: var(--card-border);
+      color: var(--text);
+    }
+
+    .share-btn:hover {
+      background-color: var(--dropdown-item-hover-bg);
+      transform: translateY(-2px);
+    }
+    */
+
+    /* --- Footer --- */
+    .footer {
+      background-color: var(--header-bg);
+      color: var(--text);
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 1px solid var(--dropdown-border);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--cinewatch-blue);
+      flex-basis: 100%; /* Full width on smaller screens */
+      margin-bottom: 15px;
+    }
+
+    .footer-nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      flex-basis: 100%;
+    }
+
+    .footer-nav a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-nav a:hover {
+      color: var(--highlight);
+    }
+
+    .footer-info {
+      flex-basis: 100%;
+      margin-top: 20px;
+    }
+
+    .footer-info p {
+      margin-bottom: 5px;
+      opacity: 0.8;
+    }
+
+    .social-links {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-links img {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.2s ease;
+    }
+
+    .social-links img:hover {
+      transform: scale(1.2);
+    }
+
+    /* --- Custom Alert/Message Box --- */
+    .custom-alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.3s ease, opacity 0.3s ease;
+    }
+
+    .custom-alert-overlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .alert-content {
+      background-color: var(--message-box-bg);
+      color: var(--message-box-text);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid var(--message-box-border);
+    }
+
+    .alert-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    /* Icon Colors */
+    .blue-icon { color: var(--highlight); }
+    .green-icon { color: #28a745; }
+    .red-icon { color: var(--danger); }
+    .orange-icon { color: #ffc107; }
+
+    #alertMessage {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      word-wrap: break-word;
+    }
+
+    .close-alert-btn {
+      background-color: var(--message-box-button-bg);
+      color: var(--message-box-button-text);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .close-alert-btn:hover {
+      background-color: var(--message-box-button-hover-bg);
+      transform: translateY(-1px);
+    }
+
+
+    /* --- Responsive Design (from main.css, adapted for details page) --- */
+
+    @media (max-width: 1200px) { /* Adjust for larger desktops/laptops */
+        /* .show-card styles are irrelevant here */
+    }
+
+    @media (max-width: 1024px) {
+        .hero-content {
+            gap: 30px;
+        }
+        .hero-quote {
+            font-size: 1.8rem;
+        }
+        .hero-show-card {
+            max-width: 200px;
+            min-width: 160px;
+        }
+        .hero-quote-card {
+            padding: 20px 30px;
+            max-width: 500px;
+        }
+        /* .show-card styles are irrelevant here */
+        .category-section .category-title {
+            font-size: 1.8rem;
+        }
+        .main-nav ul {
+            gap: 15px;
+        }
+
+        /* Details Page Specific */
+        .show-details-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        .show-details-poster {
+            max-width: 300px; /* Allow poster to be larger when stacked */
+            margin-bottom: 20px;
+        }
+        .show-info {
+            padding: 0 20px; /* Add some horizontal padding */
+        }
+        .cast-grid {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+        .network-logo-container { /* Added for responsiveness */
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 8px 15px;
+            /* Center logo and icons vertically when stacked or fewer items */
+            flex-direction: column; /* Stack logo and icons */
+            align-items: center; /* Center items */
+            gap: 10px;
+        }
+        #utilityHeader .logo {
+            font-size: 1.6rem;
+        }
+        .header-icons {
+            gap: 15px;
+            width: 100%; /* Take full width to center icons */
+            justify-content: center; /* Center icons horizontally */
+        }
+        .header-icons i {
+            font-size: 1.3rem;
+        }
+
+        /* Hide account icon and main nav, show hamburger */
+        #accountIcon, .main-nav {
+            display: none;
+        }
+        #hamburgerMenu {
+            display: block; /* Show hamburger menu on smaller screens */
+        }
+
+        .search-subheader {
+            top: 80px; /* Adjust for stacked header */
+            padding: 8px 10px;
+            max-width: 100%; /* Take full width on smaller screens */
+        }
+        .search-bar-container {
+            padding: 3px 10px;
+            flex-direction: row; /* Keep input and clear button in a row */
+            gap: 5px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 5px;
+        }
+        #suggestionsBox {
+            left: 10px;
+            width: calc(100% - 20px);
+        }
+
+        .main-subheader { /* Adjust for mobile layout */
+            flex-direction: column;
+            text-align: center;
+            padding: 10px 15px;
+        }
+        .site-tagline {
+            margin-bottom: 10px;
+        }
+
+        /* Details Page Specific */
+        .show-details-content {
+            padding: 20px;
+        }
+        .show-details-poster {
+            max-width: 250px;
+        }
+        .details-title {
+            font-size: 2.2rem;
+        }
+        .details-meta span {
+            font-size: 0.95rem;
+        }
+        .details-description {
+            font-size: 0.95rem;
+        }
+        .details-actions button {
+            font-size: 0.9rem;
+            padding: 10px 15px;
+        }
+        .cast-grid {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        .cast-member-card img {
+            width: 80px;
+            height: 80px;
+        }
+        .cast-member-card h4 {
+            font-size: 0.9rem;
+        }
+        .cast-member-card p {
+            font-size: 0.75rem;
+        }
+        .network-logo-container { /* Added for responsiveness */
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+    @media (max-width: 600px) { /* Even smaller mobile screens */
+        /* .show-card irrelevant */
+        .carousel-track {
+            gap: 15px; /* Adjust gap for 2 columns */
+        }
+
+        /* Details Page Specific */
+        .details-title {
+            font-size: 1.8rem;
+        }
+        .details-meta, .details-description {
+            font-size: 0.9rem;
+        }
+        .details-actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .cast-grid {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .cast-member-card img {
+            width: 70px;
+            height: 70px;
+        }
+        .cast-member-card h4 {
+            font-size: 0.85rem;
+        }
+        .cast-member-card p {
+            font-size: 0.7rem;
+        }
+        .network-logo-container { /* Added for responsiveness */
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #utilityHeader .logo {
+            font-size: 1.4rem;
+        }
+        .header-icons i {
+            font-size: 1.2rem;
+        }
+        .search-subheader {
+            top: 70px; /* Adjust for very small header */
+        }
+        .alert-content {
+            padding: 20px;
+            gap: 15px;
+        }
+        .alert-icon {
+            font-size: 2.5rem;
+        }
+        #alertMessage {
+            font-size: 1rem;
+        }
+        .close-alert-btn {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Details Page Specific */
+        .show-details-poster {
+            max-width: 200px;
+        }
+        .details-title {
+            font-size: 1.6rem;
+        }
+        .details-description {
+            font-size: 0.85rem;
+        }
+        .details-actions button {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+        .cast-grid {
+            grid-template-columns: repeat(2, 1fr); /* Force 2 columns on very small screens */
+        }
+        .network-logo-container { /* Added for responsiveness */
+            justify-content: center;
+            margin-top: 15px;
+        }
+    }
+
+
+    /* --- Specific Styles for Details Page --- */
+    .details-page-main {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: var(--bg);
+        transition: background-color 0.3s ease;
+    }
+
+    .show-details-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .show-details-header h1 {
+        font-size: 3rem;
+        color: var(--text);
+        margin-bottom: 10px;
+    }
+
+    .show-details-container {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 15px;
+        box-shadow: 0 8px 20px var(--card-shadow);
+        padding: 30px;
+        margin-bottom: 40px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .show-details-poster {
+        flex-shrink: 0; /* Prevent poster from shrinking */
+        width: 300px; /* Fixed width for larger screens */
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .show-info {
+        flex-grow: 1;
+    }
+
+    .details-title {
+        font-size: 2.5rem;
+        color: var(--text);
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    .details-meta {
+        font-size: 1.1rem;
+        color: var(--text);
+        opacity: 0.8;
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .details-meta span i {
+        color: gold;
+        margin-right: 5px;
+    }
+
+    .details-description {
+        font-size: 1rem;
+        color: var(--text);
+        margin-bottom: 30px;
+        line-height: 1.7;
+    }
+
+    .network-logo-container {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px; /* Space between logo and buttons */
+        gap: 10px;
+    }
+
+    .network-logo {
+        max-height: 40px; /* Adjust size as needed */
+        width: auto;
+        border-radius: 5px; /* Slightly rounded corners for logos */
+    }
+
+    .details-actions {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .details-actions button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .details-actions .watch-trailer-btn,
+    .details-actions .watch-now-btn {
+        background-color: #e50914; /* Netflix red, or a strong watch button color */
+        color: white;
+    }
+
+    .details-actions .watch-trailer-btn:hover,
+    .details-actions .watch-now-btn:hover {
+        background-color: #a0070e;
+        transform: translateY(-2px);
+    }
+
+    .details-actions .add-to-watchlist-btn {
+        background-color: var(--highlight);
+        color: white;
+    }
+
+    .details-actions .add-to-watchlist-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .details-actions .share-btn {
+        background-color: var(--card-border); /* A neutral color */
+        color: var(--text);
+    }
+
+    .details-actions .share-btn:hover {
+        background-color: var(--dropdown-item-hover-bg);
+        transform: translateY(-2px);
+    }
+
+
+    /* Cast Section */
+    .cast-section {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: var(--text);
+        margin-bottom: 30px;
+        border-bottom: 3px solid var(--highlight);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .cast-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 25px;
+    }
+
+    .cast-member-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 10px var(--card-shadow);
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cast-member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px var(--card-shadow);
+    }
+
+    .cast-member-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px auto;
+        border: 3px solid var(--highlight);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cast-member-card h4 {
+        font-size: 1.1rem;
+        color: var(--text);
+        margin-bottom: 5px;
+    }
+
+    .cast-member-card p {
+        font-size: 0.85rem;
+        color: var(--text);
+        opacity: 0.7;
+        margin-bottom: 10px;
+    }
+
+    .cast-member-card .cast-bio {
+        font-style: italic;
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: var(--text);
+        opacity: 0.6;
+        text-align: left;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limit bio to 3 lines initially */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .cast-member-card .cast-appearances {
+        font-size: 0.8rem;
+        color: var(--text);
+        opacity: 0.6;
+        text-align: left;
+        margin-top: 5px;
+    }
+
+    /* Awards Section */
+    .awards-section {
+        margin-bottom: 40px;
+    }
+
+    .awards-list {
+        list-style: none;
+        padding: 0;
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 10px var(--card-shadow);
+        padding: 20px;
+    }
+
+    .awards-list li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed var(--dropdown-border);
+        color: var(--text);
+    }
+
+    .awards-list li:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .awards-list li i {
+        color: gold;
+        font-size: 1.2rem;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+    .awards-list li span {
+        font-size: 1rem;
+    }
+
+    /* View All Cast Button specific style */
+    .view-all-cast-btn-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .view-all-cast-btn {
+        background-color: var(--cinewatch-blue);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+    .view-all-cast-btn:hover {
+        background-color: var(--highlight);
+        transform: translateY(-2px);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <i id="hamburgerMenu" class="fas fa-bars" title="Menu"></i>
+    </div>
+  </header>
+
+  <!-- Search Subheader (Initially hidden, slides down on search icon click) -->
+  <div id="searchSubheader" class="search-subheader">
+    <div class="search-bar-container">
+      <input type="text" id="searchInput" placeholder="Search movies, series, genres..." autocomplete="off">
+      <button id="clearSearch" class="clear-search-btn" title="Clear search"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="suggestionsBox" class="suggestions-box">
+      <!-- Search suggestions will be rendered here by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Account Dropdown (Hidden by default, appears on account icon click) -->
+  <div id="accountDropdown" class="account-dropdown">
+    <a href="login.html" id="loginLink">Login</a>
+    <a href="signup.html" id="registerLink">Register</a>
+    <a href="profile.html" id="profileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
+    <a href="#" id="playlistLink" class="account-item"><i class="fas fa-list-ul"></i> Playlist</a>
+    <a href="#" id="bookmarksLink" class="account-item"><i class="fas fa-bookmark"></i> Bookmarks</a>
+    <a href="#" id="favoritesLink" class="account-item"><i class="fas fa-heart"></i> Favorites</a>
+    <a href="settings.html" id="settingsLink" class="account-item"><i class="fas fa-cog"></i> Settings</a>
+    <a href="#" id="logoutLink" style="display:none;" class="account-item logout-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+  <!-- Main Subheader (Contains Nav Links and Tagline, Scrolls with page) -->
+  <div id="mainSubheader" class="main-subheader">
+    <p class="site-tagline">Stream, Discover, Repeat</p>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="movies.html">Movies</a></li>
+        <li><a href="tv_shows.html">TV Shows</a></li>
+        <li><a href="cinema_guide.html">Cinema Guide</a></li>
+        <li><a href="about_us.html">About Us</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Mobile Navigation Overlay (Hidden by default, appears on hamburger click) -->
+  <div id="mobileNavOverlay" class="mobile-nav-overlay">
+    <div class="mobile-nav-content">
+      <i id="closeMobileNav" class="fas fa-times close-btn"></i>
+      <a href="cinewatch_home.html" class="active">Home</a>
+      <a href="movies.html">Movies</a>
+      <a href="tv_shows.html">TV Shows</a>
+      <a href="cinema_guide.html">Cinema Guide</a>
+      <a href="about_us.html">About Us</a>
+      <a href="profile.html" id="mobileProfileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
+      <a href="#" class="mobile-login-btn" id="mobileLoginLink">Login / Register</a>
+      <a href="#" class="mobile-logout-btn" id="mobileLogoutLink" style="display:none;">Logout</a>
+    </div>
+  </div>
+
+  <main class="details-page-main">
+    <div class="show-details-header">
+        <h1 id="showTitleHeader"></h1>
+    </div>
+
+    <div class="show-details-container">
+        <img src="" alt="Show Poster" class="show-details-poster" id="detailsPoster" onerror="this.onerror=null;this.src='https://placehold.co/300x420/333/fff?text=No+Poster';">
+        <div class="show-info">
+            <h2 class="details-title" id="detailsTitle"></h2>
+            <div class="details-meta">
+                <span id="detailsGenre"></span>
+                <span id="detailsYear"></span>
+                <span id="detailsRating"></span>
+                <span id="detailsAwards"></span>
+            </div>
+            <p class="details-description" id="detailsDescription"></p>
+            
+            <!-- Network Logo Container -->
+            <div class="network-logo-container">
+                <img src="" alt="Network Logo" class="network-logo" id="networkLogo">
+            </div>
+
+            <div class="details-actions">
+                <!-- Watch Now / Watch Trailer Button -->
+                <button class="action-btn watch-trailer-btn" id="watchButton" title="Watch trailer or show">
+                    <i class="fas fa-play"></i> <span id="watchButtonText"></span>
+                </button>
+                <button class="add-to-watchlist-btn" id="detailsAddToWatchlist">
+                    <i class="fas fa-plus"></i> Add to Watchlist
+                </button>
+                <button class="share-btn" id="detailsShareButton">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <section class="cast-section">
+        <h2 class="section-title">Main Cast</h2>
+        <div class="cast-grid" id="castGrid">
+            <!-- All cast member cards will be injected here -->
+        </div>
+        <div class="view-all-cast-btn-container">
+            <button id="viewAllCastsBtn" class="view-all-cast-btn" style="display:none;">View All Cast & Bio</button>
+        </div>
+    </section>
+
+    <section class="awards-section">
+        <h2 class="section-title">Awards & Recognitions</h2>
+        <ul class="awards-list" id="awardsList">
+            <!-- All awards will be injected here -->
+        </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+      <div class="footer-container">
+          <div class="footer-logo">CineWatch</div>
+          <nav class="footer-nav">
+              <ul>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Terms of Service</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">FAQs</a></li>
+              </ul>
+          </nav>
+          <div class="footer-info">
+              <p>&copy; <span id="current-year"></span> CineWatch. All rights reserved.</p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-links">
+                  <a href="https://www.facebook.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                      <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook">
+                  </a>
+                  <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                      <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn">
+                  </a>
+                  <a href="https://x.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                      <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)">
+                  </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
+  <div id="customAlert" class="custom-alert-overlay">
+    <div class="alert-content">
+        <i class="fas fa-info-circle alert-icon blue-icon"></i>
+        <p id="alertMessage">This is a custom message.</p>
+        <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- Consolidated JavaScript (main.js and standalone_header.js combined) -->
+  <script>
+    /*
+     * File: details.html (Consolidated JavaScript)
+     * Description: Handles show details rendering, user interaction,
+     * and maintains consistent header/footer functionality across pages.
+     */
+
+    // --- Data Definitions (Copied from main.js) ---
+
+    // Data for hero slides (not directly used on details.html, but kept for consistency)
+    const heroSlides = [
+        {
+            backdrop: 'images/herobackdrops/allofusaredeadbackdrop.webp',
+            poster: 'images/heroposters/allofusaredeadheroposter.webp',
+            quote: 'We’re trapped, surrounded by dead things… and by dead people.',
+        },
+        {
+            backdrop: 'images/herobackdrops/breakingbadbackdrop.webp',
+            poster: 'images/heroposters/breakingbadheroposter.webp',
+            quote: 'I am the one who knocks!',
+        },
+        {
+            backdrop: 'images/herobackdrops/extractionbackdrop.webp',
+            poster: 'images/heroposters/extractionheroposter.webp',
+            quote: 'You send a boy to do a man\'s job.',
+        },
+        {
+            backdrop: 'images/herobackdrops/moneyheistbackdrop.webp',
+            poster: 'images/heroposters/moneyheistheroposter.webp',
+            quote: 'The police are just like us. They\'re just doing their job.',
+        },
+        {
+            backdrop: 'images/herobackdrops/prisonbreakbackdrop.webp',
+            poster: 'images/heroposters/prisonbreakheroposter.webp',
+            quote: 'Get yourself a plan and stick to it.',
+        },
+        {
+            backdrop: 'images/herobackdrops/theboysbackdrop.webp',
+            poster: 'images/heroposters/theboysheroposter.webp',
+            quote: 'Supes are everywhere. You gotta be careful.',
+        },
+        {
+            backdrop: 'images/herobackdrops/thelastofusbackdrop.webp',
+            poster: 'images/heroposters/thelastofusheroposter.webp',
+            quote: 'You keep finding something to fight for.',
+        },
+        {
+            backdrop: 'images/herobackdrops/wednesdaybackdrop.webp',
+            poster: 'images/heroposters/wednesdayheroposter.webp',
+            quote: 'I act as if I do not care, but deep down... I actually do not care.',
+        },
+    ];
+
+    // Placeholder for user login status (controlled by account dropdown logic)
+    let userLoggedIn = false; // Default to false
+
+    // Placeholder for show data (In a real app, this would come from a database/API)
+    const showsData = [
+        {
+            id: 'breakingbad',
+            title: 'Breaking Bad',
+            poster: 'images/showposters/breakingbadposter1.webp',
+            genre: ['Drama', 'Crime', 'Thriller'],
+            year: 2008,
+            rating: 9.5,
+            description: 'A high school chemistry teacher diagnosed with lung cancer turns to manufacturing and selling methamphetamine in order to secure his family\'s future.',
+            isFeatured: true,
+            cast: [
+                { name: "Bryan Cranston", bio: "Best known for playing Walter White in Breaking Bad. His portrayal earned him four Primetime Emmy Awards for Outstanding Lead Actor in a Drama Series.", appearances: ["Malcolm in the Middle", "Trumbo", "Drive"] },
+                { name: "Aaron Paul", bio: "Known for his role as Jesse Pinkman in Breaking Bad, which earned him three Primetime Emmy Awards for Outstanding Supporting Actor in a Drama Series.", appearances: ["BoJack Horseman", "Need for Speed", "Westworld"] },
+                { name: "Anna Gunn", bio: "Portrayed Skyler White in Breaking Bad, winning two Primetime Emmy Awards for Outstanding Supporting Actress in a Drama Series.", appearances: ["Deadwood", "Gracepoint"] }
+            ],
+            awards: ["Golden Globe Award for Best Television Series – Drama", "Primetime Emmy Award for Outstanding Drama Series (x2)"],
+            network: "AMC",
+            networkLogo: "images/icons&logos/amclogo.svg" // Assuming AMC logo exists
+        },
+        {
+            id: 'moneyheist',
+            title: 'Money Heist',
+            poster: 'images/showposters/moneyheistposter1.webp',
+            genre: ['Crime', 'Drama', 'Thriller'],
+            year: 2017,
+            rating: 8.3,
+            description: 'A mysterious man, "The Professor", recruits a band of eight robbers who take hostages and lock themselves in the Royal Mint of Spain as part of his elaborate plan to execute the biggest heist in history.',
+            isFeatured: true,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Úrsula Corberó", bio: "Silene Oliveira, known as Tokyo, is the volatile and impulsive narrator of the series. Orphaned at a young age, she becomes a skilled robber. Her deep loyalty to the Professor and her complex relationship with Rio are central to her character arc. Despite her recklessness, she possesses a fierce dedication to her fellow gang members." },
+                { name: "Álvaro Morte", bio: "Sergio Marquina, the Professor, is the highly intelligent and meticulous architect of the heists. He is a recluse with a strong moral code, despite leading a life of crime. His brilliant strategic mind and ability to foresee every contingency make him the true brain of the operation, always staying one step ahead of the authorities." },
+                { name: "Itziar Ituño", bio: "Raquel Murillo is a brilliant and dedicated police inspector initially tasked with leading the investigation against the Professor's gang. She forms an unlikely bond with the Professor, eventually falling in love with him and abandoning her old life to join the heist crew as Lisbon. Her journey is one of profound transformation and loyalty." },
+                { name: "Pedro Alonso", bio: "Andrés de Fonollosa, known as Berlin, is the Professor's older brother and a captivating, often cruel, character. He's a master of manipulation and a charming sociopath, yet fiercely loyal to his family and the heist's vision. His past is slowly revealed, showcasing his complex personality and significant role in the Professor's plans." },
+                { name: "Miguel Herrán", bio: "Aníbal Cortés, known as Rio, is the youngest member of the gang and a prodigy hacker. He falls in love with Tokyo, and their tumultuous relationship often complicates the heists. Despite his youth, he's crucial for the team's technological needs, though his inexperience sometimes puts him at risk." },
+                { name: "Jaime Lorente", bio: "Daniel Ramos, known as Denver, is a hot-headed and impulsive but ultimately good-hearted member of the gang. He's the son of Moscow and is known for his distinctive laugh. His character develops significantly, particularly through his relationship with Monica Gaztambide, transforming from a street thug into a protective father figure." },
+                { name: "Esther Acebo", bio: "Monica Gaztambide begins as a hostage in the Royal Mint of Spain. She develops a complex relationship with Denver, falling in love and eventually choosing to join the gang as Stockholm. Her transformation from a victim to an active member of the crew highlights her resilience and capacity for change." },
+                { name: "Enrique Arce", bio: "Arturo Román is the former Director of the Royal Mint and a recurring thorn in the gang's side. He is manipulative, cowardly, and constantly tries to undermine the heists, often putting himself and others in danger. Despite his unpleasant nature, he becomes a significant, albeit irritating, figure throughout the series." },
+                { name: "Darko Perić", bio: "Mirko Dragic, known as Helsinki, is a Serbian ex-soldier with a formidable physical presence but a surprisingly gentle heart. He is fiercely loyal to his comrades, especially Oslo and later Palermo and Nairobi. He often provides emotional support and acts as the group's muscle when needed." },
+                { name: "Hovik Keuchkerian", bio: "Bogotá is a skilled deep-sea welder and one of the new members introduced for the Bank of Spain heist. He's a pragmatic and dependable character, crucial for melting the gold. He forms a close bond with Nairobi and is a steadfast member of the team." },
+                { name: "Najwa Nimri", bio: "Alicia Sierra is a cunning, ruthless, and highly intelligent police inspector introduced in later seasons. She is willing to use extreme and unethical methods to achieve her goals, making her a formidable adversary to the Professor and his gang. Her unpredictable nature keeps everyone on their toes." },
+                { name: "Fernando Cayo", bio: "Colonel Luis Tamayo is a high-ranking and often exasperated police official who takes over the investigation against the gang. He's under immense pressure to end the heists and often clashes with Inspector Sierra's methods, yet relies on her effectiveness." },
+                { name: "Rodrigo de la Serna", bio: "Martín Berrote, known as Palermo, is an old friend of Berlin and the co-mastermind of the Bank of Spain heist. He is arrogant, brilliant, and deeply in love with Berlin. His leadership style is often confrontational, and his personal issues can complicate the heist, but his loyalty to Berlin's legacy is unwavering." },
+                { name: "José Manuel Poga", bio: "César Gandía is the ruthless and highly dangerous head of security at the Bank of Spain. He becomes a significant antagonist after escaping his binds, systematically hunting down the gang members inside the bank. His military training and cold demeanor make him an incredibly effective and terrifying threat." },
+                { name: "Luka Peroš", bio: "Marseille is an ex-soldier and the team's reliable pilot and logistician, often working outside the heists to provide crucial support. He's known for his calm demeanor, his love for animals, and his steadfast loyalty, making him a quiet but vital member of the crew." },
+                { name: "Belén Cuesta", bio: "Julia, known as Manila, is Denver's childhood friend and godparent to his son. She joins the Bank of Spain heist as a hidden member among the hostages, eventually revealing herself as a full participant. Her role adds a new dynamic, particularly as she challenges the gang's methods and confronts Denver." }
+            ],
+            awards: ["International Emmy Award for Best Drama Series"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'strangerthings',
+            title: 'Stranger Things',
+            poster: 'images/showposters/strangerthingsposter1.webp',
+            genre: ['Sci-Fi', 'Horror', 'Drama', 'Fantasy'],
+            year: 2016,
+            rating: 8.7,
+            description: 'When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.',
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Winona Ryder", bio: "Joyce Byers is the fiercely protective, resourceful, and often overwhelmed single mother of Will and Jonathan. She is known for her unwavering determination to find and protect her children, even when faced with supernatural threats and skepticism from those around her. Her journey begins with a desperate search for Will in Season 1, leading her deep into the mysteries of the Upside Down." },
+                { name: "David Harbour", bio: "Jim Hopper is the gruff, disillusioned chief of police in Hawkins, Indiana. Haunted by his past personal tragedy, he initially struggles with his responsibilities but becomes a fiercely protective father figure to Eleven and a steadfast ally to Joyce Byers. He is known for his heroic sacrifices and his deep commitment to protecting the town from the Upside Down's threats." },
+                { name: "Millie Bobby Brown", bio: "Eleven (El) is a young girl with powerful psychokinetic and telepathic abilities, who escaped from a government lab where she was experimented upon. Initially non-verbal and socially awkward, she forms a deep bond with Mike Wheeler and his friends, becoming a crucial member of their group in fighting the supernatural threats emanating from the Upside Down. She longs for a normal life and a family." },
+                { name: "Finn Wolfhard", bio: "Mike Wheeler is a central figure in the group of friends, known for his leadership, loyalty, and empathy. He is the first to form a deep connection with Eleven, helping her adjust to the outside world and becoming her closest confidante and love interest. Mike often takes charge during their adventures into the supernatural, driven by a strong sense of justice and care for his friends." },
+                { name: "Gaten Matarazzo", bio: "Dustin Henderson is the witty, lovable, and highly intelligent member of the core friend group. Known for his distinctive lisp and his reliance on scientific knowledge, he often provides comic relief and crucial insights into the Upside Down's creatures. Dustin is incredibly loyal to his friends and develops endearing friendships with older characters like Steve and Erica." },
+                { name: "Caleb McLaughlin", bio: "Lucas Sinclair is the most pragmatic and initially skeptical member of the group, often voicing caution and distrust, especially towards Eleven in the beginning. Despite his occasional skepticism, he is fiercely loyal and brave when it counts, always ready to fight alongside his friends. He develops a notable relationship with Max Mayfield." },
+                { name: "Noah Schnapp", bio: "Will Byers is the sensitive and artistic member of the group, whose disappearance in Season 1 sets off the entire narrative of \"Stranger Things.\" His prolonged exposure to the Upside Down leaves him with a deep connection to its creatures and a lingering trauma that affects him throughout the series. He often serves as a barometer for the growing threat from the alternate dimension." },
+                { name: "Sadie Sink", bio: "Max Mayfield is a tough, cynical, and adventurous new girl who moves to Hawkins from California. Initially skeptical of the supernatural events, she eventually becomes a core member of the group, forming close bonds, particularly with Eleven. Max is known for her skateboarding skills, her love for arcade games, and her strong, independent spirit, often grappling with her traumatic past and dysfunctional family life." },
+                { name: "Natalia Dyer", bio: "Nancy Wheeler is Mike's older sister, who transforms from a typical high school girl concerned with popularity into a brave and resourceful investigator. Driven by a strong sense of justice and a desire to uncover the truth, she often teams up with Jonathan Byers to explore the mysteries plaguing Hawkins, eventually aspiring to be a journalist." },
+                { name: "Charlie Heaton", bio: "Jonathan Byers is Will's older brother and a quiet, artistic outsider with a passion for photography. He is fiercely protective of his family and often feels responsible for them. Jonathan is instrumental in helping Joyce search for Will and uncover the truth about the Upside Down, forming a strong bond with Nancy Wheeler." },
+                { name: "Joe Keery", bio: "Steve Harrington starts as a stereotypical popular high school jock but undergoes significant character development, evolving into a caring, protective, and often heroic figure. He becomes a beloved \"babysitter\" for the younger kids, particularly Dustin, and a key ally in fighting the monsters from the Upside Down. His loyalty and surprising bravery make him a fan favorite." },
+                { name: "Maya Hawke", bio: "Robin Buckley is introduced as Steve Harrington's sardonic and quick-witted co-worker at the Scoops Ahoy ice cream parlor. She quickly becomes entangled in the supernatural mysteries of Hawkins, proving herself to be highly intelligent, resourceful, and brave. Robin is openly sarcastic and uses her wit as a defense mechanism, but she is fiercely loyal to her friends and becomes a close confidante to Steve." },
+                { name: "Priah Ferguson", bio: "Erica Sinclair is Lucas's feisty, outspoken, and incredibly sassy younger sister. She is known for her sharp wit, blunt observations, and undeniable bravery, often demanding payment for her assistance. Despite her young age, she proves to be surprisingly resourceful and becomes an unexpected hero in several dangerous situations." }
+            ],
+            awards: ["Screen Actors Guild Award for Outstanding Performance by an Ensemble in a Drama Series"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'theboys',
+            title: 'The Boys',
+            poster: 'images/showposters/theboysposter.webp',
+            genre: ['Action', 'Comedy', 'Drama', 'Sci-Fi'],
+            year: 2019,
+            rating: 8.7,
+            description: 'A group of vigilantes known informally as "The Boys" set out to take down corrupt superheroes with no more than blue-collar grit and a willingness to fight dirty.',
+            isFeatured: true,
+            cast: [
+                { name: "Karl Urban", bio: "Plays Billy Butcher, the charismatic and brutal leader of The Boys. Known for his roles in genre films.", appearances: ["Lord of the Rings", "Dredd", "Star Trek"] },
+                { name: "Jack Quaid", bio: "Portrays Hughie Campbell, an ordinary man drawn into the conflict. Son of Dennis Quaid and Meg Ryan.", appearances: ["Scream", "Vinyl"] },
+                { name: "Antony Starr", bio: "Known for his terrifying and complex portrayal of Homelander, the primary antagonist. An acclaimed New Zealand actor.", appearances: ["Banshee", "American Gothic"] }
+            ],
+            awards: ["Critics' Choice Super Award for Best Superhero Series"],
+            network: "Amazon Prime Video",
+            networkLogo: "images/icons&logos/amazonprimevideo.svg"
+        },
+        {
+            id: 'wednesday',
+            title: 'Wednesday',
+            poster: 'images/showposters/wednesdayposter.webp',
+            genre: ['Comedy', 'Crime', 'Fantasy'],
+            year: 2022,
+            rating: 8.2,
+            description: 'Wednesday Addams investigates a monstrous mystery at the school she attends.',
+            isFeatured: false,
+            cast: [
+                { name: "Jenna Ortega", bio: "Plays Wednesday Addams, bringing a unique deadpan charm to the iconic character. Her performance garnered significant praise.", appearances: ["Scream", "X", "You"] },
+                { name: "Gwendoline Christie", bio: "Portrays Larissa Weems, the principal of Nevermore Academy. Known for her strong presence.", appearances: ["Game of Thrones", "Star Wars: The Force Awakens"] },
+                { name: "Catherine Zeta-Jones", bio: "Known as Morticia Addams. A celebrated actress with a long career.", appearances: ["Chicago", "The Mask of Zorro"] }
+            ],
+            awards: ["Hollywood Critics Association TV Award for Best Actress in a Streaming Series, Comedy (Jenna Ortega)"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'thecrown',
+            title: 'The Crown',
+            poster: 'images/showposters/thecrownposter.webp',
+            genre: ['Drama', 'History', 'Biography'],
+            year: 2016,
+            rating: 8.7,
+            description: 'Follows the political rivalries and romance of Queen Elizabeth II\'s reign and the events that shaped the second half of the 20th century.',
+            isFeatured: false,
+            cast: [
+                { name: "Claire Foy", bio: "Played Queen Elizabeth II in early seasons, winning critical acclaim for her portrayal.", appearances: ["First Man", "The Girl in the Spider's Web"] },
+                { name: "Olivia Colman", bio: "Played Queen Elizabeth II in middle seasons, receiving an Emmy for her performance.", appearances: ["The Favourite", "Broadchurch"] },
+                { name: "Imelda Staunton", bio: "Played Queen Elizabeth II in later seasons. A versatile actress.", appearances: ["Harry Potter", "Vera Drake"] }
+            ],
+            awards: ["Golden Globe Award for Best Television Series – Drama (x2)", "Primetime Emmy Award for Outstanding Drama Series (x2)"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'thequeensgambit',
+            title: 'The Queen\'s Gambit',
+            poster: 'images/showposters/thequeensgambitposter.webp',
+            genre: ['Drama'],
+            year: 2020,
+            rating: 8.6,
+            description: 'Orphaned at nine, prodigious chess prodigy Beth Harmon struggles with addiction in a quest to become the greatest chess player in the world.',
+            isFeatured: false,
+            cast: [
+                { name: "Anya Taylor-Joy", bio: "Plays Beth Harmon, a chess prodigy. Her captivating performance led to numerous awards.", appearances: ["The Witch", "Split", "Emma."] },
+                { name: "Thomas Brodie-Sangster", bio: "Portrays Benny Watts, a chess rival and mentor to Beth. Known since his child acting days.", appearances: ["Love Actually", "The Maze Runner", "Game of Thrones"] }
+            ],
+            awards: ["Golden Globe Award for Best Television Limited Series, Anthology Series, or Motion Picture Made for Television", "Primetime Emmy Award for Outstanding Limited or Anthology Series"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'allofusaredead',
+            title: 'All of Us Are Dead',
+            poster: 'images/showposters/allofusaredeadposter.webp',
+            genre: ['Action', 'Drama', 'Fantasy', 'Horror'],
+            year: 2022,
+            rating: 7.5,
+            description: 'A high school becomes ground zero for a zombie virus outbreak. Trapped students must fight their way out or turn into one of the infected.',
+            isFeatured: true,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Park Ji-hu", bio: "Park Ji-hu is a South Korean actress. She gained recognition for her leading role in the film *House of Hummingbird* (2018), and later achieved international fame for her role as Nam On-jo in the Netflix zombie series *All of Us Are Dead* (2022)." },
+                { name: "Yoon Chan-young", bio: "Yoon Chan-young is a South Korean actor. He began his career as a child actor and gained significant popularity for his role as Lee Cheong-san in the Netflix zombie apocalypse series *All of Us Are Dead* (2022)." },
+                { name: "Cho Yi-hyun", bio: "Cho Yi-hyun is a South Korean actress. She is known for her roles in the television series *Hospital Playlist* (2020–2021) and her breakout role as Choi Nam-ra in the Netflix series *All of Us Are Dead* (2022)." },
+                { name: "Park Solomon", bio: "Park Solomon, also known as Lomon, is a South Korean actor. He gained widespread recognition for his role as Lee Su-hyeok in the Netflix zombie series *All of Us Are Dead* (2022)." },
+                { name: "Lee Yoo-mi", bio: "Lee Yoo-mi is a South Korean actress. She is best known for her roles in the Netflix series *Squid Game* (2021) and *All of Us Are Dead* (2022), gaining international recognition for both." },
+                { name: "Yoo In-soo", bio: "Yoo In-soo is a South Korean actor. He is known for his roles in television series such as *Strong Girl Bong-soon* (2017), *At Eighteen* (2019), and his breakout role as the antagonist Yoon Gwi-nam in *All of Us Are Dead* (2022)." },
+                { name: "Lee Eun-saem", bio: "Lee Eun-saem is a South Korean actress. She gained recognition for her roles in television dramas such as *The Red Sleeve* (2021) and her performance as Park Mi-jin in the Netflix zombie series *All of Us Are Dead* (2022)." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'squidgame',
+            title: 'Squid Game',
+            poster: 'images/showposters/squidgameposter1.webp',
+            genre: ['Action', 'Drama', 'Mystery', 'Thriller'],
+            year: 2021,
+            rating: 8.0,
+            description: 'Hundreds of cash-strapped players accept a strange invitation to compete in children\'s games. Inside, a tempting prize awaits with deadly high stakes.',
+            isFeatured: false,
+            cast: [
+                { name: "Lee Jung-jae", bio: "Plays Seong Gi-hun, the main protagonist. He won a Primetime Emmy Award for Outstanding Lead Actor in a Drama Series for this role.", appearances: ["Deliver Us From Evil", "Chief of Staff"] },
+                { name: "Park Hae-soo", bio: "Portrays Cho Sang-woo, Gi-hun's childhood friend and a key competitor. Known for his versatile performances.", appearances: ["Prison Playbook", "Money Heist: Korea – Joint Economic Area"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Lead Actor in a Drama Series (Lee Jung-jae)", "Screen Actors Guild Award for Outstanding Performance by a Male Actor in a Drama Series (Lee Jung-jae)"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'thelastofus',
+            title: 'The Last of Us',
+            poster: 'images/showposters/thelastofusposter.webp',
+            genre: ['Action', 'Adventure', 'Drama', 'Sci-Fi'],
+            year: 2023,
+            rating: 8.8,
+            description: 'After a global pandemic destroys civilization, a hardened survivor takes charge of a 14-year-old girl who may be humanity\'s last hope.',
+            isFeatured: true,
+            cast: [
+                { name: "Pedro Pascal", bio: "Plays Joel Miller, a smuggler tasked with escorting Ellie. Known for his iconic roles in popular series.", appearances: ["The Mandalorian", "Game of Thrones", "Narcos"] },
+                { name: "Bella Ramsey", bio: "Portrays Ellie Williams, a resilient and immune teenager. Their performance was widely praised.", appearances: ["Game of Thrones", "Catherine Called Birdy"] }
+            ],
+            awards: ["N/A"],
+            network: "HBO",
+            networkLogo: "images/icons&logos/hbo.svg" // Assuming HBO logo exists
+        },
+        {
+            id: 'thewitcher',
+            title: 'The Witcher',
+            poster: 'images/showposters/thewitcherposter.webp',
+            genre: ['Action', 'Adventure', 'Drama', 'Fantasy'],
+            year: 2019,
+            rating: 8.2,
+            description: 'Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts.',
+            isFeatured: false,
+            cast: [
+                { name: "Henry Cavill", bio: "Plays Geralt of Rivia, a monster hunter with supernatural abilities. Famous for portraying Superman.", appearances: ["Man of Steel", "Mission: Impossible - Fallout"] },
+                { name: "Freya Allan", bio: "Portrays Ciri, a princess with extraordinary powers. Her role became increasingly central to the series.", appearances: ["The War of the Worlds", "Gunpowder Milkshake"] }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'arcane',
+            title: 'Arcane',
+            poster: 'images/showposters/arcaneposter.webp',
+            genre: ['Animation', 'Action', 'Adventure', 'Fantasy'],
+            year: 2021,
+            rating: 9.0,
+            description: 'Set in utopian Piltover and the oppressed underground of Zaun, the story follows the origins of two iconic League of Legends champions and the power that will tear them apart.',
+            isFeatured: false,
+            cast: [
+                { name: "Hailee Steinfeld", bio: "Voice of Vi. A talented actress and singer, nominated for an Academy Award.", appearances: ["Bumblebee", "True Grit", "Dickinson"] },
+                { name: "Ella Purnell", bio: "Voice of Jinx. Known for her diverse roles across film and television.", appearances: ["Yellowjackets", "Miss Peregrine's Home for Peculiar Children"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Animated Program"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'peakyblinders',
+            title: 'Peaky Blinders',
+            poster: 'images/showposters/peakyblindersposter.webp',
+            genre: ['Crime', 'Drama'],
+            year: 2013,
+            rating: 8.8,
+            description: 'A gangster family epic set in Birmingham, England in 1919, centering on a gang who sew razor blades in the peaks of their caps, and their ferocious boss Tommy Shelby.',
+            isFeatured: false,
+            cast: [
+                { name: "Cillian Murphy", bio: "Plays Thomas Shelby, the ruthless and ambitious leader of the Peaky Blinders. Celebrated for his intense performances.", appearances: ["Inception", "Dunkirk", "Oppenheimer"] },
+                { name: "Helen McCrory", bio: "Portrays Polly Gray, the matriarch of the Shelby family. A highly respected stage and screen actress.", appearances: ["Harry Potter", "Penny Dreadful"] }
+            ],
+            awards: ["British Academy Television Award for Best Drama Series"],
+            network: "BBC Two",
+            networkLogo: "images/icons&logos/bbctwo.svg" // Assuming BBC Two logo exists
+        },
+        {
+            id: 'dark',
+            title: 'Dark',
+            poster: 'images/showposters/darkposter.webp',
+            genre: ['Crime', 'Drama', 'Mystery', 'Sci-Fi'],
+            year: 2017,
+            rating: 8.7,
+            description: 'A family saga with a supernatural twist, set in a German town, where the disappearance of two young children exposes the double lives and fractured relationships among four families.',
+            isFeatured: false,
+            cast: [
+                { name: "Louis Hofmann", bio: "Plays Jonas Kahnwald, a central character caught in the time-travel mystery. A rising German actor.", appearances: ["Land of Mine", "The White Crow"] },
+                { name: "Lisa Vicari", bio: "Portrays Martha Nielsen, another key figure in the interwoven timelines. Also a notable German actress.", appearances: ["Isi & Ossi", "Hell"] }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: 'theoffice_us',
+            title: 'The Office (US)',
+            poster: 'images/showposters/theofficeposter1.webp',
+            genre: ['Comedy'],
+            year: 2005,
+            rating: 9.0,
+            description: 'A mockumentary on the everyday lives of a group of office employees in the Scranton, Pennsylvania, branch of the fictional Dunder Mifflin Paper Company.',
+            isFeatured: false,
+            cast: [
+                { name: "Steve Carell", bio: "Plays Michael Scott, the well-meaning but often inappropriate regional manager. An acclaimed comedian and actor.", appearances: ["Despicable Me", "Anchorman", "Foxcatcher"] },
+                { name: "Rainn Wilson", bio: "Portrays Dwight Schrute, an eccentric beet farmer and salesman. His unique comedic timing is a show highlight.", appearances: ["Megamind", "Galaxy Quest"] },
+                { name: "John Krasinski", bio: "Known for his role as Jim Halpert, the charming and often prank-pulling salesman. Also a successful director.", appearances: ["A Quiet Place", "Jack Ryan"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Comedy Series"],
+            network: "NBC",
+            networkLogo: "images/icons&logos/nbclogo.svg" // Assuming NBC logo exists
+        },
+        {
+            id: 'friends',
+            title: 'Friends',
+            poster: 'images/showposters/friendsposter.webp',
+            genre: ['Comedy', 'Romance'],
+            year: 1994,
+            rating: 8.9,
+            description: 'Follows the personal and professional lives of six twenty-somethings living in Manhattan.',
+            isFeatured: false,
+            cast: [
+                { name: "Jennifer Aniston", bio: "Plays Rachel Green. Became a household name through this role, and has had a successful film career.", appearances: ["Bruce Almighty", "Marley & Me"] },
+                { name: "Courteney Cox", bio: "Portrays Monica Geller. Known for her strong-willed and organized character.", appearances: ["Scream", "Cougar Town"] },
+                { name: "Lisa Kudrow", bio: "Plays Phoebe Buffay. Her quirky and lovable character is a fan favorite.", appearances: ["Romy and Michele's High School Reunion", "The Comeback"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Comedy Series"],
+            network: "NBC",
+            networkLogo: "images/icons&logos/nbclogo.svg"
+        },
+        {
+            id: 'gameofthrones',
+            title: 'Game of Thrones',
+            poster: 'images/showposters/gameofthronesposter.webp',
+            genre: ['Action', 'Adventure', 'Drama', 'Fantasy'],
+            year: 2011,
+            rating: 9.3,
+            description: 'Nine noble families fight for control over the mythical lands of Westeros, while an ancient enemy returns after being dormant for thousands of years.',
+            isFeatured: false,
+            cast: [
+                { name: "Emilia Clarke", bio: "Plays Daenerys Targaryen, the 'Mother of Dragons'. Her portrayal earned her multiple Emmy nominations.", appearances: ["Me Before You", "Solo: A Star Wars Story"] },
+                { name: "Kit Harington", bio: "Portrays Jon Snow. His character's journey from outcast to leader is central to the series.", appearances: ["Eternals", "Pompeii"] },
+                { name: "Peter Dinklage", bio: "Known for his role as Tyrion Lannister, a witty and intelligent dwarf. He won four Primetime Emmy Awards for this role.", appearances: ["The Chronicles of Narnia", "Three Billboards Outside Ebbing, Missouri"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Drama Series (x4)", "Golden Globe Award for Best Television Series – Drama"],
+            network: "HBO",
+            networkLogo: "images/icons&logos/hbo.svg"
+        },
+        {
+            id: 'thewalkingdead',
+            title: 'The Walking Dead',
+            poster: 'images/showposters/thewalkingdeadposter.webp',
+            genre: ['Drama', 'Horror', 'Sci-Fi', 'Thriller'],
+            year: 2010,
+            rating: 8.1,
+            description: 'Sheriff Deputy Rick Grimes wakes up from a coma to learn the world is in ruins and must lead a group of survivors to stay alive.',
+            isFeatured: true,
+            cast: [
+                { name: "Andrew Lincoln", bio: "Plays Rick Grimes, the moral compass and leader of the survivors. Known for his dramatic roles.", appearances: ["Love Actually", "Afterlife with Ricky Gervais"] },
+                { name: "Norman Reedus", bio: "Portrays Daryl Dixon, a fan-favorite character known for his crossbow skills. Also a keen photographer.", appearances: ["Death Stranding", "The Boondock Saints"] }
+            ],
+            awards: ["Saturn Award for Best Horror Television Series"],
+            network: "AMC",
+            networkLogo: "images/icons&logos/amclogo.svg"
+        },
+        {
+            id: 'chernobyl',
+            title: 'Chernobyl',
+            poster: 'images/showposters/chernobylposter.webp',
+            genre: ['Drama', 'History', 'Thriller'],
+            year: 2019,
+            rating: 9.4,
+            description: 'In April 1986, an explosion at the Chernobyl nuclear power plant in the Ukrainian SSR becomes one of the world\'s worst man-made catastrophes.',
+            isFeatured: false,
+            cast: [
+                { name: "Jared Harris", bio: "Plays Valery Legasov, the chief of the commission investigating the disaster. Praised for his nuanced performance.", appearances: ["The Curious Case of Benjamin Button", "Mad Men"] },
+                { name: "Stellan Skarsgård", bio: "Portrays Boris Shcherbina, a Soviet Deputy Premier. A prolific Swedish actor.", appearances: ["Pirates of the Caribbean", "Good Will Hunting", "Dune"] }
+            ],
+            awards: ["Golden Globe Award for Best Television Limited Series, Anthology Series, or Motion Picture Made for Television", "Primetime Emmy Award for Outstanding Limited or Anthology Series"],
+            network: "HBO",
+            networkLogo: "images/icons&logos/hbo.svg"
+        },
+        {
+            id: 'extraction',
+            title: 'Extraction',
+            poster: 'images/showposters/extractionposter1.webp',
+            genre: ['Action', 'Thriller'],
+            year: 2020,
+            rating: 6.7,
+            description: 'A black-market mercenary who has nothing to lose is hired to rescue the kidnapped son of an imprisoned international crime lord.',
+            isFeatured: true,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Chris Hemsworth", bio: "Chris Hemsworth is an Australian actor. He rose to prominence playing Kim Hyde in the Australian television series *Home and Away* (2004–2007) before embarking on a film career in Hollywood. He is best known for playing Thor in the Marvel Cinematic Universe films." },
+                { name: "Rudhraksh Jaiswal", bio: "Rudhraksh Jaiswal is an Indian actor who gained international recognition for his role as Ovi Mahajan in the Netflix action film *Extraction* (2020). He started his acting career at a young age in Indian television." },
+                { name: "Randeep Hooda", bio: "Randeep Hooda is an Indian actor who works primarily in Hindi films. Known for his intense and versatile performances, he has appeared in critically acclaimed films like *Highway* (2014) and *Sarbjit* (2016), as well as the Hollywood production *Extraction* (2020)." },
+                { name: "Golshifteh Farahani", bio: "Golshifteh Farahani is an Iranian-French actress and musician. She has starred in films across various international productions, gaining recognition for her roles in films like *Body of Lies* (2008), *Paterson* (2016), and *Extraction* (2020)." },
+                { name: "Pankaj Tripathi", bio: "Pankaj Tripathi is an Indian actor who primarily works in Hindi films. Known for his distinctive acting style and natural performances, he has received critical acclaim for his roles in films like *Gangs of Wasseypur* (2012), *Newton* (2017), and web series such as *Mirzapur* (2018–present)." },
+                { name: "David Harbour", bio: "David Kenneth Harbour is an American actor. He gained widespread recognition for his role as Jim Hopper in the Netflix science fiction series *Stranger Things* (2016–present), for which he received a Primetime Emmy Award nomination. He has also appeared in films such as *Black Widow* (2021)." },
+                { name: "Adam Bessa", bio: "Adam Bessa is a French-Tunisian actor. He is known for his roles in various international films and television series, including *Harka* (2022) and his supporting role in the action film *Extraction* (2020) and its sequel." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: "prisonbreak_series",
+            title: "Prison Break",
+            poster: "images/showposters/prisonbreakposter1.webp",
+            genre: ["Action", "Hollywood", "Crime", "Drama", "Thriller"],
+            year: 2005,
+            rating: 8.3,
+            description: "When his brother, Lincoln Burrows, is wrongly sentenced to death, a structural engineer, Michael Scofield, devises an elaborate plan to break him out of prison—starting by getting incarcerated himself. A thrilling ride full of twists, tension, and brotherly loyalty as they navigate their escape and evade authorities.",
+            isFeatured: true,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Wentworth Miller", bio: "Michael Scofield is a structural engineer with a genius-level intellect who deliberately gets himself incarcerated in Fox River State Penitentiary to break out his wrongly accused brother, Lincoln Burrows. His intricate plan, tattooed across his body, is the driving force of the series, showcasing his incredible resourcefulness and unwavering dedication." },
+                { name: "Dominic Purcell", bio: "Lincoln Burrows is Michael's older brother, sentenced to death for a crime he didn't commit: the murder of the Vice President's brother. He's a tough, protective, and loyal individual who struggles with his past but holds onto hope, largely thanks to Michael's unwavering belief in his innocence." },
+                { name: "Sarah Wayne Callies", bio: "Dr. Sara Tancredi is a compassionate and principled prison doctor at Fox River. She develops a complex relationship with Michael Scofield, initially suspecting him but eventually falling for him and risking everything to aid in the escape. Her journey is one of moral conflict and profound sacrifice." },
+                { name: "Amaury Nolasco", bio: "Fernando Sucre is Michael's cellmate and becomes his most trusted and loyal friend inside Fox River. He's in prison for armed robbery, desperate to get back to his fiancée Maricruz and their unborn child. Sucre is a good-hearted and dependable ally, often providing comic relief and unwavering support." },
+                { name: "Marshall Allman", bio: "L.J. Burrows Jr. is Lincoln's teenage son, whose life is turned upside down by his father's false conviction and the subsequent conspiracy. He becomes an active participant in his father's and uncle's fight for freedom, maturing quickly under extreme pressure." },
+                { name: "Robert Knepper", bio: "Theodore \"T-Bag\" Bagwell is a highly intelligent, manipulative, and psychopathic inmate at Fox River. A convicted child molester and murderer, he forces his way into Michael's escape plan, becoming a constant and dangerous antagonist. Despite his depravity, he possesses a twisted charm and an uncanny ability to survive." },
+                { name: "William Fichtner", bio: "Alexander Mahone is a highly intelligent and resourceful FBI agent brought in to hunt down the Fox River escapees. He has a troubled past and a complex moral compass, often showing a surprising depth beneath his ruthless pursuit of Michael. He becomes a reluctant ally in later seasons." },
+                { name: "Paul Adelstein", bio: "Paul Kellerman is a ruthless and cold-blooded Secret Service agent working for \"The Company,\" the shadowy organization behind Lincoln's framing. Initially a staunch antagonist, his character undergoes a dramatic shift, eventually becoming an unexpected ally to Michael and Lincoln as he seeks redemption." },
+                { name: "Rockmond Dunbar", bio: "Benjamin Miles \"C-Note\" Franklin is an inmate at Fox River who joins the escape team primarily to get back to his family. A former soldier who faced injustice, he is intelligent and pragmatic, navigating the prison hierarchy and later becoming a crucial, albeit cautious, ally to Michael and Lincoln on the outside." }
+            ],
+            awards: ["N/A"],
+            network: "Fox",
+            networkLogo: "images/icons&logos/foxlogo.svg"
+        },
+        {
+            id: "inception_movie",
+            title: "Inception",
+            poster: "images/showposters/inceptioposter1.webp",
+            genre: ["Hollywood", "Action", "Sci-Fi", "Thriller"],
+            year: 2010,
+            rating: 8.8,
+            description: "A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the mission and his team to disaster.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Leonardo DiCaprio", bio: "Dom Cobb is a skilled \"extractor,\" a professional who steals valuable information from people's subconscious minds by entering their dreams. Haunted by the death of his wife, Mal, and separated from his children, he is offered a chance at redemption: to perform \"inception,\" the planting of an idea, in exchange for his freedom." },
+                { name: "Joseph Gordon-Levitt", bio: "Arthur is Cobb's reliable and meticulously organized \"point man.\" He's responsible for researching and managing the logistics of the dream heists, including the intricate planning of dream layers and contingencies. His pragmatic and precise nature makes him an invaluable, albeit sometimes frustrated, member of the team." },
+                { name: "Elliot Page", bio: "Ariadne is a brilliant architecture student recruited by Cobb to design the intricate and paradoxical dreamscapes for the inception mission. She is intelligent, intuitive, and quickly grasps the complex rules of dream sharing, often challenging Cobb's methods and helping him confront his inner demons." },
+                { name: "Tom Hardy", bio: "Eames is a charming and versatile \"forger\" on Cobb's team, capable of impersonating others within the dream world. He's skilled at manipulation and deception, often using humor and wit to navigate dangerous situations. His ability to convincingly mimic target projections is crucial for the success of the inception." },
+                { name: "Ken Watanabe", bio: "Mr. Saito is a powerful and enigmatic Japanese businessman who initially tries to extract information from Cobb but then offers him the inception job. He is shrewd, ambitious, and willing to invest heavily to achieve his goals, even risking his own mind to see the mission through." },
+                { name: "Dileep Rao", bio: "Yusuf is the team's skilled chemist, responsible for formulating the powerful sedatives necessary for the deep, multi-layered dreams required for inception. He's pragmatic and insightful, understanding the scientific complexities of dream sharing and the unique challenges it presents." },
+                { name: "Cillian Murphy", bio: "Robert Fischer is the heir to a vast corporate empire and the target of Cobb's inception mission. He has a complicated relationship with his dying father, and the inception team aims to plant an idea in his mind that will lead him to dismantle his father's conglomerate. His emotional vulnerability makes him a suitable target." },
+                { name: "Tom Berenger", bio: "Peter Browning is Robert Fischer's godfather and a high-ranking executive in the Fischer Morrow corporation. He is initially portrayed as a trusted figure, but Eames' impersonation of him within the dream plays a key role in manipulating Robert's subconscious." },
+                { name: "Marion Cotillard", bio: "Mal is Dom Cobb's deceased wife, who tragically died by suicide, leaving Cobb under suspicion for her murder. She appears as a powerful and destructive projection within Cobb's subconscious, constantly trying to sabotage his missions and pull him back into a shared dream limbo. Her presence is the source of much of Cobb's guilt and internal conflict." },
+                { name: "Michael Caine", bio: "Professor Stephen Miles is Cobb's father-in-law and mentor, and a university professor who teaches dream architecture. He initially introduces Cobb to Ariadne and provides guidance, though he is critical of Cobb's continued struggle with Mal's memory. He serves as a grounding figure in Cobb's fragmented reality." }
+            ],
+            awards: ["Academy Award for Best Cinematography", "Academy Award for Best Sound Editing", "Academy Award for Best Sound Mixing", "Academy Award for Best Visual Effects"],
+            network: "Warner Bros. Pictures",
+            networkLogo: "images/icons&logos/warnerbros.svg"
+        },
+        {
+            id: "yourhonor_series",
+            title: "Your Honor",
+            poster: "images/showposters/yourhonorposter1.webp",
+            genre: ["Hollywood", "Coming Soon", "Crime", "Drama", "Thriller"],
+            year: 2024,
+            rating: "Expected",
+            description: "A respected New Orleans judge's life is turned upside down when his teenage son is involved in a hit-and-run, leading to a high-stakes game of lies, deceit, and impossible choices to protect his family. Season 3 is highly anticipated.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Bryan Cranston", bio: "Bryan Lee Cranston is an American actor, producer, and writer. He gained prominence playing Hal in the Fox sitcom *Malcolm in the Middle* (2000–2006) before achieving global stardom for his dramatic leading role as Walter White in the AMC crime drama series *Breaking Bad* (2008–2013), for which he won four Primetime Emmy Awards for Outstanding Lead Actor in a Drama Series. He has also starred in films such as *Saving Private Ryan*, *Little Miss Sunshine*, *Drive*, *Argo*, and *Trumbo*, receiving an Academy Award nomination for the latter." },
+                { name: "Hunter Doohan", bio: "Hunter Doohan is an American actor and writer, known for his roles as Tyler Galpin in *Wednesday* (2022) and Adam Desiato in *Your Honor* (2020). He grew up in Fort Smith, Arkansas, before moving to Los Angeles to pursue acting." },
+                { name: "Hope Davis", bio: "Hope Davis is an American actress known for her work in film, television, and theater. She has appeared in various notable productions, earning critical acclaim for her versatile performances. She was a childhood friend of Mira Sorvino, with whom she wrote and acted in backyard plays." },
+                { name: "Michael Stuhlbarg", bio: "Michael Stuhlbarg is an American actor recognized for his character roles across stage and screen. He has received numerous accolades for his performances in films like *A Serious Man*, *Call Me by Your Name*, *The Shape of Water*, and on television in series such as *Boardwalk Empire* and *Fargo*." },
+                { name: "Sofia Black-D'Elia", bio: "Sofia Black-D'Elia is an American actress. She grew up in northern New Jersey and began her acting career with a role in *All My Children*. She is known for her roles in *Skins*, *The Night Of*, and *Single Drunk Female*." },
+                { name: "Isiah Whitlock Jr.", bio: "Isiah Whitlock Jr. is an American actor known for his distinctive voice and roles in various films and television series, including Clay Davis in *The Wire* and appearances in Spike Lee films such as *BlacKkKlansman*." },
+                { name: "Carmen Ejogo", bio: "Carmen Ejogo is a British actress and singer of Nigerian and Scottish descent. Her career spans film and television, with notable roles in *Selma* (as Coretta Scott King), *Fantastic Beasts and Where to Find Them*, and *True Detective*. She also has a background in music, having presented a video show and collaborated with artists." },
+                { name: "Lorraine Toussaint", bio: "Lorraine Toussaint is a Trinidadian-American actress. She is known for her extensive work in film and television, including her role as Yvonne \"Vee\" Parker in *Orange Is the New Black*, earning critical acclaim and awards. Her career highlights also include roles in *Any Day Now* and *The Equalizer*." }
+            ],
+            awards: ["N/A"],
+            network: "Showtime",
+            networkLogo: "images/icons&logos/showtime.svg"
+        },
+        {
+            id: "3idiots_movie",
+            title: "3 Idiots",
+            poster: "images/showposters/3idiotsposter1.webp",
+            genre: ["Bollywood", "Comedy", "Drama", "Romance"],
+            year: 2009,
+            rating: 8.4,
+            description: "Two friends embark on a quest for a third, long-lost friend, while reminiscing about their college days and the profound impact their eccentric, brilliant buddy had on their lives and perspectives on education and success.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Aamir Khan", bio: "Aamir Khan is an Indian actor, filmmaker, and television personality. Through his career spanning over 30 years in Hindi films, he has established himself as one of the most popular and influential actors of Indian cinema. He has won numerous awards, including nine Filmfare Awards, four National Film Awards, and the AACTA Award." },
+                { name: "R. Madhavan", bio: "Ranganathan Madhavan is an Indian actor, writer, director, and producer who primarily works in Tamil and Hindi films. He has won four Filmfare Awards South and a Tamil Nadu State Film Award. He is known for his versatility and has appeared in over 70 films across different languages." },
+                { name: "Sharman Joshi", bio: "Sharman Joshi is an Indian actor who primarily works in Hindi films, alongside a few Marathi and Gujarati films. He is known for his roles in comedic and dramatic films." },
+                { name: "Kareena Kapoor Khan", bio: "Kareena Kapoor Khan is an Indian actress who works in Hindi films. One of India's highest-paid actresses, she is the recipient of several awards, including six Filmfare Awards, and has been featured in Forbes India's Celebrity 100 list." },
+                { name: "Boman Irani", bio: "Boman Irani is an Indian actor, voice artist, and photographer who works primarily in Hindi films. He is known for his versatile acting and has played a wide range of roles, often as an antagonist or in comedic supporting roles." },
+                { name: "Omi Vaidya", bio: "Omi Vaidya is an American actor, writer, and director who works in Bollywood films and television. He gained significant recognition for his role as Chatur in *3 Idiots*." },
+                { name: "Mona Singh", bio: "Mona Singh is an Indian actress and television presenter. She is best known for her role in the television series *Jassi Jaissi Koi Nahin*. She has also worked in films and web series." }
+            ],
+            awards: ["Filmfare Award for Best Film", "National Film Award for Best Popular Film Providing Wholesome Entertainment"],
+            network: "Vinod Chopra Films",
+            networkLogo: "images/icons&logos/filmstudio.svg"
+        },
+        {
+            id: "ghoul_series",
+            title: "Ghoul",
+            poster: "images/showposters/ghoulposter1.webp",
+            genre: ["Bollywood", "Horror", "Thriller"],
+            year: 2018,
+            rating: 7.1,
+            description: "A newly appointed interrogator arrives at a remote military detention center to question a dangerous terrorist, only to discover that the detainee is not what he seems and harbors a terrifying supernatural entity.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Radhika Apte", bio: "Radhika Apte is an Indian actress who works predominantly in Hindi films, and has appeared in a few Tamil, Marathi, Telugu, Bengali, and English-language films. She is known for her versatile performances and has been praised for her unconventional film choices." },
+                { name: "Manav Kaul", bio: "Manav Kaul is an Indian actor, theatre director, and playwright. He is known for his work in Hindi cinema and theatre." },
+                { name: "S.M. Zaheer", bio: "S.M. Zaheer is an Indian actor who has worked in films, television and theatre. He is known for his character roles, often playing patriarchal or wise figures." },
+                { name: "Ratnabali Bhattacharjee", bio: "Ratnabali Bhattacharjee is an Indian actress who works in Bengali theatre and cinema. She has also appeared in Hindi films and television shows." },
+                { name: "Mahesh Balraj", bio: "Mahesh Balraj is an Indian actor who has appeared in several Hindi films and television series, often in supporting and antagonistic roles." },
+                { name: "Rahul Tewari", bio: "Rahul Tewari is an Indian actor known for his work in Hindi films and television. He often plays roles in action and drama genres." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: "dangal_movie",
+            title: "Dangal",
+            poster: "images/showposters/dangalposter1.webp",
+            genre: ["Bollywood", "Biography", "Drama", "Sport"],
+            year: 2016,
+            rating: 8.3,
+            description: "Based on the true story of Mahavir Singh Phogat, a former wrestler who trains his daughters Geeta Phogat and Babita Kumari to become world-class female wrestlers, challenging societal norms and achieving international success.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Aamir Khan", bio: "Aamir Khan is an Indian actor, filmmaker, and television personality. Through his career spanning over 30 years in Hindi films, he has established himself as one of the most popular and influential actors of Indian cinema. He has won numerous awards, including nine Filmfare Awards, four National Film Awards, and the AACTA Award." },
+                { name: "Fatima Sana Shaikh", bio: "Fatima Sana Shaikh is an Indian actress who works primarily in Hindi films. She is known for her role as Geeta Phogat in the biographical sports drama film *Dangal*." },
+                { name: "Sanya Malhotra", bio: "Sanya Malhotra is an Indian actress who works in Hindi films. She began her career with the biographical sports drama film *Dangal* and has since appeared in several critically acclaimed and commercially successful films." },
+                { name: "Zaira Wasim", bio: "Zaira Wasim is a former Indian actress who worked in Hindi films. She is known for her roles in *Dangal* and *Secret Superstar*, both of which earned her critical acclaim and numerous awards. She retired from acting in 2019." },
+                { name: "Suhani Bhatnagar", bio: "Suhani Bhatnagar was an Indian child actress who gained recognition for her role as young Babita Kumari Phogat in the film *Dangal*. Sadly, she passed away in February 2024." },
+                { name: "Aparshakti Khurana", bio: "Aparshakti Khurana is an Indian actor, radio jockey, comedian, singer and television host. He is known for his supporting roles in Hindi films and for his work as a host." },
+                { name: "Girsh Kulkarni", bio: "Girish Kulkarni is an Indian actor, writer, and director who works primarily in Marathi cinema. He is known for his acclaimed performances and has won several awards." },
+                { name: "Ananya Sharma", bio: "Ananya Sharma is an Indian child actress who appeared in the film *Dangal* as one of Mahavir Singh Phogat's younger daughters, Ritu." },
+                { name: "Ritvika Singh", bio: "Ritvika Singh is an Indian child actress who played the role of Sangeeta Phogat, one of Mahavir Singh Phogat's younger daughters, in the film *Dangal*." }
+            ],
+            awards: ["Filmfare Award for Best Film", "National Film Award for Best Popular Film Providing Wholesome Entertainment"],
+            network: "Walt Disney Studios",
+            networkLogo: "images/icons&logos/disneylogo.svg"
+        },
+        {
+            id: "nairobihalflife_movie",
+            title: "Nairobi Half Life",
+            poster: "images/showposters/nairobihalflifeposter1.webp",
+            genre: ["Kenyan Drama", "Crime", "Drama"],
+            year: 2012,
+            rating: 7.8,
+            description: "Nairobi Half Life tells the story of Mwas, an aspiring actor from a rural town who travels to Nairobi to pursue his dreams. Faced with harsh city life, he’s pulled into a world of crime and must struggle to stay true to his dreams while surviving the city’s brutal realities. It's a powerful and gritty portrayal of urban life in Kenya.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Joseph Wairimu", bio: "Joseph Wairimu is a Kenyan actor best known for his lead role in the film *Nairobi Half Life*, for which he won the Africa Movie Academy Award for Best Actor. He has also appeared in other Kenyan films and television series." },
+                { name: "Olwenya Maina", bio: "Olwenya Maina was a Kenyan actor known for his compelling performances, particularly his role as Oti in *Nairobi Half Life*. He was a talented and versatile actor who made a significant impact on the Kenyan film industry. Sadly, he passed away in 2022." },
+                { name: "Ogutu Muraya", bio: "Ogutu Muraya is a Kenyan actor and storyteller, known for his work in theatre and film. He is also a writer and performer, often exploring themes of memory, history, and narrative in his work." },
+                { name: "Patricia Kihoro", bio: "Patricia Kihoro is a Kenyan singer, actress, radio presenter, and entertainer. She is known for her soulful voice and versatile acting skills, appearing in films, television, and theatre productions." },
+                { name: "Mugambi Nthiga", bio: "Mugambi Nthiga is a Kenyan actor, writer, and director. He is a prominent figure in the Kenyan film and theatre scene, known for his diverse roles and contributions behind the camera." },
+                { name: "Maina Olwenya", bio: "Maina Olwenya was a Kenyan actor who was part of the cast of \"Nairobi Half Life.\" He was known for his impactful performances in various Kenyan film productions. (Note: This is likely the same person as Olwenya Maina who played Oti, a common occurrence in cast listings when actors play multiple minor roles or are credited differently)." }
+            ],
+            awards: ["Best Feature Film at the 33rd Durban International Film Festival"],
+            network: "Ginger Ink Films",
+            networkLogo: "images/icons&logos/tvnetwork.svg"
+        },
+        {
+            id: "crimeandjustice_series",
+            title: "Crime and Justice",
+            poster: "images/showposters/crimeandjusticeposter1.webp",
+            genre: ["Kenyan Drama", "Trending", "Coming Soon", "Crime", "Drama", "Legal"],
+            year: 2021,
+            rating: 7.0,
+            description: "A Kenyan police procedural series that follows two detectives as they investigate various crimes in Nairobi. The show delves into the dark side of the city, exploring themes of corruption, greed, and the pursuit of justice.",
+            isFeatured: true,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Alfred Munyua", bio: "Alfred Munyua is a Kenyan actor known for his roles in various Kenyan television series and films. He has received acclaim for his performances in both drama and action genres." },
+                { name: "Sarah Hassan", bio: "Sarah Hassan is a Kenyan actress, television presenter, and former model. She is widely recognized for her roles in Kenyan television dramas and films, and has won numerous awards for her acting." },
+                { name: "Maqbul Mohammed", bio: "Maqbul Mohammed is a Kenyan actor, radio presenter, and voice-over artist. He is a well-known personality in Kenyan media and has appeared in various television series and films." },
+                { name: "Fauziah Ibrahim", bio: "Fauziah Ibrahim is a Kenyan actress known for her roles in television and film. She often portrays strong and principled characters in legal dramas and other genres." },
+                { name: "John Sibi-Okumu", bio: "John Sibi-Okumu is a veteran Kenyan actor, journalist, and author. He is highly respected for his extensive work in theatre, television, and film, and is known for his powerful performances and intellectual contributions." },
+                { name: "Muthoni Gathecha", bio: "Muthoni Gathecha is a Kenyan actress known for her diverse roles in Kenyan television and film, often portraying strong female characters or professionals." }
+            ],
+            awards: ["N/A"],
+            network: "Showmax",
+            networkLogo: "images/icons&logos/showmaxlogo.svg"
+        },
+        {
+            id: "dayofthejackal_series",
+            title: "The Day Of The Jackal",
+            poster: "images/showposters/thedayofthejackalposter1.webp",
+            genre: ["International", "Coming Soon", "Thriller"],
+            year: 2024,
+            rating: "Expected",
+            description: "An upcoming modern-day reimagining of the iconic novel and film, following a professional assassin known as 'The Jackal' as he undertakes a mission to assassinate a high-profile target.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Edward Fox", bio: "Edward Charles Morrice Fox is an English actor. He is known for his roles as the assassin in *The Day of the Jackal* (1973) and King Edward VIII in *Edward & Mrs. Simpson* (1978). He has had a distinguished career in film, television, and theatre, often playing upper-class or military figures." },
+                { name: "Michael Lonsdale", bio: "Michael Lonsdale, also known as Michel Lonsdale, was a French actor who appeared in over 180 films and television shows. He was known for his versatility and distinctive voice, appearing in both French and international productions." },
+                { name: "Terence Alexander", bio: "Terence Alexander was an English film and television actor, best known for his role as Charlie Hungerford in the ITV series *Bergerac*. He often played suave, upper-class characters." },
+                { name: "Alan Badel", bio: "Alan Badel was an English actor who appeared in films and television. He was known for his intense performances and often played powerful or complex characters." },
+                { name: "Tony Britton", bio: "Tony Britton was an English actor. He was known for his extensive work in British film, television, and theatre, often playing urbane and charming roles." },
+                { name: "Denis Carey", bio: "Denis Carey was a British actor known for his character roles in film and television, often appearing in period dramas and thrillers." }
+            ],
+            awards: ["N/A"],
+            network: "Peacock",
+            networkLogo: "images/icons&logos/peacocklogo.svg"
+        },
+        {
+            id: "traintobusan_movie",
+            title: "Train To Busan",
+            poster: "images/showposters/traintobusanposter1.webp",
+            genre: ["K-Drama", "Action", "Horror", "Thriller"],
+            year: 2016,
+            rating: 7.6,
+            description: "While a zombie apocalypse breaks out in South Korea, a father and daughter, along with other passengers, are trapped on a high-speed train fighting for their lives as the infection spreads rapidly.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Gong Yoo", bio: "Gong Yoo is a South Korean actor. He is best known for his roles in the television dramas *Coffee Prince* (2007) and *Guardian: The Lonely and Great God* (2016–2017), and the films *Silenced* (2011), *Train to Busan* (2016) and *The Age of Shadows* (2016)." },
+                { name: "Jung Yu-mi", bio: "Jung Yu-mi is a South Korean actress. She is best known for her leading roles in the films *Silenced* (2011) and *Train to Busan* (2016), as well as the television series *Queendom* (2019)." },
+                { name: "Ma Dong-seok", bio: "Ma Dong-seok, also known as Don Lee, is a South Korean-American actor. He rose to international fame for his role in *Train to Busan* and has since starred in numerous successful films such as *The Outlaws* (2017), *Along with the Gods: The Last 49 Days* (2018), and *The Eternals* (2021)." },
+                { name: "Kim Su-an", bio: "Kim Su-an is a South Korean child actress. She gained significant recognition for her role as the daughter in the hit zombie film *Train to Busan* (2016). She has also appeared in other films and television series, often praised for her mature and nuanced performances." },
+                { name: "Choi Woo-shik", bio: "Choi Woo-shik is a South Korean-Canadian actor. He first gained widespread recognition for his role in the film *Train to Busan* (2016), and later achieved global fame for his leading role in the Academy Award-winning film *Parasite* (2019)." },
+                { name: "Ahn So-hee", bio: "Ahn So-hee, often credited as Sohee, is a South Korean singer and actress. She is best known as a former member of the K-pop girl group Wonder Girls. After leaving the group, she transitioned into acting, gaining recognition for her roles in films like *Train to Busan* (2016)." },
+                { name: "Kim Eui-sung", bio: "Kim Eui-sung is a South Korean actor. He is known for his roles in the films *Train to Busan* (2016), *The Age of Shadows* (2016), and the television series *W* (2016) and *Mr. Sunshine* (2018)." }
+            ],
+            awards: ["Blue Dragon Film Award for Best New Director (Yeon Sang-ho)"],
+            network: "Next Entertainment World",
+            networkLogo: "images/icons&logos/tvnetwork.svg"
+        },
+        {
+            id: "secondwife_series",
+            title: "Second Wife",
+            poster: "images/showposters/secondfamilyposter1.webp",
+            genre: ["Kenyan Drama", "Coming Soon", "Drama"],
+            year: "TBA",
+            rating: "Expected",
+            description: "Details for 'Second Wife' are scarce, but it's expected to be a compelling Kenyan drama exploring familial and marital complexities, possibly revolving around the theme of polygamy or a new spouse in a family.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Vanessa Okeyo", bio: "Information for this generic cast member is not available. Please provide specific character names from the show \"Second Wife\" to get detailed biographies." },
+                { name: "Serah Wanjiru", bio: "Serah Wanjiru" }
+            ],
+            awards: ["N/A"],
+            network: "Maisha Magic Plus",
+            networkLogo: "images/icons&logos/MaishaMagicPlus.svg"
+        },
+        {
+            id: "40sticks_movie",
+            title: "40 Sticks",
+            poster: "images/showposters/40sticksposter1.webp",
+            genre: ["Kenyan Drama", "Action", "Crime", "Thriller"],
+            year: 2020,
+            rating: 6.2,
+            description: "When a prison bus crashes in the middle of a forest, a group of convicts must work together to survive the harsh wilderness while evading an unknown, deadly threat lurking in the shadows.",
+            isFeatured: false,
+            // Updated cast from bio&quotes.html
+            cast: [
+                { name: "Robert Agengo", bio: "Jabali is one of the main protagonists in \"40 Sticks,\" a convict caught in a brutal fight for survival inside a locked prison bus during a riot. He is resourceful and determined, forced to make difficult choices to stay alive and protect himself amidst the chaos and violence. His character represents the raw instinct for survival in extreme circumstances." },
+                { name: "Mwaura Bilal", bio: "Zulu is another convict trapped within the prison bus. He is a formidable presence, often aggressive and driven by his own agenda, contributing to the intense power struggles among the trapped prisoners. His character embodies the volatile and dangerous nature of the confined environment, where alliances are fragile and trust is scarce." },
+                { name: "Andreo Kamau", bio: "Chira is one of the prisoners trapped in the bus. He is a more desperate and perhaps less physically imposing character than some of the others, often struggling to cope with the extreme circumstances. His reactions to the escalating violence and the fight for resources contribute to the grim portrayal of the prisoners' predicament." },
+                { name: "Mumbi Maina", bio: "Mumbi Maina plays a doctor who is caught in the midst of the prison bus riot. She is forced to use her medical skills under immense pressure and danger, trying to save lives amidst the brutal conflict. Her character represents a glimmer of humanity and professionalism in a savage environment." },
+                { name: "Nyakundi Isaboke", bio: "Diesel is another prisoner in \"40 Sticks,\" known for his practical nature and resourcefulness. He often assesses situations with a pragmatic eye, contributing to the group's attempts to survive or escape. His character embodies the difficult choices and desperate measures prisoners resort to when pushed to their limits." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix (Kenya)",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: "kingdom_series",
+            title: "Kingdom",
+            poster: "images/showposters/kingdomposter1.webp",
+            genre: ["K-Drama", "Action", "Horror", "Thriller"],
+            year: 2019,
+            rating: 8.3,
+            description: "While strange rumors about their ill King grip a kingdom, the crown prince becomes their only hope against a mysterious plague that is turning people into zombies.",
+            isFeatured: false,
+            cast: [
+                { name: "Ju Ji-hoon", bio: "Plays Crown Prince Lee Chang. Known for his charismatic presence and roles in period dramas.", appearances: ["Princess Hours", "Along With the Gods: The Two Worlds"] },
+                { name: "Ryu Seung-ryong", bio: "Portrays Cho Hak-ju, the powerful and ambitious chief state councilor. A veteran actor with numerous accolades.", appearances: ["Miracle in Cell No. 7", "Extreme Job"] }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: "thegoodplace",
+            title: "The Good Place",
+            poster: "images/showposters/thegoodplaceposter.webp",
+            genre: ['Comedy', 'Fantasy', 'Drama'],
+            year: 2016,
+            rating: 8.2,
+            description: 'Four people and their otherworldly architect struggle in the afterlife to define what it means to be good.',
+            isFeatured: false,
+            cast: [
+                { name: "Kristen Bell", bio: "Plays Eleanor Shellstrop. Known for her roles in comedies and voice acting.", appearances: ["Frozen", "Veronica Mars", "Forgetting Sarah Marshall"] },
+                { name: "Ted Danson", bio: "Portrays Michael, the architect of the neighborhood. A veteran actor known for his extensive TV career.", appearances: ["Cheers", "Curb Your Enthusiasm", "Fargo"] }
+            ],
+            awards: ["Peabody Award"],
+            network: "NBC",
+            networkLogo: "images/icons&logos/nbclogo.svg"
+        },
+        {
+            id: "mandolorian",
+            title: "The Mandalorian",
+            poster: "images/showposters/mandolorianposter.webp",
+            genre: ['Sci-Fi', 'Action', 'Adventure'],
+            year: 2019,
+            rating: 8.7,
+            description: 'The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.',
+            isFeatured: true,
+            cast: [
+                { name: "Pedro Pascal", bio: "Plays Din Djarin (The Mandalorian). His portrayal of the stoic bounty hunter has been widely praised.", appearances: ["The Last of Us", "Game of Thrones", "Narcos"] },
+                { name: "Grogu (Baby Yoda)", bio: "A Force-sensitive infant, the beloved co-star of the series. (Fictional Character)", appearances: ["None (original character)"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Drama Series (Nomination)", "MTV Movie & TV Award for Best Duo (Pedro Pascal & Grogu)"],
+            network: "Disney+",
+            networkLogo: "images/icons&logos/disneypluslogo.svg"
+        },
+        {
+            id: "severance",
+            title: "Severance",
+            poster: "images/showposters/severanceposter.webp",
+            genre: ['Sci-Fi', 'Drama', 'Thriller'],
+            year: 2022,
+            rating: 8.7,
+            description: 'A team of employees whose memories have been surgically divided between their work and personal lives discover the true nature of their jobs.',
+            isFeatured: false,
+            cast: [
+                { name: "Adam Scott", bio: "Plays Mark Scout, a Lumon Industries employee. Known for his comedic and dramatic range.", appearances: ["Parks and Recreation", "Step Brothers", "Big Little Lies"] },
+                { name: "Britt Lower", bio: "Portrays Helly R., a new recruit at Lumon. Her performance as the rebellious 'innie' was critically acclaimed.", appearances: ["Man Seeking Woman", "Casual"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Drama Series (Nomination)"],
+            network: "Apple TV+",
+            networkLogo: "images/icons&logos/appletvplus.svg"
+        },
+        {
+            id: "tedlasso",
+            title: "Ted Lasso",
+            poster: "images/showposters/tedlassoposter.webp",
+            genre: ['Comedy', 'Sport'],
+            year: 2020,
+            rating: 8.8,
+            description: 'American football coach Ted Lasso is hired to manage a British soccer team, despite having no experience coaching soccer.',
+            isFeatured: true,
+            cast: [
+                { name: "Jason Sudeikis", bio: "Plays Ted Lasso, the optimistic football coach. He also co-created and executive produces the show, winning multiple Emmys.", appearances: ["Saturday Night Live", "We're the Millers", "Horrible Bosses"] },
+                { name: "Hannah Waddingham", bio: "Portrays Rebecca Welton, the owner of AFC Richmond. Her powerful voice and strong stage presence are notable.", appearances: ["Game of Thrones", "Les Misérables (musical)"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Comedy Series (x2)", "Golden Globe Award for Best Television Series – Musical or Comedy"],
+            network: "Apple TV+",
+            networkLogo: "images/icons&logos/appletvplus.svg"
+        },
+        {
+            id: "fleabag",
+            title: "Fleabag",
+            poster: "images/showposters/fleabagposter.webp",
+            genre: ['Comedy', 'Drama'],
+            year: 2016,
+            rating: 8.7,
+            description: 'A cynical woman navigates modern life in London while dealing with tragedy.',
+            isFeatured: false,
+            cast: [
+                { name: "Phoebe Waller-Bridge", bio: "Plays Fleabag and is the show's creator, writer, and executive producer. Won multiple Emmys for her work.", appearances: ["Solo: A Star Wars Story", "Killing Eve (writer)"] },
+                { name: "Andrew Scott", bio: "Portrays The Hot Priest. His performance led to widespread acclaim and a devoted fanbase.", appearances: ["Sherlock", "1917", "All of Us Strangers"] }
+            ],
+            awards: ["Primetime Emmy Award for Outstanding Comedy Series", "Golden Globe Award for Best Television Series – Musical or Comedy"],
+            network: "BBC Three",
+            networkLogo: "images/icons&logos/bbcthree.svg"
+        },
+        {
+            id: "narcos",
+            title: "Narcos",
+            poster: "images/showposters/narcosposter.webp",
+            genre: ['Biography', 'Crime', 'Drama'],
+            year: 2015,
+            rating: 8.8,
+            description: 'A chronicled look at the criminal exploits of Colombian drug lord Pablo Escobar, as well as the many other drug kingpins who plagued the country through the years.',
+            isFeatured: true,
+            cast: [
+                { name: "Wagner Moura", bio: "Plays Pablo Escobar. The Brazilian actor's compelling portrayal brought him international recognition.", appearances: ["Elite Squad", "Elysium"] },
+                { name: "Boyd Holbrook", bio: "Portrays Steve Murphy, a DEA agent. Known for his roles as antagonists.", appearances: ["Logan", "Gone Girl"] }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        {
+            id: "theboys_presents_diabolical",
+            title: "The Boys Presents: Diabolical",
+            poster: "images/showposters/theboysdiabolicalposter.webp",
+            genre: ['Animation', 'Action', 'Comedy'],
+            year: 2022,
+            rating: 7.3,
+            description: 'An animated anthology series set in the universe of The Boys.',
+            isFeatured: false,
+            cast: [
+                { name: "Seth Rogen", bio: "Voice actor and executive producer. A well-known comedian and actor.", appearances: ["Superbad", "Pineapple Express"] },
+                { name: "Andy Samberg", bio: "Voice actor. Member of The Lonely Island and known for his comedic roles.", appearances: ["Brooklyn Nine-Nine", "Palm Springs"] }
+            ],
+            awards: ["N/A"],
+            network: "Amazon Prime Video",
+            networkLogo: "images/icons&logos/amazonprimevideo.svg"
+        },
+        {
+            id: "houseofthedragon",
+            title: "House of the Dragon",
+            poster: "images/showposters/houseofthedragonposter.webp",
+            genre: ['Action', 'Adventure', 'Drama', 'Fantasy'],
+            year: 2022,
+            rating: 8.5,
+            description: 'The story of the Targaryen civil war that took place about 200 years before the events of Game of Thrones.',
+            isFeatured: true,
+            cast: [
+                { name: "Paddy Considine", bio: "Plays King Viserys I Targaryen. His performance as the nuanced king was highly praised.", appearances: ["Hot Fuzz", "Dead Man's Shoes"] },
+                { name: "Matt Smith", bio: "Portrays Prince Daemon Targaryen. Known for his versatile roles across different genres.", appearances: ["Doctor Who", "The Crown", "Morbius"] }
+            ],
+            awards: ["Golden Globe Award for Best Television Series – Drama"],
+            network: "HBO",
+            networkLogo: "images/icons&logos/hbo.svg"
+        },
+        {
+            id: "winningtime",
+            title: "Winning Time: The Rise of the Lakers Dynasty",
+            poster: "images/showposters/winningtimeposter.webp",
+            genre: ['Biography', 'Drama', 'Sport'],
+            year: 2022,
+            rating: 8.2,
+            description: 'A fast-break series about the professional and personal lives of the 1980s Los Angeles Lakers basketball team, one of sports\' most revered and dominant dynasties -- a team that defined an era, both on and off the court.',
+            isFeatured: false,
+            cast: [
+                { name: "Quincy Isaiah", bio: "Plays Magic Johnson, portraying the basketball legend with charisma.", appearances: ["Off the Rails"] },
+                { name: "Solomon Hughes", bio: "Portrays Kareem Abdul-Jabbar. A former college basketball player, making his acting debut.", appearances: ["No Other Way to Say It"] }
+            ],
+            awards: ["N/A"],
+            network: "HBO",
+            networkLogo: "images/icons&logos/hbo.svg"
+        },
+        // New show added from bio&quotes.html
+        {
+            id: 'moneyheist_kdrama',
+            title: 'Money Heist (K-Drama)',
+            poster: 'images/showposters/moneyheist_koreaposter.webp', // Placeholder/Assumed poster
+            genre: ['K-Drama', 'Crime', 'Drama', 'Thriller'],
+            year: 2022,
+            rating: 7.0,
+            description: 'Thieves seize the Mint of Korea. With hostages trapped inside, the police must stop the crew — and the shadowy mastermind behind it all.',
+            isFeatured: false,
+            cast: [
+                { name: "Yoo Ji-tae", bio: "The Professor is a brilliant and enigmatic strategist who orchestrates the heist on the Unification Mint of Korea. He is a meticulous planner, preferring to remain in the shadows while guiding his team with precision. His ultimate goal is to challenge the system and highlight societal inequalities." },
+                { name: "Yunjin Kim", bio: "Inspector Seon Woojin is a sharp, experienced, and tenacious police negotiator leading the task force against the Professor's gang. She's a single mother battling personal and professional challenges, constantly striving to outwit the Professor and bring the hostages to safety." },
+                { name: "Park Hae-soo", bio: "Berlin is the Professor's older brother and the on-site commander of the heist. Having survived a brutal past in a North Korean internment camp, he exhibits a cold, authoritarian demeanor and a willingness to use extreme measures to maintain control and ensure the heist's success." },
+                { name: "Jun Jong-seo", bio: "Tokyo is a former soldier from North Korea who escaped to the South, becoming a skilled robber before being recruited by the Professor. She serves as the series' narrator, a rebellious and impulsive character with a strong sense of loyalty, particularly to Rio." },
+                { name: "Lee Won-jong", bio: "Moscow is a veteran miner with deep knowledge of tunnels and excavation, skills crucial for the heist. He is Denver's father, a kind-hearted and protective figure who longs for a better life for his son and struggles with the moral implications of their criminal actions." },
+                { name: "Kim Ji-hoon", bio: "Denver is Moscow's hot-headed and often emotional son. He's initially impulsive and prone to violence but shows a compassionate side, particularly when dealing with the hostages. His relationship with a hostage named Mi-seon evolves significantly throughout the heist." },
+                { name: "Jang Yoon-ju", bio: "Nairobi is the spirited and confident counterfeiting expert responsible for printing the new currency during the heist. She is a resilient and independent woman with a strong maternal instinct, often acting as a mediator and providing a sense of humanity among the chaotic gang." },
+                { name: "Lee Hyun-woo", bio: "Rio is the youngest member of the heist team and a brilliant hacker. He develops a romantic relationship with Tokyo, which becomes a central, often perilous, aspect of their lives. Despite his youth, his technical skills are indispensable to the Professor's plan." },
+                { name: "Kim Seung-o", bio: "Captain Cha Moo-hyuk is a sharp and dedicated former special agent who joins the task force to recapture the heist team. He often clashes with Inspector Woojin due to their differing approaches but is committed to upholding justice and order." },
+                { name: "Lee Joo-bin", bio: "Yun Mi-seon is a hostage and an employee at the Mint who develops a complex relationship with Denver. Initially terrified and manipulative, she undergoes a significant transformation as she is drawn into the dynamics of the heist and her feelings for Denver." },
+                { name: "Park Myung-hoon", bio: "Cho Young-min is the selfish and cowardly director of the Unification Mint, who prioritizes his own safety and wealth above all else. His attempts to escape and manipulate the situation often put other hostages and even the gang members in danger, making him a deeply disliked character." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        },
+        // New show added from bio&quotes.html
+        {
+            id: 'lupin',
+            title: 'Lupin',
+            poster: 'images/showposters/lupinposter1.webp', // Placeholder/Assumed poster
+            genre: ['Crime', 'Drama', 'Mystery'],
+            year: 2021,
+            rating: 7.5,
+            description: 'Inspired by the adventures of Arsène Lupin, gentleman thief Assane Diop sets out to avenge his father for an injustice inflicted by a wealthy family.',
+            isFeatured: false,
+            cast: [
+                { name: "Omar Sy", bio: "Assane Diop is a charismatic and highly intelligent master thief, inspired by the fictional gentleman thief Arsène Lupin. Driven by a desire to avenge his father, who was framed by the wealthy Hubert Pellegrini, Assane uses his incredible skills in disguise, manipulation, and deduction to expose Pellegrini's crimes. He balances his daring heists with his deep love for his son, Raoul, and ex-wife, Claire." },
+                { name: "Ludivine Sagnier", bio: "Claire is Assane Diop's estranged wife and the mother of their son, Raoul. She is a talented musician who tries to live a normal life, often exasperated by Assane's secretive and dangerous lifestyle. Despite their complicated relationship, she deeply cares for Assane but struggles with the constant threat and disruption his activities bring to their family." },
+                { name: "Etan Simon", bio: "Raoul is the intelligent and imaginative son of Assane Diop and Claire. He shares his father's fascination with Arsène Lupin, often reading the books and admiring Lupin's cleverness. Raoul is an innocent caught in the crossfire of his father's schemes and the consequences of Hubert Pellegrini's villainy, becoming a strong motivation for Assane." },
+                { name: "Antoine Gouy", bio: "Benjamin Ferel, affectionately known as \"Ben,\" is Assane Diop's loyal and trusted childhood friend. A skilled jeweller and fence, Ben often acts as Assane's primary accomplice, helping him with disguises, acquiring resources, and fencing stolen goods. He provides a grounded, often humorous, counterpoint to Assane's elaborate schemes, always there to support his friend." },
+                { name: "Soufiane Guerrab", bio: "Youssef Guedira is a police detective who, unlike his colleagues, is deeply familiar with the Arsène Lupin novels. His unique understanding of Lupin's methods allows him to recognize Assane Diop's modus operandi, making him the only one consistently on Assane's trail. He is persistent, intelligent, and often frustrated by the disbelief of those around him." },
+                { name: "Shirine Boutella", bio: "Lieutenant Sofia Belkacem is Youssef Guedira's pragmatic and competent colleague in the police force. While initially skeptical of Guedira's \"Lupin\" theories, she is a skilled detective who gradually comes to acknowledge the patterns and methods of the elusive thief. She provides a grounded perspective and often serves as a voice of reason in the police investigations." },
+                { name: "Hervé Pierre", bio: "Hubert Pellegrini is a powerful, ruthless, and corrupt businessman who serves as the main antagonist of the series. He orchestrated the framing of Assane Diop's father for theft and murder, leading to his suicide. Pellegrini uses his immense wealth and influence to manipulate the justice system and evade consequences, making him Assane's primary target for revenge." },
+                { name: "Clotilde Hesme", bio: "Juliette Pellegrini is the sophisticated daughter of Hubert Pellegrini and a childhood friend of Assane Diop. She works in her father's foundation, often trying to do good, but is increasingly caught between her loyalty to her family and her growing awareness of her father's nefarious activities." }
+            ],
+            awards: ["N/A"],
+            network: "Netflix",
+            networkLogo: "images/icons&logos/netflixlogo.svg"
+        }
+    ];
+
+    // --- Utility Functions (Copied from main.js) ---
+
+    /**
+     * Displays a custom alert/message box to the user.
+     * @param {string} message - The message to display.
+     * @param {string} iconClasses - Font Awesome classes for the icon (e.g., "fas fa-check-circle green-icon").
+     */
+    function showMessageBox(message, iconClasses = "fas fa-info-circle blue-icon") {
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = customAlert.querySelector('.alert-icon');
+        const closeAlertBtn = document.getElementById('closeAlertBtn');
+
+        if (customAlert && alertMessage && alertIcon && closeAlertBtn) {
+            alertMessage.textContent = message;
+            alertIcon.className = 'alert-icon ' + iconClasses;
+            customAlert.classList.add('show');
+
+            const closeHandler = () => {
+                customAlert.classList.remove('show');
+                closeAlertBtn.removeEventListener('click', closeHandler);
+            };
+            closeAlertBtn.addEventListener('click', closeHandler);
+
+            const overlayClickHandler = (event) => {
+                if (event.target === customAlert) {
+                    customAlert.classList.remove('show');
+                    customAlert.removeEventListener('click', overlayClickHandler);
+                }
+            };
+            customAlert.addEventListener('click', overlayClickHandler);
+        } else {
+            console.error("MessageBox elements not found. Cannot show message.");
+        }
+    }
+
+    /**
+     * Toggles dark mode on/off.
+     */
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (darkModeToggle) {
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+            } else {
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+                darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+            }
+            // Store preference in local storage
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+    }
+
+    /**
+     * Updates the visibility of login/logout/profile links in the account dropdown.
+     * @param {boolean} isLoggedIn - True if the user is logged in, false otherwise.
+     */
+    function updateAccountDropdown(isLoggedIn) {
+        const loginLink = document.getElementById('loginLink');
+        const registerLink = document.getElementById('registerLink');
+        const profileLink = document.getElementById('profileLink');
+        const logoutLink = document.getElementById('logoutLink');
+        const mobileLoginLink = document.getElementById('mobileLoginLink');
+        const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+        const mobileProfileLink = document.getElementById('mobileProfileLink'); // Added mobile profile link
+
+        const accountItems = document.querySelectorAll('.account-item'); // Select all custom account items
+
+        if (isLoggedIn) {
+            if (loginLink) loginLink.style.display = 'none';
+            if (registerLink) registerLink.style.display = 'none';
+            if (profileLink) profileLink.style.display = 'flex'; // Show profile link, use flex for icon alignment
+            if (logoutLink) logoutLink.style.display = 'flex';   // Show logout link, use flex for icon alignment
+            if (mobileLoginLink) mobileLoginLink.style.display = 'none';
+            if (mobileLogoutLink) mobileLogoutLink.style.display = 'flex';
+            if (mobileProfileLink) mobileProfileLink.style.display = 'flex';
+
+            // Show other account items
+            accountItems.forEach(item => {
+                if (item.id !== 'loginLink' && item.id !== 'registerLink' && item.id !== 'logoutLink' && item.id !== 'profileLink') {
+                    item.style.display = 'flex';
+                }
+            });
+
+        } else {
+            if (loginLink) loginLink.style.display = 'flex';
+            if (registerLink) registerLink.style.display = 'flex';
+            if (profileLink) profileLink.style.display = 'none';
+            if (logoutLink) logoutLink.style.display = 'none';
+            if (mobileLoginLink) mobileLoginLink.style.display = 'flex';
+            if (mobileLogoutLink) mobileLogoutLink.style.display = 'none';
+            if (mobileProfileLink) mobileProfileLink.style.display = 'none';
+
+            // Hide other account items
+            accountItems.forEach(item => {
+                if (item.id !== 'loginLink' && item.id !== 'registerLink' && item.id !== 'logoutLink' && item.id !== 'profileLink') {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        userLoggedIn = isLoggedIn; // Update global login status
+    }
+
+    /**
+     * Generates an array of unique values for a specified key from a dataset.
+     * Used for populating search suggestions (e.g., unique genres, titles).
+     * @param {Array<Object>} data - The dataset (e.g., showsData).
+     * @param {string} key - The key to extract unique values from (e.g., 'genre', 'title').
+     * @returns {Array<string>} An array of unique string values, sorted alphabetically.
+     */
+    function getUniqueValues(data, key) {
+        if (!data || !Array.isArray(data)) return [];
+        const unique = new Set();
+        data.forEach(item => {
+            if (item[key]) {
+                if (Array.isArray(item[key])) {
+                    item[key].forEach(subItem => unique.add(subItem.trim()));
+                } else {
+                    unique.add(item[key].trim());
+                }
+            }
+        });
+        return Array.from(unique).sort();
+    }
+
+    /**
+     * Renders primary search suggestions (e.g., top genres or keywords).
+     * This is a placeholder; real implementation would fetch/determine popular terms.
+     * @param {HTMLElement} container - The DOM element to render suggestions into.
+     */
+    function showPrimarySuggestions(container) {
+        container.innerHTML = '';
+        const suggestions = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Thriller', 'Animation'];
+        suggestions.forEach(s => {
+            const div = document.createElement('div');
+            div.classList.add('suggestion-item', 'primary-suggestion');
+            div.textContent = s;
+            div.addEventListener('click', () => {
+                document.getElementById('searchInput').value = s;
+                showMessageBox(`Searching for category: ${s}`);
+                container.innerHTML = '';
+            });
+            container.appendChild(div);
+        });
+        container.classList.add('visible');
+    }
+
+    /**
+     * Renders scoped suggestions based on a specific attribute (e.g., genres for a show).
+     * This is not currently used in the search input but is a helper for structured search.
+     * @param {HTMLElement} container - The DOM element to render suggestions into.
+     * @param {string[]} values - An array of values to suggest.
+     * @param {string} scope - The scope/type of the suggestion (e.g., 'genre', 'actor').
+     */
+    function renderScopedValueSuggestions(container, values, scope) {
+        container.innerHTML = '';
+        if (values.length === 0) {
+            container.classList.remove('visible');
+            return;
+        }
+        values.forEach(value => {
+            const div = document.createElement('div');
+            div.classList.add('suggestion-item');
+            div.textContent = `${value} (${scope})`;
+            div.dataset.value = value;
+            div.dataset.scope = scope;
+            container.appendChild(div);
+        });
+        container.classList.add('visible');
+    }
+
+    /**
+     * Renders show title suggestions based on user input.
+     * @param {HTMLElement} container - The DOM element to render suggestions into.
+     * @param {string[]} titles - An array of matching show titles.
+     */
+    function renderShowTitleSuggestions(container, titles) {
+        container.innerHTML = '';
+        if (titles.length === 0) {
+            container.classList.remove('visible');
+            return;
+        }
+        titles.slice(0, 10).forEach(title => {
+            const div = document.createElement('div');
+            div.classList.add('suggestion-item');
+            div.textContent = title;
+            div.addEventListener('click', () => {
+                document.getElementById('searchInput').value = title;
+                showMessageBox(`Searching for show: ${title}`);
+                container.innerHTML = '';
+            });
+            container.appendChild(div);
+        });
+        container.classList.add('visible');
+    }
+
+    // --- Details Page Specific Functions ---
+
+    /**
+     * Parses URL query parameters.
+     * @returns {Object} An object containing key-value pairs from the URL query string.
+     */
+    function getQueryParams() {
+        const params = {};
+        window.location.search.substring(1).split('&').forEach(param => {
+            const [key, value] = param.split('=');
+            if (key && value) {
+                params[decodeURIComponent(key)] = decodeURIComponent(value.replace(/\+/g, ' '));
+            }
+        });
+        return params;
+    }
+
+    /**
+     * Renders the details of a specific show onto the page.
+     * @param {Object} show - The show object to render.
+     */
+    function renderShowDetails(show) {
+        if (!show) {
+            document.getElementById('showTitleHeader').textContent = 'Show Not Found';
+            document.querySelector('.show-details-container').innerHTML = '<p style="text-align: center; width: 100%; color: var(--text);">Sorry, the requested show could not be found.</p>';
+            document.querySelector('.cast-section').style.display = 'none';
+            document.querySelector('.awards-section').style.display = 'none';
+            return;
+        }
+
+        // Update main header title
+        document.getElementById('showTitleHeader').textContent = show.title;
+        document.title = `CineWatch - ${show.title} Details`;
+
+        // Update show details section
+        document.getElementById('detailsPoster').src = show.poster;
+        document.getElementById('detailsPoster').alt = `${show.title} Poster`;
+        document.getElementById('detailsTitle').textContent = show.title;
+        document.getElementById('detailsGenre').textContent = Array.isArray(show.genre) ? show.genre.join(', ') : show.genre;
+        document.getElementById('detailsYear').textContent = show.year;
+        document.getElementById('detailsRating').innerHTML = `<i class="fas fa-star"></i> ${show.rating}`;
+        document.getElementById('detailsDescription').textContent = show.description;
+
+        // Populate Network Logo
+        const networkLogoElement = document.getElementById('networkLogo');
+        if (networkLogoElement) {
+            networkLogoElement.src = show.networkLogo || 'https://placehold.co/80x40/333/fff?text=Network'; // Fallback
+            networkLogoElement.alt = `${show.network || 'Network'} Logo`;
+        }
+
+        // Handle Watch Now/Watch Trailer button
+        const watchButton = document.getElementById('watchButton');
+        const watchButtonText = document.getElementById('watchButtonText');
+        if (watchButton && watchButtonText) {
+            if (show.rating === "Expected") {
+                watchButtonText.textContent = "Watch Trailer";
+                watchButton.classList.add('watch-trailer-btn'); // Ensure correct class
+                watchButton.classList.remove('watch-now-btn');
+                watchButton.onclick = () => {
+                    showMessageBox(`Playing trailer for "${show.title}" (simulated)!`, "fas fa-film blue-icon");
+                };
+            } else {
+                watchButtonText.textContent = "Watch Now";
+                watchButton.classList.add('watch-now-btn'); // Ensure correct class
+                watchButton.classList.remove('watch-trailer-btn');
+                watchButton.onclick = () => {
+                    window.location.href = `watch_now.html?title=${encodeURIComponent(show.title)}`;
+                };
+            }
+        }
+
+        // Populate All Cast members
+        const castGrid = document.getElementById('castGrid');
+        castGrid.innerHTML = ''; // Clear previous content
+        if (show.cast && show.cast.length > 0) {
+            const allCast = show.cast; // Display all cast members
+            allCast.forEach(member => {
+                // Construct image path based on name (e.g., "Bryan Cranston" -> "Bryan Cranston.webp")
+                const personImageFileName = `${member.name.replace(/\s+/g, ' ')}.webp`; // Standardize spacing
+                const personImage = `images/casts/${personImageFileName}`; 
+                const castCardHtml = `
+                    <div class="cast-member-card">
+                        <img src="${personImage}" alt="${member.name}" onerror="this.onerror=null;this.src='https://placehold.co/100x100/555/fff?text=${member.name.charAt(0)}';">
+                        <h4>${member.name}</h4>
+                        <p class="cast-bio">${member.bio || 'Biography not available.'}</p>
+                    </div>
+                `;
+                castGrid.insertAdjacentHTML('beforeend', castCardHtml);
+            });
+
+            // Hide the "View All Cast" button since all cast is now displayed on this page
+            document.getElementById('viewAllCastsBtn').style.display = 'none';
+
+        } else {
+            castGrid.innerHTML = '<p style="text-align: center; width: 100%; color: var(--text); opacity: 0.7;">Cast information not available.</p>';
+            document.getElementById('viewAllCastsBtn').style.display = 'none';
+        }
+
+        // Populate Awards
+        const awardsList = document.getElementById('awardsList');
+        awardsList.innerHTML = ''; // Clear previous content
+        if (show.awards && show.awards.length > 0) {
+            show.awards.forEach(award => {
+                awardsList.insertAdjacentHTML('beforeend', `<li><i class="fas fa-trophy"></i> <span>${award}</span></li>`);
+            });
+        } else {
+            awardsList.insertAdjacentHTML('beforeend', `<li><i class="fas fa-trophy"></i> <span>No major awards listed yet.</span></li>`);
+        }
+
+        // Add event listeners for other buttons
+        document.getElementById('detailsAddToWatchlist').addEventListener('click', () => {
+            if (!userLoggedIn) {
+                showMessageBox("You must be logged in to add shows to your watchlist!", "fas fa-exclamation-triangle red-icon");
+            } else {
+                showMessageBox("Redirecting to settings for watchlist management (simulated)...", "fas fa-info-circle blue-icon");
+                // In a real app, you'd add to watchlist via an API
+                // window.location.href = 'settings.html'; // Example redirect
+            }
+        });
+
+        document.getElementById('detailsShareButton').addEventListener('click', () => {
+            showMessageBox(`Sharing "${show.title}" (simulated)!`, "fas fa-share-alt green-icon");
+            // In a real app, you'd open a share dialog
+        });
+    }
+
+
+    // --- Event Listeners and Initial Page Load Logic ---
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // --- Header Search and Mobile Nav Logic (from standalone_header.js consolidated) ---
+        const searchIcon = document.getElementById("searchIcon");
+        const searchSubheader = document.getElementById("searchSubheader");
+        const searchInput = document.getElementById("searchInput");
+        const clearSearch = document.getElementById("clearSearch");
+        const suggestionsBox = document.getElementById("suggestionsBox");
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const addIcon = document.getElementById("addIcon");
+        const accountIcon = document.getElementById("accountIcon");
+        const accountDropdown = document.getElementById("accountDropdown");
+        const hamburgerMenu = document.getElementById("hamburgerMenu");
+        const mobileNavOverlay = document.getElementById("mobileNavOverlay");
+
+        // Ensure all necessary elements are present
+        if (!searchIcon || !searchSubheader || !searchInput || !suggestionsBox ||
+            !darkModeToggle || !addIcon || !accountIcon || !accountDropdown ||
+            !hamburgerMenu || !mobileNavOverlay) {
+            console.error("Critical header elements are missing. Header functionality may be limited.");
+            // Do not return here, as the details page content still needs to load
+        } else {
+             // State variables for search
+            let searchScope = null; // Can be null (initial), a primary type (e.g., "category"), or a specific filter (e.g., "category:Hollywood")
+            let selectedIndex = -1; // For keyboard navigation of suggestions
+
+            // Toggle search bar visibility
+            searchIcon.addEventListener("click", () => {
+                searchSubheader.classList.toggle("visible");
+                if (searchSubheader.classList.contains("visible")) {
+                    searchInput.focus(); // Focus on input when search bar opens
+                    if (!searchScope) {
+                        showPrimarySuggestions(suggestionsBox); // Show primary filters initially
+                    }
+                } else {
+                    suggestionsBox.classList.remove("visible"); // Hide suggestions when search bar closes
+                    searchInput.value = ""; // Clear input
+                    searchScope = null; // Reset search scope
+                    selectedIndex = -1; // Reset keyboard selection
+                }
+            });
+
+            // Clear search input
+            clearSearch.addEventListener("click", () => {
+                searchInput.value = "";
+                searchScope = null; // Reset search scope
+                selectedIndex = -1; // Reset keyboard selection
+                showPrimarySuggestions(suggestionsBox); // Show primary filters after clearing
+                searchInput.focus();
+            });
+
+            // Handle input changes in the search bar
+            searchInput.addEventListener("input", () => {
+                selectedIndex = -1; // Reset keyboard selection on input
+                const val = searchInput.value.trim();
+
+                if (!searchScope) {
+                    // No search scope selected yet
+                    if (val === "") {
+                        showPrimarySuggestions(suggestionsBox); // Show primary filters if input is empty
+                    } else {
+                        renderShowTitleSuggestions(suggestionsBox, showsData.filter(s =>
+                            s.title.toLowerCase().includes(val.toLowerCase()) ||
+                            (Array.isArray(s.genre) && s.genre.some(g => g.toLowerCase().includes(val.toLowerCase()))) ||
+                            (s.cast && s.cast.some(c => c.name.toLowerCase().includes(val.toLowerCase())))
+                        ).map(s => s.title)); // Directly search and suggest show titles
+                    }
+                } else {
+                    // A search scope is active (e.g., "genre")
+                    const [scopeType, scopeValue] = searchScope.split(':');
+                    const filteredByScope = showsData.filter(s => {
+                        if (scopeType === "genre" && Array.isArray(s.genre)) return s.genre.some(g => g.toLowerCase() === scopeValue.toLowerCase());
+                        return true;
+                    });
+                    renderShowTitleSuggestions(suggestionsBox, filteredByScope.filter(s =>
+                        s.title.toLowerCase().includes(val.toLowerCase())
+                    ).map(s => s.title));
+                }
+            });
+
+            // Handle clicks on suggestions
+            suggestionsBox.addEventListener("click", (event) => {
+                const target = event.target;
+                if (target.classList.contains('suggestion-item')) {
+                    const suggestionText = target.textContent.trim();
+                    const showTitleMatch = showsData.find(show => show.title === suggestionText.split(' (')[0]);
+
+                    if (showTitleMatch) {
+                        window.location.href = `details.html?title=${encodeURIComponent(showTitleMatch.title)}`;
+                    } else if (target.classList.contains('primary-suggestion')) {
+                        searchScope = `genre:${suggestionText}`;
+                        searchInput.value = `${suggestionText}: `;
+                        suggestionsBox.classList.remove("visible");
+                        searchInput.focus();
+                        renderShowTitleSuggestions(suggestionsBox, showsData.filter(s =>
+                            Array.isArray(s.genre) && s.genre.some(g => g.toLowerCase() === suggestionText.toLowerCase())
+                        ).map(s => s.title));
+                    }
+                }
+                selectedIndex = -1;
+            });
+
+            // Keyboard navigation for search suggestions
+            searchInput.addEventListener("keydown", (e) => {
+                const suggestions = suggestionsBox.querySelectorAll(".suggestion-item");
+                if (suggestions.length === 0) return;
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    selectedIndex = (selectedIndex + 1) % suggestions.length;
+                    highlightSelectedSuggestion(suggestions, selectedIndex);
+                } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+                    highlightSelectedSuggestion(suggestions, selectedIndex);
+                } else if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (selectedIndex !== -1) {
+                        suggestions[selectedIndex].click();
+                    }
+                }
+            });
+
+            function highlightSelectedSuggestion(suggestions, index) {
+                suggestions.forEach((div, i) => {
+                    if (i === index) {
+                        div.classList.add("selected");
+                        div.scrollIntoView({ block: "nearest", inline: "nearest" });
+                    } else {
+                        div.classList.remove("selected");
+                    }
+                });
+            }
+
+            // Hide suggestions and search bar when clicking outside
+            document.addEventListener("click", (event) => {
+                if (!searchSubheader.contains(event.target) && event.target !== searchIcon) {
+                    searchSubheader.classList.remove("visible");
+                    suggestionsBox.classList.remove("visible");
+                    searchInput.value = "";
+                    searchScope = null;
+                    selectedIndex = -1;
+                }
+                // Hide account dropdown when clicking outside
+                if (!accountDropdown.contains(event.target) && event.target !== accountIcon) {
+                    accountDropdown.classList.remove("visible");
+                }
+            });
+
+            // --- Account Dropdown Functionality ---
+            accountIcon.addEventListener("click", () => {
+                accountDropdown.classList.toggle("visible");
+                updateAccountDropdown(userLoggedIn);
+            });
+
+            // --- Dark Mode Toggle ---
+            darkModeToggle.addEventListener("click", () => {
+                toggleDarkMode();
+            });
+
+            // --- Add Icon Functionality ---
+            addIcon.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (userLoggedIn) {
+                    showMessageBox("Redirecting to settings for watchlist management (simulated)...", "fas fa-info-circle blue-icon");
+                    // In a real app, you'd add to watchlist via an API
+                    // window.location.href = 'settings.html'; // Example redirect
+                } else {
+                    showMessageBox("You must be logged in to add shows to your playlist!", "fas fa-exclamation-triangle red-icon");
+                }
+            });
+
+            // --- Mobile Navigation (Hamburger Menu) ---
+            hamburgerMenu.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('show');
+            });
+
+            // Close mobile nav when clicking on overlay itself or a link inside
+            mobileNavOverlay.addEventListener('click', (event) => {
+                if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                    mobileNavOverlay.classList.remove('show');
+                }
+            });
+            // Close button inside mobile nav
+            document.getElementById('closeMobileNav').addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('show');
+            });
+        }
+
+
+        // --- Details Page Initialization ---
+        const queryParams = getQueryParams();
+        const showTitle = queryParams.title;
+        const selectedShow = showsData.find(show => show.title === showTitle);
+        renderShowDetails(selectedShow);
+
+
+        // Initial update of account dropdown state
+        // This will check local storage or a simulated login state
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+            }
+        }
+        // Initialize account dropdown based on userLoggedIn state (default to false on page load)
+        updateAccountDropdown(false);
+
+        // Update the current year in the footer
+        const currentYearSpan = document.getElementById('current-year');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // Last Modified Date (footer)
+        const lastModifiedSpan = document.getElementById('last-modified');
+        if (lastModifiedSpan) {
+            lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+        } else {
+            console.warn("Last Modified span not found.");
+        }
+    });
+  </script>
+</body>
+</html>

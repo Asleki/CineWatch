@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineWatch - Future Settings</title>
+    <!-- Importing 'Inter' font for consistent typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Define CSS Variables for theming, using values consistent with your main.css dark mode */
+        :root {
+            --dark-bg: #1a1a2e; /* Deep dark blue, matching dark mode page background */
+            --box-bg: #2c3e50;  /* Dark blue-grey, matching dark mode section background */
+            --cinewatch-logo-color: #add8e6; /* Lighter blue for dark mode logo (from main.css) */
+            --text-color-light: #e9ecef; /* Off-white for general text (from main.css) */
+            --primary-accent: #89cff0; /* Sky blue for highlights/buttons (from main.css) */
+            --border-color-dark: #4a4a4a; /* Border for dark mode elements */
+            --shadow-color-dark: rgba(0, 0, 0, 0.5); /* Shadow for dark mode elements */
+        }
+
+        /* Basic body styling for full-screen dark ambiance */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide scrollbars when modal is active */
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg); /* Dark background for streaming vibe */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            color: var(--text-color-light); /* Light text for dark background */
+            transition: background-color 0.5s ease;
+        }
+
+        /* The main modal box for settings */
+        .settings-modal-box {
+            position: fixed; /* Or absolute if within a specific parent */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8); /* Start smaller */
+            width: 80%;
+            max-width: 700px; /* Max width for larger screens */
+            height: 60vh; /* Set a height for the modal */
+            max-height: 500px; /* Max height for modal */
+            background: linear-gradient(145deg, #1a2a6c, #b21f1f); /* Dark blue to dark red gradient */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow-color-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            opacity: 0; /* Start hidden for animation */
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Smooth entrance */
+        }
+
+        .settings-modal-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* CineWatch Title Animation */
+        .site-title {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: var(--cinewatch-logo-color); /* Lighter blue */
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInTitle 0.8s ease-out 0.5s forwards; /* Delayed animation */
+            text-shadow: 0 0 10px var(--primary-accent); /* Glowing effect */
+        }
+
+        @keyframes slideInTitle {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Message and Features Styling */
+        .modal-message {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInMessage 0.8s ease-out 1s forwards; /* Delayed animation */
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 600px;
+        }
+
+        .feature-item {
+            flex-basis: calc(50% - 10px); /* Two columns on larger screens */
+            background-color: var(--box-bg);
+            border: 1px solid var(--border-color-dark);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-item i {
+            font-size: 2.5em;
+            color: var(--primary-accent);
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 0.95em;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Animation for individual feature items */
+        .feature-item:nth-child(1) { animation: slideInFeature 0.6s ease-out 1.5s forwards; }
+        .feature-item:nth-child(2) { animation: slideInFeature 0.6s ease-out 1.7s forwards; }
+        .feature-item:nth-child(3) { animation: slideInFeature 0.6s ease-out 1.9s forwards; }
+        .feature-item:nth-child(4) { animation: slideInFeature 0.6s ease-out 2.1s forwards; }
+
+        @keyframes slideInFeature {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .settings-modal-box {
+                width: 95%;
+                height: 70vh;
+                max-height: 550px;
+                padding: 20px;
+            }
+
+            .site-title {
+                font-size: 2.5em;
+            }
+
+            .modal-message {
+                font-size: 1em;
+            }
+
+            .feature-item {
+                flex-basis: 100%; /* Single column on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="settings-modal-box" id="settingsModal">
+        <h1 class="site-title">CineWatch</h1>
+        <p class="modal-message">Your advanced settings are currently under development. Here's a sneak peek at what's coming!</p>
+        <ul class="feature-list">
+            <li class="feature-item">
+                <i class="fas fa-user-circle"></i>
+                <p>Profile Picture Update, Change, or Remove</p>
+            </li>
+            <li class="feature-item">
+                <i class="fas fa-link"></i>
+                <p>Link Multiple Accounts</p>
+            </li>
+            <li class="feature-item">
+                <i class="fas fa-tv"></i>
+                <p>Link to Other Devices</p>
+            </li>
+            <li class="feature-item">
+                <i class="fas fa-history"></i>
+                <p>Track Your Viewing History</p>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const settingsModal = document.getElementById('settingsModal');
+            const autoRedirectTimeout = 6000; // 6 seconds
+            let timeoutId; // To store the timeout ID
+
+            /**
+             * Function to display a message box (copied from previous files for consistency)
+             * @param {string} message - The message to display.
+             * @param {string} iconClass - Class for the icon (e.g., 'blue-icon', 'green-icon', 'red-icon').
+             * @param {number} duration - Duration in milliseconds before auto-hiding.
+             */
+            function showMessageBox(message, iconClass = 'blue-icon', duration = 3000) {
+                // This function is included for completeness but won't be used directly in this page
+                // as it's designed for auto-redirect.
+                // You would typically have a global `showMessageBox` function available.
+                console.log(`[MessageBox] ${message} with icon ${iconClass}`);
+            }
+
+            /**
+             * Displays the modal visible and starts the feature display sequence.
+             */
+            function showModalAndStartFeatures() {
+                settingsModal.classList.add('show'); // Triggers modal's entrance animation
+                
+                // Delay starting feature animation until after modal itself has appeared
+                setTimeout(() => {
+                    // Start site title animation (if it's not already handled by pure CSS animation-fill-mode: forwards)
+                    // No specific JS needed if using forwards on slideInTitle
+                    // Individual feature animations are handled by CSS animation-delay
+                }, 700); // Slightly after modal's main transition
+            }
+
+            /**
+             * Redirects the user to the CineWatch homepage.
+             * It attempts to retrieve the previous page and scroll position from local storage
+             * and redirects back there. If not found, it defaults to cinewatch_home.html.
+             */
+            function redirectToHomepage() {
+                // Optional: You can add a subtle fade-out animation for the modal here
+                settingsModal.style.opacity = '0';
+                settingsModal.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                
+                setTimeout(() => {
+                    const previousPageUrl = localStorage.getItem('previousPageUrl');
+                    const previousScrollY = localStorage.getItem('previousScrollY');
+
+                    if (previousPageUrl) {
+                        // Store scroll position in session storage just before navigating,
+                        // so the target page can pick it up.
+                        sessionStorage.setItem('restoreScrollY', previousScrollY);
+                        window.location.href = previousPageUrl;
+                    } else {
+                        // Fallback if previous URL is not found
+                        window.location.href = 'cinewatch_home.html'; 
+                    }
+                }, 700); // Allow time for fade-out before redirect
+            }
+
+            // Automatically show the modal when the page loads
+            showModalAndStartFeatures();
+
+            // Set up automatic redirect after the specified timeout
+            timeoutId = setTimeout(() => {
+                redirectToHomepage();
+            }, autoRedirectTimeout);
+
+            // IMPORTANT NOTE FOR PRECISE SCROLL RESTORATION:
+            // For the scroll position to be *precisely* restored, the page you are returning TO
+            // (e.g., cinewatch_home.html, movies.html, details.html) needs to have JavaScript
+            // on its DOMContentLoaded or load event that checks for and applies the stored scroll.
+            // Example for *other* pages (e.g., in cinewatch_home.html's script):
+            /*
+            document.addEventListener('DOMContentLoaded', () => {
+                const restoreScrollY = sessionStorage.getItem('restoreScrollY');
+                if (restoreScrollY) {
+                    window.scrollTo(0, parseInt(restoreScrollY));
+                    sessionStorage.removeItem('restoreScrollY'); // Clean up
+                }
+            });
+            */
+            // And also, *before* navigating to settings.html, you need to store the current state:
+            /*
+            document.getElementById('settingsIcon').addEventListener('click', (event) => {
+                localStorage.setItem('previousPageUrl', window.location.href);
+                localStorage.setItem('previousScrollY', window.scrollY || document.documentElement.scrollTop);
+                window.location.href = 'settings.html'; // Navigate to settings page
+            });
+            */
+        });
+    </script>
+
+</body>
+</html>

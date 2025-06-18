@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineWatch Experience</title>
+    <!-- Importing 'Inter' font for consistent typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Define CSS Variables for theming, using values consistent with your main.css dark mode */
+        :root {
+            --dark-bg: #1a1a2e; /* Deep dark blue, matching dark mode page background */
+            --box-bg: #2c3e50;  /* Dark blue-grey, matching dark mode section background */
+            --cinewatch-logo-color: #add8e6; /* Lighter blue for dark mode logo (from main.css) */
+            --text-color-light: #e9ecef; /* Off-white for general text (from main.css) */
+            --primary-accent: #89cff0; /* Sky blue for highlights/buttons (from main.css) */
+        }
+
+        /* Basic body styling for full-screen dark background and centering */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif; /* Apply Inter font */
+            background-color: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure full viewport height */
+            overflow: hidden; /* Prevent scrollbars from appearing */
+            color: var(--text-color-light); /* Light text on dark background */
+            text-align: center; /* Center text globally */
+            flex-direction: column; /* Allow vertical stacking for centering */
+        }
+
+        /* Container for the animation box, centers it on the screen */
+        .animation-container {
+            display: flex;
+            flex-direction: column; /* Stack logo and text vertically */
+            justify-content: center;
+            align-items: center;
+            background-color: var(--box-bg); /* Dark box background */
+            padding: 40px;
+            border-radius: 15px; /* Rounded corners for the box */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+            max-width: 500px; /* Max width for readability */
+            width: 90%; /* Responsive width */
+            box-sizing: border-box; /* Include padding in width calculation */
+            opacity: 0; /* Hidden initially for animation */
+            transform: translateY(20px); /* Start slightly below for slide-up effect */
+            animation: fadeInSlideUp 1s ease-out forwards; /* Animation for the container */
+            animation-delay: 0.5s; /* Delay container animation slightly */
+        }
+
+        /* Styling for the CineWatch logo text with animation */
+        .cinewatch-logo {
+            font-family: 'Georgia', serif; /* A distinct font for the logo */
+            font-size: 3.5rem; /* Large font size */
+            font-weight: bold;
+            color: var(--cinewatch-logo-color); /* The specific CineWatch blue for dark mode */
+            text-shadow: 0 0 10px rgba(173, 216, 230, 0.5), 0 0 20px rgba(173, 216, 230, 0.3); /* Subtle glow effect */
+            margin-bottom: 20px;
+            opacity: 0; /* Hidden initially for animation */
+            transform: scale(0.5); /* Start small for scale-in effect */
+            animation: logoScaleIn 1.5s ease-out forwards; /* Logo animation */
+            animation-delay: 1s; /* Start logo animation after container begins */
+        }
+
+        /* Container for the introductory text and features */
+        .intro-text-container {
+            margin-top: 20px;
+            opacity: 0; /* Hidden initially for animation */
+            transform: translateY(10px); /* Start slightly below for slide-up effect */
+            animation: fadeInSlideUp 1s ease-out forwards; /* Animation for the text */
+            animation-delay: 2.5s; /* Start text animation after logo finishes */
+        }
+
+        .intro-text-container p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            color: var(--text-color-light);
+        }
+
+        /* Styling for the features list */
+        .features-list {
+            list-style: none; /* Remove default list bullets */
+            padding: 0;
+            margin: 0 0 25px 0; /* Margin at the bottom for spacing */
+            font-size: 0.95rem;
+            color: var(--text-color-light);
+        }
+
+        .features-list li {
+            margin-bottom: 8px;
+            display: flex; /* Use flexbox for icon and text alignment */
+            align-items: center;
+            justify-content: center; /* Center list items horizontally */
+            gap: 10px; /* Space between icon and text */
+        }
+
+        .features-list li i {
+            color: var(--primary-accent); /* Highlight icon color with primary accent */
+            font-size: 1.1em; /* Slightly larger icons */
+        }
+
+        /* Styling for the "Start Watching" button */
+        .start-watching-btn {
+            background-color: var(--primary-accent); /* Primary accent color for button background */
+            color: var(--dark-bg); /* Dark text color for contrast on the button */
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px; /* Rounded button corners */
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            box-shadow: 0 5px 15px rgba(137, 207, 240, 0.3); /* Soft shadow for button */
+            opacity: 0; /* Hidden initially for animation */
+            transform: translateY(10px); /* Start slightly below for slide-up effect */
+            animation: fadeInSlideUp 0.8s ease-out forwards; /* Animation for the button */
+            animation-delay: 3.5s; /* Start button animation after text */
+        }
+
+        .start-watching-btn:hover {
+            background-color: #63b3ed; /* Lighter shade on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 8px 20px rgba(137, 207, 240, 0.4); /* Enhanced shadow on hover */
+        }
+
+        /* Keyframe Animations */
+        /* Fade In and Slide Up animation for general elements */
+        @keyframes fadeInSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo specific scale and fade-in animation with a subtle overshoot */
+        @keyframes logoScaleIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.1); } /* Slight overshoot effect */
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 600px) {
+            .animation-container {
+                padding: 30px 20px; /* Adjust padding for smaller screens */
+            }
+
+            .cinewatch-logo {
+                font-size: 2.8rem; /* Smaller logo font on mobile */
+            }
+
+            .intro-text-container p {
+                font-size: 1rem; /* Smaller paragraph text */
+            }
+
+            .features-list {
+                font-size: 0.9rem; /* Smaller feature text */
+            }
+
+            .start-watching-btn {
+                font-size: 1rem; /* Smaller button font */
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-container">
+        <h1 class="cinewatch-logo">CineWatch</h1>
+        <div class="intro-text-container">
+            <p>Get ready for an unparalleled streaming experience!</p>
+            <ul class="features-list">
+                <li><i class="fas fa-film"></i> Curated selection of Movies & TV Shows</li>
+                <li><i class="fas fa-ticket-alt"></i> Easy Cinema Ticket Booking</li>
+                <li><i class="fas fa-search"></i> Intuitive Search & Discovery</li>
+                <li><i class="fas fa-bolt"></i> Blazing Fast Performance</li>
+            </ul>
+            <button class="start-watching-btn" id="startWatchingBtn">Start Watching</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startWatchingBtn = document.getElementById('startWatchingBtn');
+
+            // Define the timeout duration for automatic redirection (in milliseconds)
+            // This starts after the "Start Watching" button's animation completes.
+            const autoRedirectTimeout = 7000; // 7 seconds
+
+            let timeoutId; // Variable to store the timeout ID for clearing
+
+            /**
+             * Sets up an automatic redirect to the homepage after a specified delay.
+             * This function clears any existing timeout to prevent multiple redirects.
+             */
+            const setupAutoRedirect = () => {
+                clearTimeout(timeoutId); // Clear any previous timeout
+                timeoutId = setTimeout(() => {
+                    // Redirect to the main homepage (cinewatch_home.html)
+                    window.location.href = 'cinewatch_home.html';
+                }, autoRedirectTimeout);
+            };
+
+            // Calculate when to initiate the auto-redirect:
+            // This is triggered after the 'startWatchingBtn' has finished its animation.
+            // (animation-delay for button: 3.5s) + (animation-duration for button: 0.8s) = 4.3 seconds
+            const totalAnimationTimeBeforeRedirectStarts = 3500 + 800; // milliseconds
+            setTimeout(() => {
+                setupAutoRedirect();
+            }, totalAnimationTimeBeforeRedirectStarts);
+
+            // Add click event listener to the "Start Watching" button
+            if (startWatchingBtn) {
+                startWatchingBtn.addEventListener('click', () => {
+                    clearTimeout(timeoutId); // Clear the automatic redirect if the user clicks the button
+                    window.location.href = 'cinewatch_home.html'; // Immediately redirect
+                });
+            }
+        });
+    </script>
+</body>
+</html>

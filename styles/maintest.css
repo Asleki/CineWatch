@@ -1,0 +1,996 @@
+/*
+ * File: main.css
+ * Description: Consolidated and updated styles for the CineWatch application,
+ * including responsive design, new carousel layout, redesigned show cards,
+ * and dark mode theming.
+ * This version includes styling for new hero show/quote cards,
+ * removal of border-radius in the hero section,
+ * and reduced width for show cards in carousels.
+ */
+
+/* Root Theme Variables */
+:root {
+  --bg: #fff;
+  --text: #111;
+  --header-bg: #f0ecec;
+  --search-bg: #f4f4f4;
+  --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+  --danger: #f44336;
+  --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+
+  /* Variables for custom message box & dropdown in light mode */
+  --message-box-bg: #fff;
+  --message-box-text: #111;
+  --message-box-border: #ccc;
+  --message-box-button-bg: #007bff;
+  --message-box-button-text: white;
+  --message-box-button-hover-bg: #0056b3;
+
+  --dropdown-bg: #fff;
+  --dropdown-item-hover-bg: #f0f0f0;
+  --dropdown-border: #ddd;
+
+  /* Specific for carousel */
+  --carousel-bg: #f0f0f0;
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --play-icon-color: rgba(255, 255, 255, 0.8);
+  --play-icon-hover-color: rgba(255, 255, 255, 1);
+}
+
+/* Dark Mode Theme Variables */
+body.dark-mode {
+  --bg: #1a1a1a;
+  --text: #f0f0f0;
+  --header-bg: #2a2a2a;
+  --search-bg: #3a3a3a;
+  --highlight: #6699ff; /* Lighter blue for dark mode highlight */
+  --danger: #ff6b6b;
+  --cinewatch-blue: #ADD8E6; /* Light blue for CineWatch name in dark mode */
+
+  /* Variables for custom message box & dropdown in dark mode */
+  --message-box-bg: #333;
+  --message-box-text: #f0f0f0;
+  --message-box-border: #555;
+  --message-box-button-bg: #6699ff;
+  --message-box-button-text: #111;
+  --message-box-button-hover-bg: #4477ee;
+
+  --dropdown-bg: #333;
+  --dropdown-item-hover-bg: #444;
+  --dropdown-border: #555;
+
+  /* Specific for carousel in dark mode */
+  --carousel-bg: #2a2a2a;
+  --card-bg: #3a3a3a;
+  --card-border: #444;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background-color: var(--bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--highlight);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Removes extra space below image */
+}
+
+/* --- Header --- */
+#utilityHeader {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--header-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+#utilityHeader .logo {
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+#utilityHeader .logo a {
+  color: var(--cinewatch-blue);
+  text-decoration: none;
+}
+
+.header-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.header-icons i {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.header-icons i:hover {
+  color: var(--highlight);
+  transform: scale(1.1);
+}
+
+/* --- Search Subheader --- */
+.search-subheader {
+  position: absolute;
+  top: 60px; /* Below the header */
+  left: 0;
+  width: 100%;
+  background-color: var(--search-bg);
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 999; /* Below header, above main content */
+  transform: translateY(-100%); /* Start hidden */
+  transition: transform 0.3s ease-in-out;
+  display: flex; /* Use flex for layout */
+  flex-direction: column; /* Stack input and suggestions */
+  gap: 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.search-subheader.visible {
+  transform: translateY(0); /* Slide down */
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--dropdown-border);
+  border-radius: 20px;
+  background-color: var(--bg);
+  padding: 5px 15px;
+}
+
+#searchInput {
+  flex-grow: 1;
+  border: none;
+  padding: 8px;
+  font-size: 1rem;
+  background-color: transparent;
+  color: var(--text);
+  outline: none;
+}
+
+#searchInput::placeholder {
+  color: var(--text); /* Adjust placeholder color */
+  opacity: 0.7;
+}
+
+.clear-search-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.clear-search-btn:hover {
+  color: var(--danger);
+}
+
+.suggestions-box {
+  width: calc(100% - 40px); /* Adjust for padding of search-subheader */
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Relative to search-subheader */
+  left: 0;
+  top: 0;
+  display: none; /* Hidden by default */
+}
+
+.suggestions-box.visible {
+  display: block;
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: var(--text);
+  border-bottom: 1px solid var(--dropdown-border);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background-color: var(--dropdown-item-hover-bg);
+}
+
+.suggestion-item.primary-suggestion {
+  font-weight: 500;
+  color: var(--highlight);
+}
+
+
+/* --- Account Dropdown --- */
+.account-dropdown {
+  position: absolute;
+  top: 60px; /* Below header */
+  right: 20px;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  min-width: 150px;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.account-dropdown.visible {
+  display: flex;
+}
+
+.account-dropdown a {
+  padding: 10px 15px;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.account-dropdown a:hover {
+  background-color: var(--dropdown-item-hover-bg);
+  text-decoration: none;
+}
+
+/* --- Mobile Navigation Overlay --- */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-nav-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.mobile-nav-content {
+  background-color: var(--bg);
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  width: 80%; /* Adjust for mobile screen */
+  max-width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-content .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.mobile-nav-content a {
+  color: var(--text);
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-nav-content a:hover,
+.mobile-nav-content a.active {
+  background-color: var(--highlight);
+  color: white;
+  text-decoration: none;
+}
+
+.mobile-login-btn, .mobile-logout-btn {
+  margin-top: 20px;
+  background-color: var(--cinewatch-blue);
+  color: white;
+  font-weight: bold;
+}
+
+.mobile-login-btn:hover, .mobile-logout-btn:hover {
+    background-color: var(--highlight);
+}
+
+
+/* --- Hero Section --- */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 600px; /* Increased height for better visibility of two cards */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  transition: background-image 0.5s ease-in-out;
+  /* Removed border-radius as requested */
+  border-radius: 0;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: row; /* Arrange cards side-by-side */
+  gap: 40px; /* Space between the show card and quote card */
+  align-items: center; /* Vertically align items in the middle */
+  padding: 20px;
+  max-width: 1200px; /* Limit content width */
+  width: 100%;
+  justify-content: center; /* Center the cards horizontally */
+}
+
+/* New Hero Show Card */
+.hero-show-card {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 250px; /* Control the size of the show card */
+    min-width: 200px; /* Ensure it doesn't get too small */
+}
+
+.hero-poster {
+    width: 100%; /* Make poster fill its container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* New Hero Quote Card */
+.hero-quote-card {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding: 25px 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    flex-grow: 1; /* Allow it to take available space */
+    max-width: 600px; /* Limit quote card width */
+    display: flex;
+    align-items: center; /* Center quote text vertically */
+}
+
+.hero-quote {
+  font-size: 2.2rem;
+  font-weight: 600;
+  font-style: italic;
+  text-align: center;
+}
+
+
+.hero-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 8px; /* Rounded corners for buttons */
+}
+
+.hero-nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.hero-nav-btn.prev {
+  left: 10px;
+}
+
+.hero-nav-btn.next {
+  right: 10px;
+}
+
+/* --- Category Sections --- */
+.category-sections {
+  padding: 40px 20px;
+  background-color: var(--bg);
+  transition: background-color 0.3s ease;
+}
+
+.category-section {
+  margin-bottom: 50px;
+}
+
+.category-section .category-title {
+  font-size: 2rem;
+  color: var(--text);
+  margin-bottom: 30px;
+  border-bottom: 3px solid var(--highlight);
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* --- Carousel Container --- */
+.carousel-container {
+  position: relative;
+  overflow: hidden; /* Hide scrollbar but allow scrolling via JS */
+  padding: 10px 0; /* Padding for card shadows */
+  background-color: var(--carousel-bg);
+  border-radius: 15px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.carousel-track {
+  display: flex;
+  gap: 20px; /* Space between cards */
+  padding: 10px 20px; /* Padding inside the track */
+  overflow-x: scroll; /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory; /* For smooth snapping */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  transition: scroll-left 0.3s ease-in-out; /* Smooth scroll effect */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.carousel-nav-btn.prev {
+  left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.carousel-nav-btn.next {
+  right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* --- Show Card --- */
+.show-card {
+  flex: 0 0 auto; /* Do not grow, do not shrink, base width as below */
+  width: 250px; /* Reduced width as requested */
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-right: 0; /* Gap is handled by carousel-track gap */
+  scroll-snap-align: start; /* Snap to start of card */
+  display: flex;
+  flex-direction: column;
+}
+
+.show-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px var(--card-shadow);
+}
+
+.show-card-poster-container {
+  position: relative;
+  width: 100%;
+  height: 0; /* To maintain aspect ratio */
+  padding-bottom: 140%; /* Approx 1:1.4 aspect ratio for posters */
+  overflow: hidden;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.show-card-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers the area without distortion */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.play-button-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.show-card-poster-container:hover .play-button-overlay {
+  opacity: 1;
+}
+
+.play-icon {
+  font-size: 3.5rem;
+  color: var(--play-icon-color);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.play-icon:hover {
+  color: var(--play-icon-hover-color);
+  transform: scale(1.1);
+}
+
+
+.show-card-details {
+  padding: 15px;
+  flex-grow: 1; /* Allows details section to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes actions to bottom */
+}
+
+.show-card-title {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.show-card-meta {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.7;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.show-card-meta span {
+    white-space: nowrap; /* Prevent wrapping for individual meta items */
+}
+
+.show-card-rating i {
+  color: gold;
+}
+
+.show-card-description {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.8;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.show-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto; /* Pushes actions to the bottom */
+}
+
+.show-card-actions button {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-to-watchlist-btn {
+  background-color: var(--highlight);
+  color: white;
+}
+
+.add-to-watchlist-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.share-btn {
+  background-color: var(--card-border); /* A lighter, neutral color */
+  color: var(--text);
+}
+
+.share-btn:hover {
+  background-color: var(--dropdown-item-hover-bg);
+  transform: translateY(-2px);
+}
+
+/* --- Footer --- */
+.footer {
+  background-color: var(--header-bg);
+  color: var(--text);
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--dropdown-border);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-logo {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--cinewatch-blue);
+  flex-basis: 100%; /* Full width on smaller screens */
+  margin-bottom: 15px;
+}
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  flex-basis: 100%;
+}
+
+.footer-nav a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--highlight);
+}
+
+.footer-info {
+  flex-basis: 100%;
+  margin-top: 20px;
+}
+
+.footer-info p {
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
+
+.social-links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-links img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.social-links img:hover {
+  transform: scale(1.2);
+}
+
+/* --- Custom Alert/Message Box --- */
+.custom-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.custom-alert-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.alert-content {
+  background-color: var(--message-box-bg);
+  color: var(--message-box-text);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--message-box-border);
+}
+
+.alert-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+/* Icon Colors */
+.blue-icon { color: var(--highlight); }
+.green-icon { color: #28a745; }
+.red-icon { color: var(--danger); }
+.orange-icon { color: #ffc107; }
+
+#alertMessage {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  word-wrap: break-word;
+}
+
+.close-alert-btn {
+  background-color: var(--message-box-button-bg);
+  color: var(--message-box-button-text);
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.close-alert-btn:hover {
+  background-color: var(--message-box-button-hover-bg);
+  transform: translateY(-1px);
+}
+
+
+/* --- Responsive Design --- */
+
+@media (max-width: 1024px) {
+    .hero-content {
+        gap: 30px;
+    }
+    .hero-quote {
+        font-size: 1.8rem;
+    }
+    .hero-show-card {
+        max-width: 200px;
+        min-width: 160px;
+    }
+    .hero-quote-card {
+        padding: 20px 30px;
+        max-width: 500px;
+    }
+    .show-card {
+        width: 220px; /* Further reduce show card width */
+    }
+}
+
+@media (max-width: 768px) {
+    #utilityHeader {
+        padding: 8px 15px;
+    }
+    #utilityHeader .logo {
+        font-size: 1.6rem;
+    }
+    .header-icons {
+        gap: 15px;
+    }
+    .header-icons i {
+        font-size: 1.3rem;
+    }
+
+    /* Hide account icon and show hamburger */
+    #accountIcon {
+        display: none;
+    }
+    #hamburgerMenu {
+        display: block; /* Show hamburger menu on smaller screens */
+    }
+
+    .search-subheader {
+        top: 52px; /* Adjust for smaller header height */
+        padding: 8px 10px;
+    }
+    .search-bar-container {
+        padding: 3px 10px;
+        flex-direction: column; /* Stack input and clear button if needed */
+        gap: 5px;
+    }
+    #searchInput {
+        width: 100%; /* Full width input */
+        padding: 5px;
+    }
+    #suggestionsBox {
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .hero-section {
+        height: 500px; /* Adjust hero height for stacked cards */
+    }
+
+    .hero-content {
+        flex-direction: column; /* Stack show card and quote card vertically */
+        gap: 25px;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .hero-show-card {
+        max-width: 200px; /* Keep similar size */
+        min-width: 180px;
+        order: 1; /* Show poster first */
+    }
+
+    .hero-quote-card {
+        max-width: 90%; /* Take more width when stacked */
+        padding: 20px;
+        order: 2; /* Show quote second */
+    }
+
+    .hero-quote {
+        font-size: 1.6rem;
+    }
+
+    .hero-nav-btn {
+        padding: 12px 8px;
+        font-size: 1.8rem;
+    }
+
+    .category-section {
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+    .category-section .category-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .show-card {
+        width: 180px; /* Further reduce show card width for smaller mobile screens */
+    }
+    .show-card-details {
+        padding: 10px;
+    }
+    .show-card-title {
+        font-size: 1.1rem;
+    }
+    .show-card-meta, .show-card-description, .show-card-actions button {
+        font-size: 0.8rem;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .footer-logo, .footer-nav ul, .footer-info {
+        flex-basis: 100%;
+        margin-bottom: 0; /* Reset margins for flex-direction column */
+    }
+    .footer-nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .social-links {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #utilityHeader .logo {
+        font-size: 1.4rem;
+    }
+    .header-icons i {
+        font-size: 1.2rem;
+    }
+    .search-subheader {
+        top: 45px; /* Adjust for even smaller header */
+    }
+    .show-card {
+        width: 160px; /* Minimum reasonable width for show cards */
+    }
+    .hero-quote {
+        font-size: 1.4rem;
+    }
+    .hero-show-card, .hero-quote-card {
+        padding: 15px;
+        border-radius: 10px;
+    }
+    .alert-content {
+        padding: 20px;
+        gap: 15px;
+    }
+    .alert-icon {
+        font-size: 2.5rem;
+    }
+    #alertMessage {
+        font-size: 1rem;
+    }
+    .close-alert-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+

@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about CineWatch, our story, our passionate team, and the developer behind the scenes, Alex Malunda. Your go-to destination for TV shows and movies.">
+    <meta name="author" content="Alex Malunda">
+    <title>About Us - CineWatch</title>
+
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Inter Font (for consistent typography across the site) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Poppins and Roboto Fonts for About Us specific content, if needed (retained from original) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Consolidated Stylesheet -->
+    <style>
+        /* Root Theme Variables - Unified with cinewatch_home.html */
+        :root {
+            --bg: #fff;
+            --text: #111;
+            --header-bg: #f0ecec;
+            --search-bg: #f4f4f4;
+            --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+            --danger: #f44336;
+            --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+
+            /* Variables for custom message box & dropdown in light mode */
+            --message-box-bg: #fff;
+            --message-box-text: #111;
+            --message-box-border: #ccc;
+            --message-box-button-bg: #007bff;
+            --message-box-button-text: white;
+            --message-box-button-hover-bg: #0056b3;
+
+            --dropdown-bg: #fff;
+            --dropdown-item-hover-bg: #f0f0f0;
+            --dropdown-border: #ddd;
+
+            /* Specific for carousel (though not directly used here, for consistency) */
+            --carousel-bg: #f0f0f0;
+            --card-bg: #ffffff;
+            --card-border: #e0e0e0;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Theme Variables - Unified with cinewatch_home.html */
+        body.dark-mode {
+            --bg: #1a1a1a;
+            --text: #f0f0f0;
+            --header-bg: #2a2a2a;
+            --search-bg: #3a3a3a;
+            --highlight: #6699ff; /* Lighter blue for dark mode highlight */
+            --danger: #ff6b6b;
+            --cinewatch-blue: #ADD8E6; /* Light blue for CineWatch name in dark mode */
+
+            /* Variables for custom message box & dropdown in dark mode */
+            --message-box-bg: #333;
+            --message-box-text: #f0f0f0;
+            --message-box-border: #555;
+            --message-box-button-bg: #6699ff;
+            --message-box-button-text: #111;
+            --message-box-button-hover-bg: #4477ee;
+
+            --dropdown-bg: #333;
+            --dropdown-item-hover-bg: #444;
+            --dropdown-border: #555;
+
+            /* Specific for carousel in dark mode */
+            --carousel-bg: #2a2a2a;
+            --card-bg: #3a3a3a;
+            --card-border: #444;
+            --card-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Base Styles - Unified with cinewatch_home.html */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif; /* Primary font */
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        a {
+            color: var(--highlight);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Removes extra space below image */
+        }
+
+        /* --- Header --- (Unified with cinewatch_home.html) */
+        #utilityHeader {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        #utilityHeader .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        #utilityHeader .logo a {
+            color: var(--cinewatch-blue);
+            text-decoration: none;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-icons i {
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .header-icons i:hover {
+            color: var(--highlight);
+            transform: scale(1.1);
+        }
+
+        /* --- Search Subheader --- (Unified with cinewatch_home.html) */
+        .search-subheader {
+            position: absolute;
+            top: 60px; /* Below the header */
+            right: 0; /* Start from the right */
+            width: 100%;
+            max-width: 500px; /* Limit width to give animation space */
+            background-color: var(--search-bg);
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 999; /* Below header, above main content */
+            transform: translateX(100%); /* Start hidden off-screen to the right */
+            transition: transform 0.3s ease-in-out;
+            display: flex; /* Use flex for layout */
+            flex-direction: column; /* Stack input and suggestions */
+            gap: 10px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .search-subheader.visible {
+            transform: translateX(0); /* Slide in from the right */
+        }
+
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            border: 1px solid var(--dropdown-border);
+            border-radius: 20px;
+            background-color: var(--bg);
+            padding: 5px 15px;
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            border: none;
+            padding: 8px;
+            font-size: 1rem;
+            background-color: transparent;
+            color: var(--text);
+            outline: none;
+        }
+
+        #searchInput::placeholder {
+            color: var(--text);
+            opacity: 0.7;
+        }
+
+        .clear-search-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.2s ease;
+        }
+
+        .clear-search-btn:hover {
+            color: var(--danger);
+        }
+
+        .suggestions-box {
+            width: calc(100% - 40px);
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--dropdown-border);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .suggestions-box.visible {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            color: var(--text);
+            border-bottom: 1px solid var(--dropdown-border);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: var(--dropdown-item-hover-bg);
+        }
+
+        .suggestion-item.primary-suggestion {
+            font-weight: 500;
+            color: var(--highlight);
+        }
+
+        /* --- Account Dropdown --- (Unified with cinewatch_home.html) */
+        .account-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--dropdown-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .account-dropdown.visible {
+            display: flex;
+        }
+
+        .account-dropdown a {
+            padding: 10px 15px;
+            color: var(--text);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .account-dropdown a i {
+            margin-right: 10px;
+        }
+
+        .account-dropdown a:hover {
+            background-color: var(--dropdown-item-hover-bg);
+            text-decoration: none;
+        }
+
+        .account-dropdown .logout-item {
+            color: var(--danger);
+            border-top: 1px solid var(--dropdown-border);
+            margin-top: 5px;
+            padding-top: 10px;
+        }
+
+        .account-dropdown .logout-item:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* --- Main Subheader with Tagline and Nav --- (Unified with cinewatch_home.html) */
+        .main-subheader {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 990;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .site-tagline {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 500;
+            margin: 5px 0;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .main-nav a {
+            color: var(--cinewatch-blue);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .main-nav a:hover {
+            color: var(--highlight);
+            text-decoration: underline;
+        }
+
+        /* --- Mobile Navigation Overlay --- (Unified with cinewatch_home.html) */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-nav-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .mobile-nav-content {
+            background-color: var(--bg);
+            padding: 30px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            width: 80%;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-nav-content .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .mobile-nav-content a {
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-nav-content a i {
+            margin-right: 10px;
+        }
+
+        .mobile-nav-content a:hover,
+        .mobile-nav-content a.active {
+            background-color: var(--highlight);
+            color: white;
+            text-decoration: none;
+        }
+
+        .mobile-login-btn, .mobile-logout-btn {
+            margin-top: 20px;
+            background-color: var(--cinewatch-blue);
+            color: white;
+            font-weight: bold;
+        }
+
+        .mobile-login-btn:hover, .mobile-logout-btn:hover {
+            background-color: var(--highlight);
+        }
+
+        /* --- Footer --- (Unified with cinewatch_home.html) */
+        .footer {
+            background-color: var(--header-bg);
+            color: var(--text);
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--dropdown-border);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--cinewatch-blue);
+            flex-basis: 100%;
+            margin-bottom: 15px;
+        }
+
+        .footer-nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            flex-basis: 100%;
+        }
+
+        .footer-nav a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--highlight);
+        }
+
+        .footer-info {
+            flex-basis: 100%;
+            margin-top: 20px;
+        }
+
+        .footer-info p {
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .social-links img:hover {
+            transform: scale(1.2);
+        }
+
+        /* --- Custom Alert/Message Box --- (Unified with cinewatch_home.html) */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.3s ease, opacity 0.3s ease;
+        }
+
+        .custom-alert-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .alert-content {
+            background-color: var(--message-box-bg);
+            color: var(--message-box-text);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid var(--message-box-border);
+        }
+
+        .alert-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Icon Colors */
+        .blue-icon { color: var(--highlight); }
+        .green-icon { color: #28a745; }
+        .red-icon { color: var(--danger); }
+        .orange-icon { color: #ffc107; }
+
+        #alertMessage {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        .close-alert-btn {
+            background-color: var(--message-box-button-bg);
+            color: var(--message-box-button-text);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .close-alert-btn:hover {
+            background-color: var(--message-box-button-hover-bg);
+            transform: translateY(-1px);
+        }
+
+        /* --- Responsive Design --- (Unified with cinewatch_home.html) */
+        @media (max-width: 1200px) {
+            .show-card {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                gap: 30px;
+            }
+            .hero-quote {
+                font-size: 1.8rem;
+            }
+            .hero-show-card {
+                max-width: 200px;
+                min-width: 160px;
+            }
+            .hero-quote-card {
+                padding: 20px 30px;
+                max-width: 500px;
+            }
+            .show-card {
+                width: 200px;
+            }
+            .category-section .category-title {
+                font-size: 1.8rem;
+            }
+            .main-nav ul {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #utilityHeader {
+                padding: 8px 15px;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            #utilityHeader .logo {
+                font-size: 1.6rem;
+            }
+            .header-icons {
+                gap: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            .header-icons i {
+                font-size: 1.3rem;
+            }
+
+            #accountIcon, .main-nav {
+                display: none;
+            }
+            #hamburgerMenu {
+                display: block;
+            }
+
+            .search-subheader {
+                top: 80px;
+                padding: 8px 10px;
+                max-width: 100%;
+            }
+            .search-bar-container {
+                padding: 3px 10px;
+                flex-direction: row;
+                gap: 5px;
+            }
+            #searchInput {
+                width: 100%;
+                padding: 5px;
+            }
+            #suggestionsBox {
+                left: 10px;
+                width: calc(100% - 20px);
+            }
+
+            .main-subheader {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 15px;
+            }
+            .site-tagline {
+                margin-bottom: 10px;
+            }
+
+            .hero-section {
+                height: 500px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .hero-show-card {
+                max-width: 200px;
+                min-width: 180px;
+                order: 1;
+            }
+
+            .hero-quote-card {
+                max-width: 90%;
+                padding: 20px;
+                order: 2;
+            }
+
+            .hero-quote {
+                font-size: 1.6rem;
+            }
+
+            .category-section {
+                padding: 15px;
+                margin-bottom: 30px;
+            }
+            .category-section .category-title {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            .show-card {
+                width: calc(33.333% - 13.333px);
+            }
+            .show-card-details {
+                padding: 10px;
+            }
+            .show-card-title {
+                font-size: 1.1rem;
+            }
+            .show-card-meta, .show-card-description, .show-card-actions button {
+                font-size: 0.8rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .footer-logo, .footer-nav ul, .footer-info {
+                flex-basis: 100%;
+                margin-bottom: 0;
+            }
+            .footer-nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .social-links {
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .show-card {
+                width: calc(50% - 10px);
+            }
+            .carousel-track {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-section .tagline {
+                font-size: 1rem;
+            }
+            .story-section h2, .team-section h2, .location-contact-section h2, .cta-section h2 {
+                font-size: 1.5rem;
+            }
+            .team-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .cta-buttons .btn {
+                width: 100%; /* Full width buttons */
+            }
+        }
+
+        /* --- ABOUT US SPECIFIC STYLES --- (Retained and adapted from original about_us.css) */
+        /* General Layout */
+        .about-page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Inter', sans-serif; /* Ensuring consistent font */
+        }
+
+        .section-padding {
+            padding: 60px 0;
+        }
+
+        .bg-light {
+            background-color: var(--header-bg); /* Use header-bg for light sections */
+            border-radius: 15px; /* Added for softer look */
+            margin-bottom: 40px; /* Space between sections */
+            padding: 40px; /* Adjust padding for rounded sections */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+
+        .bg-dark {
+            background-color: var(--search-bg); /* Use search-bg for dark sections */
+            color: var(--text); /* Text color adjusts with dark mode */
+            border-radius: 15px; /* Added for softer look */
+            margin-bottom: 40px;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/myteam/man-watching-show-his-tv_926199-1957605.webp') no-repeat center center/cover;
+            padding: 100px 0;
+            text-align: center;
+            color: #ffffff;
+            width: 100%; /* Hero section spans full width */
+            box-sizing: border-box;
+            /* Retaining other relevant styles from previous hero, adapting to new background */
+            position: relative; /* Needed for any absolute positioning of content */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0; /* Ensure no border-radius */
+            margin-bottom: 40px; /* Spacing below hero */
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Story Section */
+        .story-section .content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .story-section .text-content {
+            flex: 1;
+        }
+
+        .story-section h2 {
+            font-size: 2.5rem;
+            color: var(--highlight);
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--highlight);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .story-section p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .story-section .image-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .story-section .story-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Team Section */
+        .team-section h2 {
+            font-size: 2.2rem;
+            color: var(--highlight);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .team-section .section-description {
+            font-size: 1.1rem;
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .team-member {
+            background-color: var(--bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--card-shadow);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 4px solid var(--highlight);
+            transition: border-color 0.3s ease;
+        }
+
+        .team-member h3 {
+            font-size: 1.8rem;
+            color: var(--cinewatch-blue);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .team-member .role {
+            font-size: 1rem;
+            color: var(--text);
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+
+        .team-member p {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Location and Contact Section */
+        .location-contact-section {
+            padding: 60px 0;
+            background-color: var(--bg); /* Use base background, adjust for dark mode */
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .location-contact-section h2 {
+            font-size: 2.2rem;
+            color: var(--highlight);
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--highlight);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dropdown-border);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .contact-button-container {
+            margin-top: 30px;
+        }
+
+        .contact-button {
+            display: inline-block;
+            background-color: var(--cinewatch-blue);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-button:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+
+        /* CTA Section - unified button styles */
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--highlight); /* Use highlight color */
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text); /* Text color adjusts */
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .cta-buttons .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            white-space: nowrap; /* Prevent buttons from wrapping text */
+        }
+
+        .cta-buttons .btn-primary {
+            background-color: var(--highlight);
+            color: white;
+            border: 2px solid var(--highlight);
+        }
+
+        .cta-buttons .btn-primary:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            border-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons .btn-secondary {
+            background-color: transparent;
+            color: var(--cinewatch-blue);
+            border: 2px solid var(--cinewatch-blue);
+        }
+
+        body.dark-mode .cta-buttons .btn-secondary {
+            color: var(--text);
+            border-color: var(--text);
+        }
+
+        .cta-buttons .btn-secondary:hover {
+            background-color: var(--cinewatch-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+        body.dark-mode .cta-buttons .btn-secondary:hover {
+            background-color: var(--highlight);
+            color: white;
+            border-color: var(--highlight);
+        }
+
+        /* Responsive adjustments for About Us content */
+        @media (max-width: 900px) {
+            .story-section .content-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            .story-section .image-content {
+                order: -1; /* Image above text on smaller screens */
+                margin-bottom: 30px;
+            }
+            .story-section h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.2rem;
+            }
+            .section-padding {
+                padding: 40px 0;
+            }
+            .bg-light, .bg-dark, .location-contact-section {
+                padding: 30px 20px;
+            }
+            .story-section h2, .team-section h2, .location-contact-section h2, .cta-section h2 {
+                font-size: 1.8rem;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .story-section p, .team-section .section-description, .team-member p {
+                font-size: 1rem;
+            }
+            .team-member img {
+                width: 120px;
+                height: 120px;
+            }
+            .team-member h3 {
+                font-size: 1.5rem;
+            }
+            .contact-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            .cta-buttons .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            .footer-info, .footer-nav ul, .social-links {
+                justify-content: center; /* Center footer items on small screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-section .tagline {
+                font-size: 1rem;
+            }
+            .story-section h2, .team-section h2, .location-contact-section h2, .cta-section h2 {
+                font-size: 1.5rem;
+            }
+            .team-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .cta-buttons .btn {
+                width: 100%; /* Full width buttons */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+    <header id="utilityHeader">
+        <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+        <div class="header-icons">
+            <i id="searchIcon" class="fas fa-search" title="Search"></i>
+            <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+            <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+            <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+            <i id="hamburgerMenu" class="fas fa-bars" title="Menu"></i>
+        </div>
+    </header>
+
+    <!-- Search Subheader (Initially hidden, slides down on search icon click) -->
+    <div id="searchSubheader" class="search-subheader">
+        <div class="search-bar-container">
+            <input type="text" id="searchInput" placeholder="Search movies, series, genres..." autocomplete="off">
+            <button id="clearSearch" class="clear-search-btn" title="Clear search"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="suggestionsBox" class="suggestions-box">
+            <!-- Search suggestions will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Account Dropdown (Hidden by default, appears on account icon click) -->
+    <div id="accountDropdown" class="account-dropdown">
+        <a href="login.html" id="loginLink"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="signup.html" id="registerLink"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="profile.html" id="profileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
+        <a href="#" id="playlistLink" class="account-item"><i class="fas fa-list-ul"></i> Playlist</a>
+        <a href="#" id="bookmarksLink" class="account-item"><i class="fas fa-bookmark"></i> Bookmarks</a>
+        <a href="#" id="favoritesLink" class="account-item"><i class="fas fa-heart"></i> Favorites</a>
+        <a href="settings.html" id="settingsLink" class="account-item"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#" id="logoutLink" style="display:none;" class="account-item logout-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Subheader (Contains Nav Links and Tagline, Scrolls with page) -->
+    <div id="mainSubheader" class="main-subheader">
+        <p class="site-tagline">Stream, Discover, Repeat</p>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="movies.html">Movies</a></li>
+                <li><a href="tv_shows.html">TV Shows</a></li>
+                <li><a href="cinema_guide.html">Cinema Guide</a></li>
+                <li><a href="about_us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Mobile Navigation Overlay (Hidden by default, appears on hamburger click) -->
+    <div id="mobileNavOverlay" class="mobile-nav-overlay">
+        <div class="mobile-nav-content">
+            <i id="closeMobileNav" class="fas fa-times close-btn"></i>
+            <a href="cinewatch_home.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="tv_shows.html">TV Shows</a>
+            <a href="cinema_guide.html">Cinema Guide</a>
+            <a href="developer.html">Developer</a>
+            <a href="faqs.html">FAQs</a>
+            <a href="privacy_policy.html">Privacy Policy</a>
+            <a href="copyright_information.html">Copyright Information</a>
+            <a href="termsof_services.html">Terms of Service</a>
+            <a href="contact_us.html">Contact Us</a>
+            <a href="profile.html" id="mobileProfileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
+            <a href="login.html" class="mobile-login-btn" id="mobileLoginLink">Login / Register</a>
+            <a href="#" class="mobile-logout-btn" id="mobileLogoutLink" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <main class="about-page-content">
+        <section class="hero-section">
+            <div class="container">
+                <h1>About Us</h1>
+                <p class="tagline">Behind every great show, there's a passionate story.</p>
+            </div>
+        </section>
+
+        <section class="story-section section-padding">
+            <div class="container">
+                <div class="content-wrapper">
+                    <div class="text-content">
+                        <h2>Our Story: From a Couch Idea to Your Binge Destination</h2>
+                        <p>Welcome to CineWatch! We're thrilled you're here. Our journey began with a simple idea: to create a dedicated space for TV show enthusiasts to discover, stream, and celebrate their favorite series.</p>
+                        <p>It all started back in 2024, in a small apartment in Mlolongo, Machakos County, Kenya. Our founder, <a href="developer.html">Alex Malunda</a>, was having a particularly intense TV show marathon. Frustrated with endlessly searching across various platforms and battling buffering screens (a common Nairobi issue, as you might know!), a thought sparked: "There has to be a better way!" What began as a passion project, fueled by countless cups of coffee and late-night coding sessions, quickly grew into something more. We envisioned a platform that wasn't just about watching shows, but about building a community where every click felt like coming home to your next binge-worthy adventure.</p>
+                        <p>We've poured our hearts into building CineWatch to be intuitive, comprehensive, and above all, a joy to use. We believe that finding your next favorite show should be as entertaining as watching it!</p>
+                    </div>
+                    <div class="image-content">
+                        <img src="images/myteam/aboutus_hero.webp" alt="A depiction of the site's origin, perhaps a person watching TV with ideas floating around." class="story-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-section section-padding bg-light">
+            <div class="container">
+                <h2>Meet Our Passionate Team</h2>
+                <p class="section-description">Behind every great streaming experience is a dedicated group of individuals who love TV shows as much as you do. Meet some of the key players who make it all happen:</p>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="images/myteam/kari-rasmussen.webp" alt="Team Member Photo of Kari Rasmussen">
+                        <h3>Kari Rasmussen</h3>
+                        <p class="role">The Visionary & Lead Developer</p>
+                        <p>As the driving force behind CineWatch, Kari not only conceived the idea for our platform but also built it from the ground up. They're responsible for the site's technical architecture, ensuring a smooth and seamless streaming experience, and constantly innovating new features to enhance your enjoyment.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/myteam/nala-goins.webp" alt="Team Member Photo of Nala Goins">
+                        <h3>Nala Goins</h3>
+                        <p class="role">Head of Content Curation</p>
+                        <p>This is where the magic of discovery happens! Our Head of Content Curation tirelessly sifts through countless titles, handpicking the best TV shows to add to our library. They ensure a diverse, high-quality selection that caters to all tastes, from hidden gems to the latest must-watch series.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150/000080/FFFFFF?text=Aisha+Ahmed" alt="Team Member Photo of Aisha Ahmed">
+                        <h3>Aisha Ahmed</h3>
+                        <p class="role">Lead UX/UI Designer</p>
+                        <p>Aisha ensures that every interaction on CineWatch is intuitive and visually appealing. With a keen eye for detail and a deep understanding of user behavior, she crafts seamless navigation and a delightful aesthetic that makes finding your next favorite show a breeze.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/myteam/noah-pierre.webp" alt="Team Member Photo of Noah Pierre">
+                        <h3>Noah Pierre</h3>
+                        <p class="role">Former User Experience (UX) Designer</p>
+                        <p>Noah contributed significantly to the initial design framework, focusing on the core usability of the platform. His early work helped establish the user-friendly foundation upon which CineWatch continues to build.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150/000080/FFFFFF?text=Kwame+Nkrumah" alt="Team Member Photo of Kwame Nkrumah">
+                        <h3>Kwame Nkrumah</h3>
+                        <p class="role">Chief Technology Officer</p>
+                        <p>Kwame oversees all technological aspects of CineWatch, from server architecture to data security. His expertise ensures that our streaming infrastructure is robust, scalable, and delivers content efficiently, providing you with a smooth, buffer-free viewing experience.</p>
+                    </div>
+                     <div class="team-member">
+                        <img src="images/myteam/riley-moore.webp" alt="Team Member Photo of Riley Moore">
+                        <h3>Riley Moore</h3>
+                        <p class="role">Streaming Operations Specialist</p>
+                        <p>Ever wonder how those shows stream so flawlessly? Our Streaming Operations Specialist is the wizard behind the curtain, optimizing our servers and streaming infrastructure to guarantee high-quality playback with minimal buffering. They're all about ensuring your binge-watching sessions go off without a hitch.</p>
+                    </div>
+                     <div class="team-member">
+                        <img src="https://placehold.co/150x150/000080/FFFFFF?text=Zola+Moyo" alt="Team Member Photo of Zola Moyo">
+                        <h3>Zola Moyo</h3>
+                        <p class="role">Content Acquisition Manager</p>
+                        <p>Zola is the driving force behind expanding our diverse content library. She meticulously researches and negotiates licensing agreements with studios and distributors, ensuring CineWatch continuously offers a fresh and exciting array of movies and TV shows for our audience.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="images/myteam/freya-browning.webp" alt="Team Member Photo of Freya Browning">
+                        <h3>Freya Browning</h3> <p class="role">Community & Engagement Lead</p>
+                        <p>We're more than just a streaming platform; we're a community! Our Community & Engagement Lead fosters connections among our users, manages our social media presence, and is always listening to your feedback. They ensure that your voice is heard and that CineWatch remains a vibrant hub for TV lovers.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150/000080/FFFFFF?text=Jelani+Ndlovu" alt="Team Member Photo of Jelani Ndlovu">
+                        <h3>Jelani Ndlovu</h3>
+                        <p class="role">Data Analyst</p>
+                        <p>Jelani helps us understand what you love! By analyzing viewing patterns and user feedback, he provides insights that guide our content strategy and feature development. His work ensures that CineWatch is always evolving to meet the demands of our audience.</p>
+                    </div>
+                     <div class="team-member">
+                        <img src="https://placehold.co/150x150/000080/FFFFFF?text=Imani+Okoro" alt="Team Member Photo of Imani Okoro">
+                        <h3>Imani Okoro</h3>
+                        <p class="role">Marketing & Growth Specialist</p>
+                        <p>Imani is responsible for getting the word out about CineWatch. She develops innovative marketing campaigns and strategies to reach new users, ensuring that our platform continues to grow and connect with TV show enthusiasts worldwide.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Location and Contact Section -->
+        <section class="location-contact-section section-padding">
+            <div class="container text-center">
+                <h2>Visit Our Headquarters</h2>
+                <p class="section-description">While our content reaches screens everywhere, our heart is rooted right here in Nairobi.</p>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.587823525175!2d36.9209594747761!3d-1.423984198539091!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f733cd88b0a99%3A0x2a0c4f8d295050f4!2sSignature%20Mall!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske"
+                        width="600"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="contact-button-container">
+                    <p class="section-description">Have questions or want to collaborate? We'd love to hear from you!</p>
+                    <a href="contact_us.html" class="contact-button">Contact Us</a>
+                </div>
+            </div>
+        </section>
+       
+        <section class="cta-section section-padding bg-dark">
+            <div class="container text-center">
+                <h2>Join Our Streaming Family!</h2>
+                <p>We're more than just a streaming site; we're a community of TV show lovers. Follow us on social media and dive into your next favorite series!</p>
+                <div class="cta-buttons">
+                    <a href="tv_shows.html" class="btn btn-primary">Start Watching Now</a>
+                    <a href="https://facebook.com/aslekiymastamynd" target="_blank" rel="noopener" class="btn btn-secondary">Follow on Facebook</a>
+                    <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener" class="btn btn-secondary">Follow on X (Twitter)</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+
+    <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
+    <div id="customAlert" class="custom-alert-overlay">
+        <div class="alert-content">
+            <i class="fas fa-info-circle alert-icon blue-icon"></i>
+            <p id="alertMessage">This is a custom message.</p>
+            <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+        </div>
+    </div>
+
+    <!-- Consolidated JavaScript -->
+    <script>
+        // Placeholder for user login status (controlled by account dropdown logic)
+        let userLoggedIn = false; // Default to false
+
+        /**
+         * Displays a custom alert/message box to the user.
+         * @param {string} message - The message to display.
+         * @param {string} iconClasses - Font Awesome classes for the icon (e.g., "fas fa-check-circle green-icon").
+         */
+        function showMessageBox(message, iconClasses = "fas fa-info-circle blue-icon") {
+            const customAlert = document.getElementById('customAlert');
+            const alertMessage = document.getElementById('alertMessage');
+            const alertIcon = customAlert.querySelector('.alert-icon');
+            const closeAlertBtn = document.getElementById('closeAlertBtn');
+
+            if (customAlert && alertMessage && alertIcon && closeAlertBtn) {
+                alertMessage.textContent = message;
+                alertIcon.className = 'alert-icon ' + iconClasses;
+                customAlert.classList.add('show');
+
+                const closeHandler = () => {
+                    customAlert.classList.remove('show');
+                    closeAlertBtn.removeEventListener('click', closeHandler);
+                };
+                closeAlertBtn.addEventListener('click', closeHandler);
+
+                const overlayClickHandler = (event) => {
+                    if (event.target === customAlert) {
+                        customAlert.classList.remove('show');
+                        customAlert.removeEventListener('click', overlayClickHandler);
+                    }
+                };
+                customAlert.addEventListener('click', overlayClickHandler);
+            } else {
+                console.error("MessageBox elements not found. Cannot show message.");
+            }
+        }
+
+        /**
+         * Toggles dark mode on/off.
+         */
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                    darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+                } else {
+                    darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+                    darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+                }
+            }
+        }
+
+        /**
+         * Updates the visibility of login/logout/profile links in the account dropdown.
+         * @param {boolean} isLoggedIn - True if the user is logged in, false otherwise.
+         */
+        function updateAccountDropdown(isLoggedIn) {
+            const loginLink = document.getElementById('loginLink');
+            const registerLink = document.getElementById('registerLink');
+            const profileLink = document.getElementById('profileLink');
+            const logoutLink = document.getElementById('logoutLink');
+            const mobileLoginLink = document.getElementById('mobileLoginLink');
+            const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+            const mobileProfileLink = document.getElementById('mobileProfileLink');
+
+            const accountItems = document.querySelectorAll('.account-item');
+
+            if (isLoggedIn) {
+                if (loginLink) loginLink.style.display = 'none';
+                if (registerLink) registerLink.style.display = 'none';
+                if (profileLink) profileLink.style.display = 'flex';
+                if (logoutLink) logoutLink.style.display = 'flex';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'none';
+                if (mobileLogoutLink) mobileLogoutLink.style.display = 'flex';
+                if (mobileProfileLink) mobileProfileLink.style.display = 'flex';
+
+                accountItems.forEach(item => {
+                    if (item.id !== 'loginLink' && item.id !== 'registerLink' && item.id !== 'logoutLink' && item.id !== 'profileLink' && item.id !== 'settingsLink') {
+                        item.style.display = 'flex';
+                    }
+                });
+
+            } else {
+                if (loginLink) loginLink.style.display = 'flex';
+                if (registerLink) registerLink.style.display = 'flex';
+                if (profileLink) profileLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'flex';
+                if (mobileLogoutLink) mobileLogoutLink.style.display = 'none';
+                if (mobileProfileLink) mobileProfileLink.style.display = 'none';
+
+                accountItems.forEach(item => {
+                    if (item.id !== 'loginLink' && item.id !== 'registerLink' && item.id !== 'logoutLink' && item.id !== 'profileLink' && item.id !== 'settingsLink') {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            userLoggedIn = isLoggedIn;
+        }
+
+        // --- Dummy showsData for search functionality to prevent errors ---
+        // This page does not display carousels, but the header's search function expects this variable.
+        const showsData = []; // Keep it empty or minimal
+
+        // --- Event Listeners and Initial Page Load Logic ---
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Last Modified Date (footer)
+            const lastModifiedSpan = document.getElementById('last-modified');
+            if (lastModifiedSpan) {
+                lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+            } else {
+                console.warn("Last Modified span not found.");
+            }
+
+            // Update the current year in the footer
+            const currentYearSpan = document.getElementById('current-year');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+
+            // --- Account Dropdown Link Handling ---
+            const accountIcon = document.getElementById("accountIcon");
+            const accountDropdown = document.getElementById("accountDropdown");
+            const loginLink = document.getElementById('loginLink');
+            const registerLink = document.getElementById('registerLink');
+            const profileLink = document.getElementById('profileLink');
+            const logoutLink = document.getElementById('logoutLink');
+            const mobileLoginLink = document.getElementById('mobileLoginLink');
+            const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+            const mobileProfileLink = document.getElementById('mobileProfileLink');
+
+            if (accountIcon && accountDropdown) {
+                accountIcon.addEventListener('click', (event) => {
+                    accountDropdown.classList.toggle("visible");
+                    updateAccountDropdown(userLoggedIn);
+                    event.stopPropagation();
+                });
+
+                accountDropdown.addEventListener('click', (event) => {
+                    const target = event.target.closest('a');
+                    if (!target) return;
+
+                    event.preventDefault();
+
+                    if (target.id === 'loginLink') {
+                        showMessageBox(`Redirecting to Login page (simulated)!`);
+                        window.location.href = `login.html`;
+                    } else if (target.id === 'registerLink') {
+                        showMessageBox(`Redirecting to Register page (simulated)!`);
+                        window.location.href = `signup.html`;
+                    }
+                    else if (target.id === 'profileLink' || target.id === 'playlistLink' || target.id === 'bookmarksLink' || target.id === 'favoritesLink') {
+                        if (userLoggedIn) {
+                            showMessageBox(`${target.textContent.trim()} functionality coming soon! Redirecting to settings...`, "fas fa-info-circle blue-icon");
+                            window.location.href = 'settings.html';
+                        } else {
+                            showMessageBox("Please log in to access this feature!", "fas fa-exclamation-triangle red-icon");
+                        }
+                    } else if (target.id === 'logoutLink') {
+                        userLoggedIn = false;
+                        updateAccountDropdown(userLoggedIn);
+                        showMessageBox("You have been logged out.", "fas fa-check-circle green-icon");
+                        accountDropdown.classList.remove("visible");
+                    } else if (target.id === 'settingsLink') {
+                        if (userLoggedIn) {
+                            showMessageBox("Redirecting to Settings page...", "fas fa-info-circle blue-icon");
+                            window.location.href = 'settings.html';
+                        } else {
+                            showMessageBox("Please log in to access settings!", "fas fa-exclamation-triangle red-icon");
+                        }
+                    }
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (accountDropdown && accountIcon && !accountDropdown.contains(event.target) && event.target !== accountIcon) {
+                        accountDropdown.classList.remove("visible");
+                    }
+                });
+            } else {
+                console.warn("Account icon or dropdown elements not found. Account functionality may be limited.");
+            }
+
+
+            // --- Header Search and Mobile Nav Logic ---
+            const searchIcon = document.getElementById("searchIcon");
+            const searchSubheader = document.getElementById("searchSubheader");
+            const searchInput = document.getElementById("searchInput");
+            const clearSearch = document.getElementById("clearSearch");
+            const suggestionsBox = document.getElementById("suggestionsBox");
+            const darkModeToggle = document.getElementById("darkModeToggle");
+            const addIcon = document.getElementById("addIcon");
+            const hamburgerMenu = document.getElementById("hamburgerMenu");
+            const mobileNavOverlay = document.getElementById("mobileNavOverlay");
+            const closeMobileNav = document.getElementById("closeMobileNav");
+
+
+            // Ensure all necessary elements are present
+            if (!searchIcon || !searchSubheader || !searchInput || !suggestionsBox ||
+                !darkModeToggle || !addIcon || !accountIcon || !accountDropdown ||
+                !hamburgerMenu || !mobileNavOverlay || !closeMobileNav) {
+                console.error("Critical header elements are missing. Header functionality may be limited.");
+                // No return here to allow other parts of the script to run if possible
+            } else {
+                // State variables for search
+                let searchScope = null;
+                let selectedIndex = -1;
+
+                // Toggle search bar visibility
+                searchIcon.addEventListener("click", () => {
+                    searchSubheader.classList.toggle("visible");
+                    if (searchSubheader.classList.contains("visible")) {
+                        searchInput.focus();
+                        if (!searchScope) {
+                            showPrimarySuggestions(suggestionsBox);
+                        }
+                    } else {
+                        suggestionsBox.classList.remove("visible");
+                        searchInput.value = "";
+                        searchScope = null;
+                        selectedIndex = -1;
+                    }
+                });
+
+                // Clear search input
+                clearSearch.addEventListener("click", () => {
+                    searchInput.value = "";
+                    searchScope = null;
+                    selectedIndex = -1;
+                    showPrimarySuggestions(suggestionsBox);
+                    searchInput.focus();
+                });
+
+                // Handle input changes in the search bar
+                searchInput.addEventListener("input", () => {
+                    selectedIndex = -1;
+                    const val = searchInput.value.trim();
+
+                    if (!searchScope) {
+                        if (val === "") {
+                            showPrimarySuggestions(suggestionsBox);
+                        } else {
+                             // Use dummy showsData for suggestions on this page
+                            // In a real app, this would query a backend for live show suggestions
+                            const dummyShowsData = [
+                                { title: 'Breaking Bad', genre: ['Drama', 'Crime'] },
+                                { title: 'Money Heist', genre: ['Crime', 'Thriller'] },
+                                { title: 'The Boys', genre: ['Action', 'Sci-Fi'] },
+                                { title: 'The Expanse', genre: ['Sci-Fi', 'Drama'] },
+                                { title: 'Lupin', genre: ['Crime', 'Mystery'] },
+                                { title: 'Squid Game', genre: ['Thriller'] },
+                                { title: 'Wednesday', genre: ['Comedy', 'Fantasy'] },
+                                { title: 'Foundation', genre: ['Sci-Fi'] },
+                                { title: 'Narcos', genre: ['Crime', 'Biography'] },
+                                { title: 'Game of Thrones', genre: ['Fantasy', 'Drama'] }
+                            ];
+                            renderShowTitleSuggestions(suggestionsBox, dummyShowsData.filter(s =>
+                                s.title.toLowerCase().includes(val.toLowerCase()) ||
+                                (Array.isArray(s.genre) && s.genre.some(g => g.toLowerCase().includes(val.toLowerCase())))
+                                // No cast search on this page with dummy data for simplicity
+                            ).map(s => s.title));
+                        }
+                    } else {
+                        const [scopeType, scopeValue] = searchScope.split(':');
+                        const dummyShowsData = [ /* same as above to filter by scope */
+                            { title: 'Breaking Bad', genre: ['Drama', 'Crime'] },
+                            { title: 'Money Heist', genre: ['Crime', 'Thriller'] },
+                            { title: 'The Boys', genre: ['Action', 'Sci-Fi'] },
+                            { title: 'The Expanse', genre: ['Sci-Fi', 'Drama'] },
+                            { title: 'Lupin', genre: ['Crime', 'Mystery'] },
+                            { title: 'Squid Game', genre: ['Thriller'] },
+                            { title: 'Wednesday', genre: ['Comedy', 'Fantasy'] },
+                            { title: 'Foundation', genre: ['Sci-Fi'] },
+                            { title: 'Narcos', genre: ['Crime', 'Biography'] },
+                            { title: 'Game of Thrones', genre: ['Fantasy', 'Drama'] }
+                        ];
+                        const filteredByScope = dummyShowsData.filter(s => {
+                            if (scopeType === "genre" && Array.isArray(s.genre)) return s.genre.some(g => g.toLowerCase() === scopeValue.toLowerCase());
+                            return true;
+                        });
+                        renderShowTitleSuggestions(suggestionsBox, filteredByScope.filter(s =>
+                            s.title.toLowerCase().includes(val.toLowerCase())
+                        ).map(s => s.title));
+                    }
+                });
+
+                // Handle clicks on suggestions
+                suggestionsBox.addEventListener("click", (event) => {
+                    const target = event.target;
+                    if (target.classList.contains('suggestion-item')) {
+                        const suggestionText = target.textContent.trim();
+                        // For this page, suggestions might just be categories or general terms.
+                        // Actual navigation/search logic for shows happens on cinewatch_home.html.
+                        showMessageBox(`Simulating search for: ${suggestionText}`);
+                        searchSubheader.classList.remove("visible"); // Close search bar
+                        suggestionsBox.classList.remove("visible");
+                        searchInput.value = "";
+                        searchScope = null;
+                        selectedIndex = -1;
+                    }
+                });
+
+                // Keyboard navigation for search suggestions
+                searchInput.addEventListener("keydown", (e) => {
+                    const suggestions = suggestionsBox.querySelectorAll(".suggestion-item");
+                    if (suggestions.length === 0) return;
+
+                    if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        selectedIndex = (selectedIndex + 1) % suggestions.length;
+                        highlightSelectedSuggestion(suggestions, selectedIndex);
+                    } else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        selectedIndex = (selectedIndex - 1 + suggestions.length) % suggestions.length;
+                        highlightSelectedSuggestion(suggestions, selectedIndex);
+                    } else if (e.key === "Enter") {
+                        e.preventDefault();
+                        if (selectedIndex !== -1) {
+                            suggestions[selectedIndex].click();
+                        }
+                    }
+                });
+
+                function highlightSelectedSuggestion(suggestions, index) {
+                    suggestions.forEach((div, i) => {
+                        if (i === index) {
+                            div.classList.add("selected");
+                            div.scrollIntoView({ block: "nearest", inline: "nearest" });
+                        } else {
+                            div.classList.remove("selected");
+                        }
+                    });
+                }
+
+                // Hide suggestions and search bar when clicking outside
+                document.addEventListener("click", (event) => {
+                    if (!searchSubheader.contains(event.target) && event.target !== searchIcon) {
+                        searchSubheader.classList.remove("visible");
+                        suggestionsBox.classList.remove("visible");
+                        searchInput.value = "";
+                        searchScope = null;
+                        selectedIndex = -1;
+                    }
+                });
+
+                // Helper functions for search 
+                function showPrimarySuggestions(container) {
+                    container.innerHTML = '';
+                    const suggestions = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Thriller', 'Animation', 'Kenyan', 'Bollywood', 'K-Drama']; // Expanded suggestions
+                    suggestions.forEach(s => {
+                        const div = document.createElement('div');
+                        div.classList.add('suggestion-item', 'primary-suggestion');
+                        div.textContent = s;
+                        div.addEventListener('click', () => {
+                            searchInput.value = `${s}: `;
+                            searchScope = `genre:${s.toLowerCase()}`;
+                            suggestionsBox.classList.remove("visible");
+                            searchInput.focus();
+                            // In a real scenario, this would load results
+                        });
+                        container.appendChild(div);
+                    });
+                    container.classList.add('visible');
+                }
+
+                function renderShowTitleSuggestions(container, titles) {
+                    container.innerHTML = '';
+                    if (titles.length === 0) {
+                        container.classList.remove('visible');
+                        return;
+                    }
+                    titles.slice(0, 10).forEach(title => {
+                        const div = document.createElement('div');
+                        div.classList.add('suggestion-item');
+                        div.textContent = title;
+                        div.addEventListener('click', () => {
+                            // On about_us.html, this will just simulate search
+                            showMessageBox(`Simulating search for: ${title}`);
+                            searchSubheader.classList.remove("visible");
+                            suggestionsBox.classList.remove("visible");
+                            searchInput.value = "";
+                        });
+                        container.appendChild(div);
+                    });
+                    container.classList.add('visible');
+                }
+
+
+                // --- Dark Mode Toggle ---
+                darkModeToggle.addEventListener("click", () => {
+                    toggleDarkMode();
+                });
+
+                // --- Add Icon Functionality ---
+                addIcon.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    if (userLoggedIn) {
+                        showMessageBox("Redirecting to settings for watchlist management (simulated)...", "fas fa-info-circle blue-icon");
+                        window.location.href = 'settings.html';
+                    } else {
+                        showMessageBox("You must be logged in to add shows to your playlist!", "fas fa-exclamation-triangle red-icon");
+                    }
+                });
+
+                // --- Mobile Navigation (Hamburger Menu) ---
+                hamburgerMenu.addEventListener('click', () => {
+                    mobileNavOverlay.classList.add('show');
+                });
+
+                mobileNavOverlay.addEventListener('click', (event) => {
+                    if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                        mobileNavOverlay.classList.remove('show');
+                    }
+                });
+                closeMobileNav.addEventListener('click', () => {
+                    mobileNavOverlay.classList.remove('show');
+                });
+            }
+
+
+            // Initial update of account dropdown state
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (darkModeToggle) {
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                    darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+                }
+            }
+            updateAccountDropdown(false); // Initialize account dropdown based on userLoggedIn state (default to false on page load)
+        });
+
+    </script>
+</body>
+</html>

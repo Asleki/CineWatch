@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineWatch - Show Details</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font (for consistent typography across the site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Consolidated Main Stylesheet (copied from main.css) -->
+  <style>
+    /*
+     * File: main.css
+     * Description: Consolidated and updated styles for the CineWatch application,
+     * including responsive design, new carousel layout, redesigned show cards,
+     * and dark mode theming.
+     * This version includes styling for new hero show/quote cards,
+     * removal of border-radius in the hero section,
+     * and reduced width for show cards in carousels.
+     */
+
+    /* Root Theme Variables */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue for CineWatch logo */
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-color: #ddd;
+      --card-bg: #fdfdfd;
+      --link-hover: #0056b3;
+      --dropdown-bg: #fff;
+      --dropdown-border: #ccc;
+      --modal-bg: #fff;
+      --modal-border: 1px solid #ccc;
+      --form-bg: #f9f9f9;
+      --input-border: #ccc;
+
+      /* Additional variables for the new footer */
+      --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+      --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+      --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+      --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+      --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+      --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+      --border-color-light: #A0D9EF; /* Medium blue for borders */
+      --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+      --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+
+      /* Footer specific grey colors */
+      --footer-bg-light-grey: #e0e0e0; /* Light grey for footer in light mode */
+      --footer-bg-dark-grey: #333333; /* Darker grey for footer in dark mode */
+    }
+
+    /* Dark Mode Variables */
+    body.dark-mode {
+      --bg: #1a1a2e; /* Deep dark blue */
+      --text: #e9ecef; /* Off-white */
+      --header-bg: #2c3e50; /* Dark blue-grey */
+      --search-bg: #34495e; /* Slightly lighter dark blue-grey */
+      --highlight: #89cff0; /* Sky blue */
+      --danger: #ef5350; /* Softer red */
+      --cinewatch-blue: #add8e6; /* Lighter blue for dark mode logo */
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --border-color: #4a4a4a;
+      --card-bg: #212130;
+      --link-hover: #a3daff;
+      --dropdown-bg: #34495e;
+      --dropdown-border: #555;
+      --modal-bg: #2c3e50;
+      --modal-border: 1px solid #4a4a4a;
+      --form-bg: #34495e;
+      --input-border: #555;
+
+      /* Additional variables for the new footer in dark mode */
+      --text-color-dark: #f0f0f0;
+      --background-color-dark: #1a1a1a;
+      --section-bg-dark: #2a2a2a;
+      --border-color-dark: #4a4a4a;
+      --shadow-color-dark: rgba(0, 0, 0, 0.4);
+      --header-bg-dark: #464343;
+    }
+
+    /* General Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Utility Header - Unified structure */
+    #utilityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--header-bg);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #utilityHeader .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    #utilityHeader .logo a {
+      text-decoration: none;
+      color: var(--cinewatch-blue);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .logo a:hover {
+      color: var(--highlight);
+    }
+
+    #utilityHeader .header-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #utilityHeader .header-icons i {
+      font-size: 1.2em;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .header-icons i:hover {
+      color: var(--highlight);
+    }
+
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dropdown-bg);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      right: 0; /* Align dropdown to the right of the icon */
+      border: 1px solid var(--dropdown-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px; /* Space from icon */
+    }
+
+    .account-dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .account-dropdown-content a:hover {
+      background-color: var(--search-bg);
+      color: var(--highlight);
+    }
+
+    .account-dropdown:hover .account-dropdown-content {
+      display: block;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger-menu {
+        display: none; /* Hidden by default, shown on mobile */
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    /* Mobile Navigation Overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start off-screen to the left */
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg); /* Use theme background */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s ease-in-out; /* Slide in animation */
+    }
+
+    .mobile-nav-overlay.show {
+        left: 0; /* Slide in */
+    }
+
+    .mobile-nav-overlay .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2em;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .mobile-nav-overlay .nav-links {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mobile-nav-overlay .nav-links li {
+        margin-bottom: 25px;
+    }
+
+    .mobile-nav-overlay .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.8em;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .nav-links a:hover {
+        color: var(--highlight);
+    }
+
+    .mobile-nav-overlay .social-icons {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .mobile-nav-overlay .social-icons i {
+        font-size: 1.8em;
+        color: var(--text);
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .social-icons i:hover {
+        color: var(--highlight);
+    }
+
+    /* Details Page Specific Styles */
+    .details-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .backdrop-container {
+      width: 100%;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .backdrop-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      filter: brightness(70%); /* Darken backdrop for text */
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--highlight);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      font-size: 2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .play-button:hover {
+      background-color: var(--secondary-color);
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .details-content {
+      display: flex;
+      gap: 30px;
+      flex-basis: 100%; /* Take full width on smaller screens */
+    }
+
+    .poster-area {
+      flex-shrink: 0;
+      width: 300px; /* Fixed width for poster */
+      position: relative;
+      margin-left: auto; /* Center it */
+      margin-right: auto; /* Center it */
+    }
+
+    .poster-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .info-area {
+      flex-grow: 1;
+      min-width: 0; /* Allow text content to shrink */
+    }
+
+    .info-area h1 {
+      font-size: 2.5em;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--highlight);
+      text-align: left; /* Align title left */
+    }
+
+    .info-area p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .info-area .meta-info {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .info-area .meta-info span {
+      background-color: var(--search-bg);
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: var(--text);
+    }
+
+    .info-area .rating {
+      font-weight: 700;
+      color: var(--highlight);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons .btn {
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap; /* Prevent button text from wrapping */
+    }
+
+    .action-buttons .btn-primary {
+      background-color: var(--highlight);
+      color: #fff;
+    }
+
+    .action-buttons .btn-primary:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .action-buttons .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      border: 1px solid var(--border-color);
+    }
+
+    .action-buttons .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .cast-section, .related-section {
+      margin-top: 40px;
+    }
+
+    .cast-section h2, .related-section h2 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: var(--highlight);
+    }
+
+    .cast-grid, .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .cast-member, .related-show-card {
+      text-align: center;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .cast-member:hover, .related-show-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .cast-member img, .related-show-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .related-show-card img {
+      width: 100%;
+      height: 150px; /* Adjusted height for movie-like posters */
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .cast-member p, .related-show-card p {
+      margin: 0;
+      font-size: 0.9em;
+      color: var(--text);
+    }
+
+    .cast-member .role {
+      font-size: 0.8em;
+      color: #777;
+    }
+
+    /* Search Overlay Styles (from main.css) */
+    .search-subheader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align to top */
+        padding-top: 80px; /* Space from header */
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .search-subheader-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .search-content {
+        background: var(--search-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        position: relative; /* For positioning close button */
+    }
+
+    .search-content .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: var(--text);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .search-content .close-btn:hover {
+        color: var(--danger);
+    }
+
+    .search-input-group {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-input-group input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        font-size: 1em;
+        background-color: var(--bg); /* Use theme background */
+        color: var(--text);
+    }
+
+    .search-input-group button {
+        padding: 10px 15px;
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-input-group button:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .search-scope-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap; /* Allow buttons to wrap */
+    }
+
+    .search-scope-buttons button {
+        padding: 8px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background-color: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .search-scope-buttons button.active,
+    .search-scope-buttons button:hover {
+        background-color: var(--highlight);
+        color: #fff;
+        border-color: var(--highlight);
+    }
+
+    .suggestions-box {
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--dropdown-border);
+        border-radius: 5px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none; /* Hidden by default */
+    }
+
+    .suggestions-box.active {
+        display: block; /* Show when active */
+    }
+
+    .suggestions-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .suggestions-box li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s;
+        color: var(--text);
+    }
+
+    .suggestions-box li:last-child {
+        border-bottom: none;
+    }
+
+    .suggestions-box li:hover {
+        background-color: var(--search-bg);
+        color: var(--highlight);
+    }
+
+    /* Custom Alert/Message Box (controlled by showMessageBox function in JS) */
+    .custom-alert-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .custom-alert-overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .alert-content {
+        background-color: var(--bg);
+        color: var(--text);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease-out;
+    }
+
+    .custom-alert-overlay.show .alert-content {
+        transform: translateY(0);
+    }
+
+    .alert-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .alert-icon.blue-icon { color: var(--highlight); }
+    .alert-icon.green-icon { color: #4CAF50; }
+    .alert-icon.red-icon { color: var(--danger); }
+    .alert-icon.yellow-icon { color: #ffeb3b; }
+
+    #alertMessage {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    .close-alert-btn {
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .close-alert-btn:hover {
+        background-color: var(--secondary-color);
+    }
+
+    /* Footer Styles */
+    .site-footer {
+        background-color: var(--footer-bg-light-grey); /* Changed to light grey */
+        color: var(--text-color-light);
+        padding: 2rem 0;
+        margin-top: auto;
+        box-shadow: 0 -2px 5px var(--shadow-color-light);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .site-footer {
+        background-color: var(--footer-bg-dark-grey); /* Changed to darker grey */
+        color: var(--text-color-dark);
+        box-shadow: 0 -2px 5px var(--shadow-color-dark);
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: row; /* Single row on large screens */
+        flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+        justify-content: space-around; /* Distribute items with space around them */
+        gap: 20px;
+        max-width: 1200px; /* Increased max-width for better multi-column display */
+        margin: 0 auto; /* Center the footer content */
+        padding: 0 20px; /* Add padding for content inside footer */
+        text-align: left; /* Default text alignment for multi-column */
+    }
+
+    .footer-section {
+        flex: 1; /* Allow sections to grow and shrink */
+        min-width: 200px; /* Minimum width for each column */
+        max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+        text-align: left; /* Align text left within each section */
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    body.dark-mode .footer-section h3 {
+        color: var(--accent-color);
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color); /* Apply hover color */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Social Icons Container */
+    .social-icons { 
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .social-icons img {
+        height: 30px;
+        width: 30px;
+        transition: transform 0.2s ease; /* Only transform transition */
+    }
+
+    .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    body.dark-mode .social-icons img {
+        /* No filter: invert(1) here to retain original colors in dark mode */
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 15px 20px;
+        }
+
+        #utilityHeader .header-icons {
+            display: none; /* Hide desktop icons */
+        }
+
+        .hamburger-menu {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        main {
+            padding: 20px 15px;
+            margin: 10px auto;
+        }
+
+        /* Details page specific responsive adjustments */
+        .details-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .details-content {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .poster-area {
+            width: 80%; /* Adjust width for mobile posters */
+            max-width: 250px; /* Limit max-width */
+        }
+
+        .info-area h1 {
+            font-size: 2em;
+            text-align: center; /* Center title on small screens */
+        }
+
+        .info-area .meta-info {
+            justify-content: center; /* Center meta info */
+        }
+
+        .action-buttons {
+            justify-content: center; /* Center buttons */
+        }
+
+        .cast-grid, .related-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+
+        .cast-member img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .related-show-card img {
+            height: 120px;
+        }
+        
+        .footer-content {
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center;
+            text-align: center; /* Center text for stacked layout */
+        }
+        .footer-section {
+            width: 100%; /* Full width for sections on small screens */
+            max-width: unset; /* Remove max-width constraint */
+            text-align: center; /* Center text within sections on mobile */
+        }
+        .social-icons {
+            justify-content: center; /* Ensure social icons remain centered on mobile */
+        }
+    }
+    @media (max-width: 480px) {
+        .hero-content h2 {
+            font-size: 2.5em;
+        }
+        .hero-content p {
+            font-size: 1em;
+        }
+        .hero-buttons .btn {
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-size: 0.9em;
+        }
+        .show-card {
+            min-width: 150px;
+            max-width: 150px;
+            margin: 0 5px;
+        }
+        .show-card img {
+            height: 220px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <div class="account-dropdown">
+        <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+        <div class="account-dropdown-content" id="accountDropdownContent">
+          <a href="#">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <i class="fas fa-bars hamburger-menu" id="hamburgerMenu"></i>
+  </header>
+
+  <!-- Mobile Navigation Overlay (Hidden by default) -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+    <ul class="nav-links">
+      <li><a href="cinewatch_home.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="tv_shows.html">TV Shows</a></li>
+      <li><a href="cinema_guide.html">Cinema Guide</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="faqs.html">FAQs</a></li>
+      <li><a href="privacy_policy.html">Privacy Policy</a></li>
+      <li><a href="copyright_information.html">Copyright Information</a></li>
+      <li><a href="termsof_services.html">Terms of Service</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="#" id="mobileProfileLink" style="display:none;">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="mobileLogoutLink" style="display:none;">Logout</a></li>
+    </ul>
+    <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+    </div>
+  </div>
+
+  <main>
+    <div class="details-container" id="showDetailsContainer">
+      <!-- Dynamic Content Area for Show Details -->
+      <!-- Show backdrop image -->
+      <div class="backdrop-container">
+        <img src="https://placehold.co/1200x400/464343/EAEAEA?text=Movie+Backdrop" alt="Show Backdrop" class="backdrop-image" id="showBackdrop">
+        <button class="play-button" id="playButton" title="Play Trailer">
+          <i class="fas fa-play"></i>
+        </button>
+      </div>
+
+      <div class="details-content">
+        <!-- Show poster -->
+        <div class="poster-area">
+          <img src="https://placehold.co/300x450/B0B0B0/FFFFFF?text=Movie+Poster" alt="Show Poster" class="poster-image" id="showPoster">
+        </div>
+
+        <!-- Show information -->
+        <div class="info-area">
+          <h1 id="showTitle">Loading...</h1>
+          <div class="meta-info">
+            <span id="showRating">Rating: N/A</span>
+            <span id="showGenre">Genre: N/A</span>
+            <span id="showReleaseDate">Release Date: N/A</span>
+            <span id="showRuntime">Runtime: N/A</span>
+          </div>
+          <p id="showPlot">Plot summary loading...</p>
+          <div class="action-buttons">
+            <a href="#" class="btn btn-primary" id="watchNowBtn"><i class="fas fa-play"></i> Watch Now</a>
+            <button class="btn btn-secondary" id="addToListBtn"><i class="fas fa-plus-circle"></i> Add to List</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cast Section -->
+      <div class="cast-section">
+        <h2>Cast</h2>
+        <div class="cast-grid" id="castGrid">
+          <!-- Cast members will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <!-- Related Shows Section -->
+      <div class="related-section">
+        <h2>More Like This</h2>
+        <div class="related-grid" id="relatedGrid">
+          <!-- Related shows will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Search Subheader Overlay (Hidden by default) -->
+  <div class="search-subheader-overlay" id="searchSubheaderOverlay">
+    <div class="search-content">
+      <button class="close-btn" id="closeSearchBtn">&times;</button>
+      <h3>Search CineWatch</h3>
+      <div class="search-input-group">
+        <input type="text" id="searchInput" placeholder="Search for movies, TV shows, or cinemas...">
+        <button id="searchSubmitBtn"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="search-scope-buttons" id="searchScopeButtons">
+        <button data-scope="all" class="active">All</button>
+        <button data-scope="movies">Movies</button>
+        <button data-scope="tv_shows">TV Shows</button>
+        <button data-scope="cinemas">Cinemas</button>
+      </div>
+      <div class="suggestions-box" id="suggestionsBox">
+        <ul>
+          <!-- Search suggestions will be inserted here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
+  <div id="customAlert" class="custom-alert-overlay">
+    <div class="alert-content">
+        <i class="fas fa-info-circle alert-icon blue-icon"></i>
+        <p id="alertMessage">This is a custom message.</p>
+        <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    // Placeholder for global showMessageBox for reusability
+    function showMessageBox(message, iconClass = 'blue-icon', duration = 3000) {
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = customAlert.querySelector('.alert-icon');
+        const closeAlertBtn = document.getElementById('closeAlertBtn');
+
+        alertMessage.textContent = message;
+        alertIcon.className = `fas alert-icon ${iconClass}`; // Update icon class
+
+        customAlert.classList.add('show');
+
+        // Automatically hide after a duration
+        const timeoutId = setTimeout(() => {
+            customAlert.classList.remove('show');
+        }, duration);
+
+        // Close button functionality
+        closeAlertBtn.onclick = () => {
+            customAlert.classList.remove('show');
+            clearTimeout(timeoutId); // Clear auto-hide timeout if manually closed
+        };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Common elements
+        const body = document.body;
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const accountIcon = document.getElementById('accountIcon');
+        const accountDropdownContent = document.getElementById('accountDropdownContent');
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+        const closeMobileNavBtn = document.getElementById('closeMobileNav');
+        const mobileProfileLink = document.getElementById('mobileProfileLink');
+        const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+        const mobileLoginLink = document.getElementById('mobileLoginLink');
+
+        // Search Overlay Elements
+        const searchIcon = document.getElementById('searchIcon');
+        const searchSubheaderOverlay = document.getElementById('searchSubheaderOverlay');
+        const closeSearchBtn = document.getElementById('closeSearchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+        const searchScopeButtons = document.getElementById('searchScopeButtons');
+        const suggestionsBox = document.getElementById('suggestionsBox');
+        let searchScope = 'all'; // Default search scope
+
+        // Sample Data for Search Suggestions (Extend as needed)
+        const allSuggestions = [
+            "Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse",
+            "The Marvels", "The Last of Us", "Succession", "Ted Lasso", "Breaking Bad",
+            "Better Call Saul", "The Crown", "Stranger Things", "Westworld",
+            "AMC Cinemas", "IMAX Theaters", "Grand Cinemas"
+        ];
+        const movieSuggestions = ["Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse", "The Marvels"];
+        const tvShowSuggestions = ["The Last of Us", "Succession", "Ted Lasso", "Breaking Bad", "Better Call Saul", "The Crown", "Stranger Things", "Westworld"];
+        const cinemaSuggestions = ["AMC Cinemas", "IMAX Theaters", "Grand Cinemas", "Cinema Paradiso", "Starflix"];
+
+        // Details Page Specific Elements
+        const showDetailsContainer = document.getElementById('showDetailsContainer');
+        const showBackdrop = document.getElementById('showBackdrop');
+        const showPoster = document.getElementById('showPoster');
+        const showTitle = document.getElementById('showTitle');
+        const showRating = document.getElementById('showRating');
+        const showGenre = document.getElementById('showGenre');
+        const showReleaseDate = document.getElementById('showReleaseDate');
+        const showRuntime = document.getElementById('showRuntime');
+        const showPlot = document.getElementById('showPlot');
+        const playButton = document.getElementById('playButton');
+        const addToListBtn = document.getElementById('addToListBtn');
+        const watchNowBtn = document.getElementById('watchNowBtn');
+        const castGrid = document.getElementById('castGrid');
+        const relatedGrid = document.getElementById('relatedGrid');
+
+        // Sample Show Data (Replace with actual data fetching in a real app)
+        const showsData = [
+            {
+                title: "Dune: Part Two",
+                backdrop: "https://placehold.co/1200x400/34495e/e9ecef?text=Dune+Part+Two+Backdrop",
+                poster: "https://placehold.co/300x450/FF5733/FFFFFF?text=Dune+2",
+                rating: "8.8/10",
+                genre: "Sci-Fi, Adventure",
+                releaseDate: "March 1, 2024",
+                runtime: "2h 46m",
+                plot: "Paul Atreides unites with Chani and the Fremen while seeking revenge against those who destroyed his family.",
+                cast: [
+                    { name: "Timothée Chalamet", role: "Paul Atreides", imageUrl: "https://placehold.co/100x100/A0D9EF/000000?text=TC" },
+                    { name: "Zendaya", role: "Chani", imageUrl: "https://placehold.co/100x100/FFD700/000000?text=ZD" },
+                    { name: "Rebecca Ferguson", role: "Lady Jessica", imageUrl: "https://placehold.co/100x100/A0D9EF/000000?text=RF" }
+                ],
+                related: [
+                    { title: "Dune (2021)", imageUrl: "https://placehold.co/200x300/C70039/FFFFFF?text=Dune+2021" },
+                    { title: "Blade Runner 2049", imageUrl: "https://placehold.co/200x300/900C3F/FFFFFF?text=BR2049" },
+                    { title: "Arrival", imageUrl: "https://placehold.co/200x300/581845/FFFFFF?text=Arrival" }
+                ]
+            },
+            {
+                title: "Oppenheimer",
+                backdrop: "https://placehold.co/1200x400/212130/e9ecef?text=Oppenheimer+Backdrop",
+                poster: "https://placehold.co/300x450/C70039/FFFFFF?text=Oppenheimer",
+                rating: "8.6/10",
+                genre: "Biographical Drama, Thriller",
+                releaseDate: "July 21, 2023",
+                runtime: "3h 0m",
+                plot: "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
+                cast: [
+                    { name: "Cillian Murphy", role: "J. Robert Oppenheimer", imageUrl: "https://placehold.co/100x100/B0E0E6/000000?text=CM" },
+                    { name: "Emily Blunt", role: "Kitty Oppenheimer", imageUrl: "https://placehold.co/100x100/ADD8E6/000000?text=EB" },
+                    { name: "Matt Damon", role: "Leslie Groves", imageUrl: "https://placehold.co/100x100/89CFF0/000000?text=MD" }
+                ],
+                related: [
+                    { title: "Interstellar", imageUrl: "https://placehold.co/200x300/DAF7A6/111111?text=Interstellar" },
+                    { title: "The Imitation Game", imageUrl: "https://placehold.co/200x300/FFC300/111111?text=Imitation+Game" },
+                    { title: "Darkest Hour", imageUrl: "https://placehold.co/200x300/FF5733/FFFFFF?text=Darkest+Hour" }
+                ]
+            },
+            {
+                title: "The Last of Us",
+                backdrop: "https://placehold.co/1200x400/1a1a2e/add8e6?text=TLOU+Backdrop",
+                poster: "https://placehold.co/300x450/8A2BE2/FFFFFF?text=TLOU",
+                rating: "9.2/10",
+                genre: "Drama, Sci-Fi, Horror",
+                releaseDate: "January 15, 2023",
+                runtime: "9 Episodes",
+                plot: "Twenty years after a fungal pandemic devastates the world, a hardened survivor is tasked with escorting a young girl across the United States.",
+                cast: [
+                    { name: "Pedro Pascal", role: "Joel Miller", imageUrl: "https://placehold.co/100x100/D2B48C/000000?text=PP" },
+                    { name: "Bella Ramsey", role: "Ellie Williams", imageUrl: "https://placehold.co/100x100/FFD700/000000?text=BR" },
+                    { name: "Gabriel Luna", role: "Tommy Miller", imageUrl: "https://placehold.co/100x100/800000/FFFFFF?text=GL" }
+                ],
+                related: [
+                    { title: "Chernobyl", imageUrl: "https://placehold.co/200x300/A52A2A/FFFFFF?text=Chernobyl" },
+                    { title: "Breaking Bad", imageUrl: "https://placehold.co/200x300/B0E0E6/000000?text=Breaking+Bad" },
+                    { title: "The Walking Dead", imageUrl: "https://placehold.co/200x300/6A5ACD/FFFFFF?text=TWD" }
+                ]
+            }
+            // Add more show data as needed
+        ];
+
+
+        // Function to render show details on the page
+        function renderShowDetails(show) {
+            if (!show) {
+                showTitle.textContent = "Show Not Found";
+                showPlot.textContent = "The requested movie or TV show could not be found.";
+                showBackdrop.src = "https://placehold.co/1200x400/000000/FFFFFF?text=Not+Found";
+                showPoster.src = "https://placehold.co/300x450/000000/FFFFFF?text=Not+Found";
+                showRating.textContent = "";
+                showGenre.textContent = "";
+                showReleaseDate.textContent = "";
+                showRuntime.textContent = "";
+                playButton.style.display = 'none'; // Hide play button
+                addToListBtn.style.display = 'none'; // Hide add to list button
+                watchNowBtn.style.display = 'none'; // Hide watch now button
+                castGrid.innerHTML = '';
+                relatedGrid.innerHTML = '';
+                return;
+            }
+
+            showBackdrop.src = show.backdrop;
+            showPoster.src = show.poster;
+            showTitle.textContent = show.title;
+            showRating.textContent = `Rating: ${show.rating}`;
+            showGenre.textContent = `Genre: ${show.genre}`;
+            showReleaseDate.textContent = `Release Date: ${show.releaseDate}`;
+            showRuntime.textContent = `Runtime: ${show.runtime}`;
+            showPlot.textContent = show.plot;
+
+            // Handle play button click
+            playButton.onclick = () => {
+                showMessageBox(`Playing trailer for ${show.title}... (Simulated)`, 'blue-icon');
+                // In a real app, this would open a video player modal or navigate to a player page
+                window.location.href = `watch_now.html?title=${encodeURIComponent(show.title)}`;
+            };
+
+            // Handle watch now button click
+            watchNowBtn.onclick = (event) => {
+                event.preventDefault();
+                showMessageBox(`Starting ${show.title}... (Simulated)`, 'green-icon');
+                window.location.href = `watch_now.html?title=${encodeURIComponent(show.title)}`;
+            };
+
+            // Handle add to list button click
+            addToListBtn.onclick = () => {
+                showMessageBox(`${show.title} added to your watchlist!`, 'blue-icon');
+            };
+
+            // Render cast
+            castGrid.innerHTML = '';
+            show.cast.forEach(member => {
+                const castMemberDiv = document.createElement('div');
+                castMemberDiv.classList.add('cast-member');
+                castMemberDiv.innerHTML = `
+                    <img src="${member.imageUrl}" alt="${member.name}" onerror="this.onerror=null;this.src='https://placehold.co/100x100/808080/FFFFFF?text=No+Photo';">
+                    <p>${member.name}</p>
+                    <p class="role">${member.role}</p>
+                `;
+                castGrid.appendChild(castMemberDiv);
+            });
+
+            // Render related shows
+            relatedGrid.innerHTML = '';
+            show.related.forEach(relatedShow => {
+                const relatedShowCard = document.createElement('div');
+                relatedShowCard.classList.add('related-show-card');
+                relatedShowCard.innerHTML = `
+                    <img src="${relatedShow.imageUrl}" alt="${relatedShow.title} Poster" onerror="this.onerror=null;this.src='https://placehold.co/150x225/B0B0B0/FFFFFF?text=No+Image';">
+                    <p>${relatedShow.title}</p>
+                `;
+                relatedShowCard.addEventListener('click', () => {
+                    window.location.href = `details.html?title=${encodeURIComponent(relatedShow.title)}`;
+                });
+                relatedGrid.appendChild(relatedShowCard);
+            });
+        }
+
+        // Function to parse URL query parameters
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(param => {
+                const parts = param.split("=");
+                params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
+            });
+            return params;
+        }
+
+
+        // --- Dark Mode Toggle ---
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                    darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+                    darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+                }
+            });
+        }
+
+        // Initial dark mode setup on page load
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            if (darkModeToggle) {
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+            }
+        }
+
+        // --- Account Dropdown Toggle ---
+        if (accountIcon) {
+            accountIcon.addEventListener('click', (event) => {
+                accountDropdownContent.classList.toggle('show');
+                event.stopPropagation(); // Prevent clicks on body from closing immediately
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!accountDropdownContent.contains(event.target) && event.target !== accountIcon) {
+                    accountDropdownContent.classList.remove('show');
+                }
+            });
+        }
+
+
+        // --- Search Functionality (from developer.html) ---
+        if (searchIcon && searchSubheaderOverlay && closeSearchBtn && searchInput && searchSubmitBtn && searchScopeButtons && suggestionsBox) {
+            searchIcon.addEventListener('click', () => {
+                searchSubheaderOverlay.classList.add('show');
+                searchInput.focus(); // Focus on the input when search opens
+            });
+
+            closeSearchBtn.addEventListener('click', () => {
+                searchSubheaderOverlay.classList.remove('show');
+                suggestionsBox.classList.remove("active");
+                searchInput.value = ""; // Clear search input on close
+                searchScope = 'all'; // Reset search scope
+                document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                    button.classList.remove('active');
+                    if (button.dataset.scope === 'all') {
+                        button.classList.add('active');
+                    }
+                });
+            });
+
+            searchScopeButtons.addEventListener('click', (event) => {
+                if (event.target.tagName === 'BUTTON') {
+                    document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    event.target.classList.add('active');
+                    searchScope = event.target.dataset.scope;
+                    renderSuggestions(searchInput.value); // Re-render suggestions based on new scope
+                }
+            });
+
+            searchInput.addEventListener('input', (event) => {
+                const query = event.target.value;
+                renderSuggestions(query);
+            });
+
+            // Handle clicking on a suggestion
+            suggestionsBox.addEventListener('click', (event) => {
+                if (event.target.tagName === 'LI') {
+                    searchInput.value = event.target.textContent;
+                    suggestionsBox.classList.remove('active'); // Hide suggestions after selection
+                    performSearch(searchInput.value, searchScope); // Perform search with selected suggestion
+                }
+            });
+
+
+            searchSubmitBtn.addEventListener('click', () => {
+                performSearch(searchInput.value, searchScope);
+            });
+
+            searchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    performSearch(searchInput.value, searchScope);
+                }
+            });
+
+            // Function to filter and render suggestions
+            function renderSuggestions(query) {
+                suggestionsBox.innerHTML = ''; // Clear previous suggestions
+                if (query.length === 0) {
+                    suggestionsBox.classList.remove('active');
+                    return;
+                }
+
+                let currentSuggestions = [];
+                if (searchScope === 'all') {
+                    currentSuggestions = allSuggestions;
+                } else if (searchScope === 'movies') {
+                    currentSuggestions = movieSuggestions;
+                } else if (searchScope === 'tv_shows') {
+                    currentSuggestions = tvShowSuggestions;
+                } else if (searchScope === 'cinemas') {
+                    currentSuggestions = cinemaSuggestions;
+                }
+
+                const filteredSuggestions = currentSuggestions.filter(item =>
+                    item.toLowerCase().includes(query.toLowerCase())
+                );
+
+                if (filteredSuggestions.length > 0) {
+                    const ul = document.createElement('ul');
+                    filteredSuggestions.forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        ul.appendChild(li);
+                    });
+                    suggestionsBox.appendChild(ul);
+                    suggestionsBox.classList.add('active');
+                } else {
+                    suggestionsBox.classList.remove('active');
+                }
+            }
+
+            // Function to perform search (simulated)
+            function performSearch(query, scope) {
+                searchSubheaderOverlay.classList.remove('show'); // Hide search overlay
+                suggestionsBox.classList.remove("active"); // Hide suggestions
+                searchInput.value = ""; // Clear input
+
+                // In a real application, you would navigate to a search results page
+                // or filter content on the current page.
+                console.log(`Performing search for "${query}" within scope "${scope}"`);
+                showMessageBox(`Searching for "${query}" in ${scope}... (Feature under development)`, 'blue-icon');
+            }
+
+
+            // Close search subheader and account dropdown if clicked outside
+            document.addEventListener("click", e => {
+                const isClickInsideSearchIcon = searchIcon && searchIcon.contains(e.target);
+                const isClickInsideSearchSubheader = searchSubheaderOverlay && searchSubheaderOverlay.contains(e.target);
+                const isClickInsideAccountIcon = accountIcon && accountIcon.contains(e.target);
+                const isClickInsideAccountDropdown = accountDropdownContent && accountDropdownContent.contains(e.target);
+
+                if (!searchSubheaderOverlay.classList.contains("show") && !isClickInsideSearchIcon && !isClickInsideSearchSubheader) {
+                    // This condition is wrong if searchSubheaderOverlay is already hidden.
+                    // It should only run if searchSubheaderOverlay IS visible and click is outside.
+                } else if (searchSubheaderOverlay.classList.contains("show") && !isClickInsideSearchIcon && !isClickInsideSearchSubheader) {
+                     searchSubheaderOverlay.classList.remove("show");
+                     suggestionsBox.classList.remove("active");
+                     searchInput.value = "";
+                     searchScope = 'all'; // Reset search scope
+                     document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                         button.classList.remove('active');
+                         if (button.dataset.scope === 'all') {
+                             button.classList.add('active');
+                         }
+                     });
+                }
+
+                if (accountDropdownContent && accountDropdownContent.classList.contains("show") && !isClickInsideAccountIcon && !isClickInsideAccountDropdown) {
+                    accountDropdownContent.classList.remove("show");
+                }
+            });
+
+        } else {
+            console.warn("Search elements not found. Search functionality skipped.");
+        }
+
+        // --- Mobile Navigation (Hamburger Menu) ---
+        if (hamburgerMenu && mobileNavOverlay && closeMobileNavBtn) {
+            hamburgerMenu.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('show');
+            });
+
+            // Close mobile nav when clicking on overlay itself or a link inside
+            mobileNavOverlay.addEventListener('click', (event) => {
+                if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                    mobileNavOverlay.classList.remove('show');
+                }
+            });
+            // Close button for mobile nav
+            closeMobileNavBtn.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('show');
+            });
+        }
+
+        // Initial render of show details based on URL parameter
+        const queryParams = getQueryParams();
+        const showTitleParam = queryParams.title;
+        const selectedShow = showsData.find(show => show.title === showTitleParam);
+        renderShowDetails(selectedShow);
+
+
+        // Initial update of account dropdown state
+        // This will check local storage or a simulated login state
+        const userLoggedIn = false; // Replace with actual login check
+        const updateAccountDropdown = (loggedIn) => {
+            const loginLink = document.getElementById('loginLink'); // Add an ID to your login link if you have one
+            const logoutLink = document.getElementById('logoutLink'); // Add an ID to your logout link
+            const profileLink = document.getElementById('profileLink'); // Add an ID to your profile link
+
+            if (loggedIn) {
+                if (loginLink) loginLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (profileLink) profileLink.style.display = 'block';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'none';
+                if (mobileLogoutLink) mobileLogoutLink.style.display = 'flex';
+                if (mobileProfileLink) mobileProfileLink.style.display = 'flex';
+            } else {
+                if (loginLink) loginLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (profileLink) profileLink.style.display = 'none';
+                if (mobileLoginLink) mobileLoginLink.style.display = 'flex';
+                if (mobileLogoutLink) mobileLogoutLink.style.display = 'none';
+                if (mobileProfileLink) mobileProfileLink.style.display = 'none';
+            }
+        };
+        updateAccountDropdown(userLoggedIn);
+
+        // Update the current year in the footer
+        const currentYearSpan = document.getElementById('current-year');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // Last Modified Date (footer)
+        const lastModifiedSpan = document.getElementById('last-modified');
+        if (lastModifiedSpan) {
+            lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+        } else {
+            console.warn("Last Modified span not found.");
+        }
+    });
+  </script>
+</body>
+</html>

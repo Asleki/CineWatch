@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Familia Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5, #8b5cf6); /* Purple to Indigo */
+        }
+        .card-gradient-1 {
+            background: linear-gradient(135deg, #8b5cf6, #c084fc); /* Lighter purple for cards */
+        }
+        .card-gradient-2 {
+            background: linear-gradient(135deg, #f97316, #fbbf24); /* Orange to yellow for cards */
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .scroll-hidden::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-hidden {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="app" class="w-full max-w-md bg-gray-900 rounded-2xl shadow-xl overflow-hidden md:max-w-lg lg:max-w-xl">
+        <!-- Content will be rendered here by JavaScript -->
+    </div>
+
+    <script>
+        // Simulated Data (In-memory for this GUI, for persistence would use backend/Firestore)
+        let accounts = {
+            "testuser": {
+                password: "password123",
+                name: "John Doe",
+                accountNumber: "9876543210",
+                balance: 636495.00,
+                currency: "USD",
+                paymentPasscode: "123456",
+                linkedMethods: [
+                    { name: "Savings", identifier: "Account", balance: 6000.00, currency: "USD", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>`},
+                    { name: "Bitcoin", identifier: "Wallet", balance: 53555.00, currency: "USD", trend: "+0.93% today", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin"><path d="M10.83 8.41a3 3 0 1 0-4.08 4.08"/><path d="M16.53 15.6a3 3 0 1 0 4.08-4.08"/><path d="M12 2v20"/><path d="M12 8l-2 2 2 2 2-2 2-2"/><path d="M12 16l-2-2 2-2 2 2 2 2"/></svg>`},
+                    { name: "Paychecks", identifier: "Direct Deposit", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/><path d="M22 7H7c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h15c.6 0 1-.4 1-1V8c0-.6-.4-1-1-1z"/><path d="M13 15h2"/></svg>`},
+                    { name: "Stocks", identifier: "Invest", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m18 10-4 4-2-6-4 4"/></svg>`},
+                    { name: "Taxes", identifier: "File", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark"><line x1="2" x2="22" y1="22" y2="22"/><path d="M6 18v3"/><path d="M10 18v3"/><path d="M14 18v3"/><path d="M18 18v3"/><path d="M8 22v-4c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v4"/><path d="M12 12V6c0-1.1-.9-2-2-2H8"/><path d="M12 12V6c0-1.1.9-2 2-2h2"/></svg>`},
+                    { name: "M-Pesa", identifier: "+2547XXXXXXXX", balance: 12000.00, currency: "KES" },
+                    { name: "PayPal", identifier: "paypal@example.com", balance: 500.00, currency: "USD" }
+                ],
+                cards: [
+                    {
+                        name: "Gold Visa Credit Card",
+                        number: "3400567898043002",
+                        expiry: "06/26",
+                        cvv: "123",
+                        cardholder: "John Doe",
+                        type: "Visa",
+                        design: "card-gradient-1", // Custom gradient class
+                        blocked: false,
+                        loanLimit: 50000.00,
+                        activeLoans: 0.0
+                    },
+                    {
+                        name: "Safari Prepaid Visa",
+                        number: "6644884422448866",
+                        expiry: "03/28",
+                        cvv: "435",
+                        cardholder: "John Doe",
+                        type: "Visa",
+                        design: "card-gradient-2", // Custom gradient class
+                        blocked: false
+                    }
+                ],
+                transactions: [
+                    { date: "2024-06-15", type: "Deposit", amount: 10000.00, currency: "USD", description: "Initial Deposit" },
+                    { date: "2024-06-16", type: "Withdrawal", amount: 500.00, currency: "USD", description: "ATM Withdrawal" },
+                    { date: "2024-06-16", type: "Transfer", amount: 200.00, currency: "USD", description: "Transfer to M-Pesa" }
+                ]
+            }
+        };
+
+        let currentAccount = null;
+        const appDiv = document.getElementById('app');
+
+        // Utility function to format currency
+        function formatCurrency(amount, currency) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currency,
+                minimumFractionDigits: 2
+            }).format(amount);
+        }
+
+        // --- View Rendering Functions ---
+
+        function renderLogin() {
+            appDiv.innerHTML = `
+                <div class="p-8 space-y-6">
+                    <div class="text-center">
+                        <h1 class="text-4xl font-bold text-white mb-2">La Familia Bank</h1>
+                        <p class="text-gray-400 italic">Your Trusted Digital Financial Partner</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-400">Username</label>
+                            <input type="text" id="username" class="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" placeholder="Enter your username">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-400">Password</label>
+                            <input type="password" id="password" class="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <button id="loginBtn" class="w-full py-3 rounded-lg font-semibold text-white gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 shadow-lg">
+                        Login
+                    </button>
+
+                    <div class="text-center text-gray-400">
+                        Don't have an account? <a href="#" id="openAccountLink" class="text-purple-400 hover:underline">Open a Bank Account</a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('loginBtn').addEventListener('click', handleLogin);
+            document.getElementById('openAccountLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('This is a simulation. For a real application, this would lead to an account registration form.');
+            });
+        }
+
+        function renderDashboard() {
+            if (!currentAccount) {
+                renderLogin();
+                return;
+            }
+
+            const acc = currentAccount;
+            const balanceFormatted = formatCurrency(acc.balance, acc.currency);
+
+            appDiv.innerHTML = `
+                <div class="p-6 space-y-6 scroll-hidden">
+                    <!-- Top Bar -->
+                    <div class="flex items-center justify-between text-gray-400">
+                        <span>${new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</span>
+                        <div class="flex items-center space-x-2">
+                            <span>100%</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-battery-full"><rect width="16" height="10" x="2" y="7" rx="2"/><path d="M22 11v2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Header with Profile -->
+                    <div class="flex items-center justify-between mt-4">
+                        <h2 class="text-xl font-semibold text-white">Hello, ${acc.name.split(' ')[0]}</h2>
+                        <button class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white text-sm font-semibold">
+                            JD
+                        </button>
+                    </div>
+
+                    <!-- Main Balance Section (Inspired by account.jpg) -->
+                    <div class="bg-gray-800 p-5 rounded-2xl shadow-lg">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-gray-400 text-sm">Cash balance</span>
+                            <button class="text-purple-400 text-sm flex items-center">
+                                Account & routing
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right ml-1"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                        <h3 class="text-5xl font-bold text-white mb-6">${balanceFormatted}</h3>
+                        <div class="flex space-x-3">
+                            <button id="addMoneyBtn" class="flex-1 py-3 rounded-xl bg-gray-700 text-white font-medium hover:bg-gray-600 transition duration-200">
+                                Add money
+                            </button>
+                            <button id="withdrawBtn" class="flex-1 py-3 rounded-xl bg-gray-700 text-white font-medium hover:bg-gray-600 transition duration-200">
+                                Withdraw
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Other Sections (Inspired by account.jpg) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        ${acc.linkedMethods.filter(m => m.icon).map(method => `
+                            <div class="bg-gray-800 p-4 rounded-2xl flex flex-col justify-between items-start cursor-pointer hover:bg-gray-700 transition duration-200">
+                                <div class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-purple-400 mb-3">
+                                    ${method.icon}
+                                </div>
+                                <span class="font-medium text-white">${method.name}</span>
+                                ${method.balance !== undefined ? `<span class="text-gray-400 text-sm">${formatCurrency(method.balance, method.currency)}</span>` : ''}
+                                ${method.trend ? `<span class="text-green-400 text-xs">${method.trend}</span>` : ''}
+                                ${method.name === 'Paychecks' ? `<span class="text-gray-400 text-xs">Get direct deposits early</span>` : ''}
+                                ${method.name === 'Stocks' ? `<span class="text-gray-400 text-xs">Invest with $1</span>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Quick Actions / Navigation (Inspired by balance.jpg and general banking apps) -->
+                    <div class="bg-gray-800 p-5 rounded-2xl shadow-lg space-y-4">
+                        <button id="viewStatementsBtn" class="flex items-center justify-between w-full py-3 px-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                            <span class="text-white font-medium">My Statements</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right text-gray-400"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                        <button id="manageCardsBtn" class="flex items-center justify-between w-full py-3 px-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                            <span class="text-white font-medium">Manage Cards</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right text-gray-400"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                        <button id="paymentsBtn" class="flex items-center justify-between w-full py-3 px-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                            <span class="text-white font-medium">Make Payments / Transfers</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right text-gray-400"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                        <button id="loanServicesBtn" class="flex items-center justify-between w-full py-3 px-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                            <span class="text-white font-medium">Loan Services</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right text-gray-400"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                        <button id="logoutBtn" class="flex items-center justify-between w-full py-3 px-4 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                            <span class="text-white font-medium">Logout</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="17 16 22 12 17 8"/><line x1="22" x2="10" y1="12" y2="12"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('addMoneyBtn').addEventListener('click', () => alert('Simulating: Add Money flow.'));
+            document.getElementById('withdrawBtn').addEventListener('click', () => alert('Simulating: Withdraw Money flow.'));
+            document.getElementById('viewStatementsBtn').addEventListener('click', renderStatements);
+            document.getElementById('manageCardsBtn').addEventListener('click', renderManageCards);
+            document.getElementById('paymentsBtn').addEventListener('click', () => alert('Simulating: Make Payments/Transfers.'));
+            document.getElementById('loanServicesBtn').addEventListener('click', () => alert('Simulating: Loan Services.'));
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+        }
+
+        function renderStatements() {
+            if (!currentAccount) {
+                renderLogin();
+                return;
+            }
+
+            const acc = currentAccount;
+            appDiv.innerHTML = `
+                <div class="p-6 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <button id="backToDashboardBtn" class="p-2 rounded-full bg-gray-800 text-gray-400 hover:bg-gray-700 transition duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+                        <h2 class="text-xl font-bold text-white">My Statements</h2>
+                        <div></div> <!-- Placeholder for symmetry -->
+                    </div>
+
+                    <div class="bg-gray-800 p-4 rounded-2xl shadow-lg">
+                        <h3 class="text-lg font-semibold text-white mb-4">Account Balance: ${formatCurrency(acc.balance, acc.currency)}</h3>
+                        ${acc.transactions.length > 0 ? `
+                            <div class="space-y-3">
+                                ${acc.transactions.map(t => `
+                                    <div class="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                                        <div>
+                                            <p class="text-white font-medium">${t.type}</p>
+                                            <p class="text-gray-400 text-sm">${t.description}</p>
+                                            <p class="text-gray-500 text-xs">${t.date}</p>
+                                        </div>
+                                        <span class="${t.type === 'Deposit' ? 'text-green-400' : 'text-red-400'} font-semibold">
+                                            ${t.type === 'Deposit' ? '+' : '-'} ${formatCurrency(t.amount, t.currency)}
+                                        </span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <p class="text-gray-400 text-center py-4">No transactions yet.</p>
+                        `}
+                    </div>
+                </div>
+            `;
+            document.getElementById('backToDashboardBtn').addEventListener('click', renderDashboard);
+        }
+
+        function renderManageCards() {
+            if (!currentAccount) {
+                renderLogin();
+                return;
+            }
+
+            const acc = currentAccount;
+            appDiv.innerHTML = `
+                <div class="p-6 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <button id="backToDashboardBtn" class="p-2 rounded-full bg-gray-800 text-gray-400 hover:bg-gray-700 transition duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+                        <h2 class="text-xl font-bold text-white">Manage Cards</h2>
+                        <div></div> <!-- Placeholder for symmetry -->
+                    </div>
+
+                    ${acc.cards.length > 0 ? `
+                        <div class="space-y-6">
+                            ${acc.cards.map((card, index) => `
+                                <div class="${card.design} p-6 rounded-2xl shadow-xl text-white relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-black opacity-10"></div>
+                                    <div class="relative z-10 flex justify-between items-start mb-6">
+                                        <span class="text-lg font-bold">${card.name}</span>
+                                        <span class="text-2xl font-bold">${card.type}</span>
+                                    </div>
+                                    <div class="relative z-10 text-3xl font-mono tracking-wider mb-6">
+                                        **** **** **** ${card.number.slice(-4)}
+                                    </div>
+                                    <div class="relative z-10 flex justify-between items-center text-sm">
+                                        <div>
+                                            <span class="block text-gray-200">Cardholder</span>
+                                            <span class="font-medium">${card.cardholder}</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-gray-200">Valid Thru</span>
+                                            <span class="font-medium">${card.expiry}</span>
+                                        </div>
+                                    </div>
+                                    ${card.blocked ? `<div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 text-white text-2xl font-bold z-20 rounded-2xl">BLOCKED</div>` : ''}
+                                </div>
+                                <div class="flex space-x-2 mt-4 justify-center">
+                                    <button data-card-index="${index}" class="toggle-block-btn flex-1 py-2 rounded-lg font-semibold text-white ${card.blocked ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'} transition duration-200">
+                                        ${card.blocked ? 'Unblock Card' : 'Block Card'}
+                                    </button>
+                                    <button data-card-index="${index}" class="change-pin-btn flex-1 py-2 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition duration-200">
+                                        Change PIN
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <p class="text-gray-400 text-center py-4">No cards linked yet.</p>
+                    `}
+
+                    <button id="requestNewCardBtn" class="w-full py-3 rounded-lg font-semibold text-white gradient-bg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200 shadow-lg mt-6">
+                        Request New Card
+                    </button>
+                </div>
+            `;
+            document.getElementById('backToDashboardBtn').addEventListener('click', renderDashboard);
+            document.getElementById('requestNewCardBtn').addEventListener('click', () => alert('Simulating: Request New Card flow.'));
+
+            document.querySelectorAll('.toggle-block-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.cardIndex;
+                    const card = currentAccount.cards[index];
+                    card.blocked = !card.blocked;
+                    alert(`${card.name} has been ${card.blocked ? 'blocked' : 'unblocked'}.`);
+                    renderManageCards(); // Re-render to update status
+                });
+            });
+
+            document.querySelectorAll('.change-pin-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.dataset.cardIndex;
+                    const card = currentAccount.cards[index];
+                    alert(`Simulating: Changing PIN for ${card.name}.`);
+                });
+            });
+        }
+
+        // --- Event Handlers ---
+
+        function handleLogin() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            if (accounts[usernameInput] && accounts[usernameInput].password === passwordInput) {
+                currentAccount = accounts[usernameInput];
+                renderDashboard();
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+
+        function handleLogout() {
+            currentAccount = null;
+            renderLogin();
+            alert('You have been logged out.');
+        }
+
+        // Initial render
+        renderLogin();
+
+    </script>
+</body>
+</html>

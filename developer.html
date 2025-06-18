@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Learn about Alex Malunda, the passionate developer behind CineWatch, his journey in web development, and his other projects.">
+  <meta name="author" content="Alex Malunda">
+  <title>About the Developer - CineWatch</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Inter Font for consistent typography across the site -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Consolidated Stylesheet for Developer Page -->
+  <style>
+    /* Root Theme Variables (Light Mode) */
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --header-bg: #f0ecec;
+      --search-bg: #f4f4f4;
+      --highlight: rgb(28, 12, 241); /* Blue used for highlight */
+      --danger: #f44336;
+      --cinewatch-blue: #000080; /* Dark blue for CineWatch logo */
+      --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      --border-color: #ddd;
+      --card-bg: #fdfdfd;
+      --link-hover: #0056b3;
+      --dropdown-bg: #fff;
+      --dropdown-border: #ccc;
+      --modal-bg: #fff;
+      --modal-border: 1px solid #ccc;
+      --form-bg: #f9f9f9;
+      --input-border: #ccc;
+
+      /* Additional variables for the new footer */
+      --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+      --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+      --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+      --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+      --background-color-light: #F0F8FF; /* Alice Blue - very light, airy blue */
+      --section-bg-light: #E6F7FF; /* Pale blue for section backgrounds */
+      --border-color-light: #A0D9EF; /* Medium blue for borders */
+      --shadow-color-light: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow */
+      --header-bg-light: #C9EEFF; /* Light Cyan-like blue for headers */
+
+      /* Footer specific grey colors */
+      --footer-bg-light-grey: #e0e0e0; /* Light grey for footer in light mode */
+      --footer-bg-dark-grey: #333333; /* Darker grey for footer in dark mode */
+    }
+
+    /* Dark Mode Variables */
+    body.dark-mode {
+      --bg: #1a1a2e; /* Deep dark blue */
+      --text: #e9ecef; /* Off-white */
+      --header-bg: #2c3e50; /* Dark blue-grey */
+      --search-bg: #34495e; /* Slightly lighter dark blue-grey */
+      --highlight: #89cff0; /* Sky blue */
+      --danger: #ef5350; /* Softer red */
+      --cinewatch-blue: #add8e6; /* Lighter blue for dark mode logo */
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      --border-color: #4a4a4a;
+      --card-bg: #212130;
+      --link-hover: #a3daff;
+      --dropdown-bg: #34495e;
+      --dropdown-border: #555;
+      --modal-bg: #2c3e50;
+      --modal-border: 1px solid #4a4a4a;
+      --form-bg: #34495e;
+      --input-border: #555;
+
+      /* Additional variables for the new footer in dark mode */
+      --text-color-dark: #f0f0f0;
+      --background-color-dark: #1a1a1a;
+      --section-bg-dark: #2a2a2a;
+      --border-color-dark: #4a4a4a;
+      --shadow-color-dark: rgba(0, 0, 0, 0.4);
+      --header-bg-dark: #464343;
+    }
+
+    /* General Body Styling */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Utility Header - Unified structure */
+    #utilityHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--header-bg);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    #utilityHeader .logo {
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    #utilityHeader .logo a {
+      text-decoration: none;
+      color: var(--cinewatch-blue);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .logo a:hover {
+      color: var(--highlight);
+    }
+
+    #utilityHeader .header-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #utilityHeader .header-icons i {
+      font-size: 1.2em;
+      cursor: pointer;
+      color: var(--text);
+      transition: color 0.3s;
+    }
+
+    #utilityHeader .header-icons i:hover {
+      color: var(--highlight);
+    }
+
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .account-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dropdown-bg);
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+      right: 0; /* Align dropdown to the right of the icon */
+      border: 1px solid var(--dropdown-border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px; /* Space from icon */
+    }
+
+    .account-dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .account-dropdown-content a:hover {
+      background-color: var(--search-bg);
+      color: var(--highlight);
+    }
+
+    .account-dropdown:hover .account-dropdown-content {
+      display: block;
+    }
+
+    /* Hamburger menu for mobile */
+    .hamburger-menu {
+        display: none; /* Hidden by default, shown on mobile */
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--text);
+    }
+
+    /* Mobile Navigation Overlay */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Start off-screen to the left */
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg); /* Use theme background */
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.3s ease-in-out; /* Slide in animation */
+    }
+
+    .mobile-nav-overlay.show {
+        left: 0; /* Slide in */
+    }
+
+    .mobile-nav-overlay .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2em;
+        color: var(--text);
+        cursor: pointer;
+    }
+
+    .mobile-nav-overlay .nav-links {
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+
+    .mobile-nav-overlay .nav-links li {
+        margin-bottom: 25px;
+    }
+
+    .mobile-nav-overlay .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.8em;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .nav-links a:hover {
+        color: var(--highlight);
+    }
+
+    .mobile-nav-overlay .social-icons {
+        margin-top: 40px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .mobile-nav-overlay .social-icons i {
+        font-size: 1.8em;
+        color: var(--text);
+        transition: color 0.2s;
+    }
+
+    .mobile-nav-overlay .social-icons i:hover {
+        color: var(--highlight);
+    }
+
+    /* Developer page specific styles */
+    .developer-hero {
+        background-image: url('images/myteam/aboutus_hero.webp');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        text-align: center;
+        padding: 60px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .developer-hero h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .developer-hero p {
+        font-size: 1.2em;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    }
+
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--highlight);
+      margin-bottom: 15px;
+    }
+
+    .profile-header h1 {
+      font-size: 2.5em;
+      margin: 0;
+      color: var(--highlight);
+    }
+
+    .profile-header p {
+      font-size: 1.1em;
+      color: #777;
+    }
+
+    .social-links {
+      margin-top: 15px;
+      display: flex;
+      gap: 20px;
+      align-items: center; /* Align images vertically */
+    }
+
+    .social-links a img {
+        width: 24px; /* Ensure image icons are appropriately sized */
+        height: 24px;
+        transition: transform 0.3s ease;
+    }
+    
+    .social-links a:hover img {
+        transform: scale(1.1);
+    }
+
+    .section-title {
+      font-size: 1.8em;
+      color: var(--highlight);
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .content-block {
+      margin-bottom: 30px;
+    }
+
+    .content-block h3 {
+      font-size: 1.4em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .content-block p, .content-block ul {
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .content-block ul {
+      list-style: disc;
+      padding-left: 25px;
+    }
+
+    .content-block ul li {
+      margin-bottom: 8px;
+    }
+
+    .content-block a {
+      color: var(--highlight);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .content-block a:hover {
+      text-decoration: underline;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .project-card {
+      background-color: var(--bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-card-info {
+      padding: 15px;
+    }
+
+    .project-card-info h4 {
+      font-size: 1.2em;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--highlight);
+    }
+
+    .project-card-info p {
+      font-size: 0.9em;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .project-card-info .project-links {
+      margin-top: 15px;
+    }
+
+    .project-card-info .project-links a {
+      display: inline-block;
+      margin-right: 15px;
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .project-card-info .project-links a:hover {
+      color: var(--highlight);
+      text-decoration: underline;
+    }
+
+    /* Styles for the new "Connect with Me" section */
+    .dev-section {
+        padding: 40px 30px;
+        margin: 20px auto;
+        max-width: 900px;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+    }
+
+    .dev-section h3 {
+        font-size: 1.8em;
+        color: var(--highlight);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .dev-section p {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .contact-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start; /* Align items to the start */
+        max-width: 400px; /* Limit width */
+        margin: 0 auto; /* Center the list */
+    }
+
+    .contact-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1em;
+        color: var(--text);
+    }
+
+    .contact-list a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text); /* Inherit color */
+        transition: color 0.3s ease;
+    }
+
+    .contact-list a:hover {
+        color: var(--highlight);
+        text-decoration: underline;
+    }
+
+    .contact-list img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+    }
+
+
+    /* Search Overlay Styles */
+    .search-subheader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Align to top */
+        padding-top: 80px; /* Space from header */
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .search-subheader-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .search-content {
+        background: var(--search-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        position: relative; /* For positioning close button */
+    }
+
+    .search-content .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: var(--text);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .search-content .close-btn:hover {
+        color: var(--danger);
+    }
+
+    .search-input-group {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-input-group input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        font-size: 1em;
+        background-color: var(--bg); /* Use theme background */
+        color: var(--text);
+    }
+
+    .search-input-group button {
+        padding: 10px 15px;
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .search-input-group button:hover {
+        background-color: var(--secondary-color);
+    }
+
+    .search-scope-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap; /* Allow buttons to wrap */
+    }
+
+    .search-scope-buttons button {
+        padding: 8px 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        background-color: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .search-scope-buttons button.active,
+    .search-scope-buttons button:hover {
+        background-color: var(--highlight);
+        color: #fff;
+        border-color: var(--highlight);
+    }
+
+    .suggestions-box {
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--dropdown-border);
+        border-radius: 5px;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none; /* Hidden by default */
+    }
+
+    .suggestions-box.active {
+        display: block; /* Show when active */
+    }
+
+    .suggestions-box ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .suggestions-box li {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s;
+        color: var(--text);
+    }
+
+    .suggestions-box li:last-child {
+        border-bottom: none;
+    }
+
+    .suggestions-box li:hover {
+        background-color: var(--search-bg);
+        color: var(--highlight);
+    }
+
+    /* Custom Alert/Message Box */
+    .custom-alert-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .custom-alert-overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .alert-content {
+        background-color: var(--bg);
+        color: var(--text);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease-out;
+    }
+
+    .custom-alert-overlay.show .alert-content {
+        transform: translateY(0);
+    }
+
+    .alert-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .alert-icon.blue-icon { color: var(--highlight); }
+    .alert-icon.green-icon { color: #4CAF50; }
+    .alert-icon.red-icon { color: var(--danger); }
+    .alert-icon.yellow-icon { color: #ffeb3b; }
+
+    #alertMessage {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+    }
+
+    .close-alert-btn {
+        background-color: var(--highlight);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+    }
+
+    .close-alert-btn:hover {
+        background-color: var(--secondary-color);
+    }
+
+    /* Footer Styles */
+    .site-footer {
+        background-color: var(--footer-bg-light-grey); /* Changed to light grey */
+        color: var(--text-color-light);
+        padding: 2rem 0;
+        margin-top: auto;
+        box-shadow: 0 -2px 5px var(--shadow-color-light);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    body.dark-mode .site-footer {
+        background-color: var(--footer-bg-dark-grey); /* Changed to darker grey */
+        color: var(--text-color-dark);
+        box-shadow: 0 -2px 5px var(--shadow-color-dark);
+    }
+
+    .footer-content {
+        display: flex;
+        flex-direction: row; /* Single row on large screens */
+        flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+        justify-content: space-around; /* Distribute items with space around them */
+        gap: 20px;
+        max-width: 1200px; /* Increased max-width for better multi-column display */
+        margin: 0 auto; /* Center the footer content */
+        padding: 0 20px; /* Add padding for content inside footer */
+        text-align: left; /* Default text alignment for multi-column */
+    }
+
+    .footer-section {
+        flex: 1; /* Allow sections to grow and shrink */
+        min-width: 200px; /* Minimum width for each column */
+        max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+        text-align: left; /* Align text left within each section */
+    }
+
+    .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    body.dark-mode .footer-section h3 {
+        color: var(--accent-color);
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.9rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: var(--secondary-color); /* Apply hover color */
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    /* Social Icons Container (Footer) */
+    .site-footer .social-icons { 
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .site-footer .social-icons img {
+        height: 30px;
+        width: 30px;
+        transition: transform 0.2s ease; /* Only transform transition */
+    }
+
+    .site-footer .social-icons img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Ensure footer social icons retain original color in dark mode */
+    body.dark-mode .site-footer .social-icons img {
+        /* No filter: invert(1) here to retain original colors in dark mode */
+    }
+
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #utilityHeader {
+            padding: 15px 20px;
+        }
+
+        #utilityHeader .header-icons {
+            display: none; /* Hide desktop icons */
+        }
+
+        .hamburger-menu {
+            display: block; /* Show hamburger on mobile */
+        }
+
+        .profile-container {
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .profile-header h1 {
+            font-size: 2em;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+        }
+
+        .project-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+
+        .project-card img {
+            height: 150px;
+        }
+        
+        .footer-content {
+            flex-direction: column; /* Stack vertically on small screens */
+            align-items: center;
+            text-align: center; /* Center text for stacked layout */
+        }
+        .footer-section {
+            width: 100%; /* Full width for sections on small screens */
+            max-width: unset; /* Remove max-width constraint */
+            text-align: center; /* Center text within sections on mobile */
+        }
+        .site-footer .social-icons {
+            justify-content: center; /* Ensure social icons remain centered on mobile */
+        }
+
+        .contact-list {
+            align-items: center; /* Center contact list items on mobile */
+        }
+    }
+    @media (max-width: 480px) {
+        .developer-hero h1 {
+            font-size: 2em;
+        }
+        .developer-hero p {
+            font-size: 1em;
+        }
+        .profile-header h1 {
+            font-size: 1.8em;
+        }
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+        }
+        .social-links {
+            gap: 15px;
+        }
+        .social-links a img {
+            width: 20px; /* Smaller icons on very small screens */
+            height: 20px;
+        }
+        .section-title {
+            font-size: 1.3em;
+        }
+        .project-grid {
+            grid-template-columns: 1fr; /* Single column on very small screens */
+        }
+        .project-card img {
+            height: 120px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) - Unified Header Structure -->
+  <header id="utilityHeader">
+    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
+    <div class="header-icons">
+      <i id="searchIcon" class="fas fa-search" title="Search"></i>
+      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
+      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
+      <div class="account-dropdown">
+        <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
+        <div class="account-dropdown-content" id="accountDropdownContent">
+          <a href="#">Profile</a>
+          <a href="settings.html">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger menu for mobile -->
+    <i class="fas fa-bars hamburger-menu" id="hamburgerMenu"></i>
+  </header>
+
+  <!-- Mobile Navigation Overlay (Hidden by default) -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+    <ul class="nav-links">
+      <li><a href="cinewatch_home.html">Home</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="tv_shows.html">TV Shows</a></li>
+      <li><a href="cinema_guide.html">Cinema Guide</a></li>
+      <li><a href="developer.html">Developer</a></li>
+      <li><a href="faqs.html">FAQs</a></li>
+      <li><a href="privacy_policy.html">Privacy Policy</a></li>
+      <li><a href="copyright_information.html">Copyright Information</a></li>
+      <li><a href="termsof_services.html">Terms of Service</a></li>
+      <li><a href="contact_us.html">Contact Us</a></li>
+      <li><a href="#" id="mobileProfileLink" style="display:none;">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="mobileLogoutLink" style="display:none;">Logout</a></li>
+    </ul>
+    <div class="social-icons">
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+    </div>
+  </div>
+
+  <main>
+    <!-- Developer Hero Section -->
+    <section class="developer-hero">
+        <div class="developer-hero-content">
+            <h1>Meet the Developer</h1>
+            <p>Crafting engaging digital experiences with passion and precision.</p>
+        </div>
+    </section>
+
+    <div class="profile-container">
+      <div class="profile-header">
+        <img src="images/developer/profile.webp" alt="Photo of the Site Developer, Alex Malunda" class="profile-photo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000080/FFFFFF?text=Alex';">
+        <h1>Alex Malunda</h1>
+        <p>Junior Developer & Cinephile</p>
+        <div class="social-links">
+          <a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+              <img src="images/socialicons/icons8-github-logo.svg" alt="GitHub Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/000000/FFFFFF?text=GH';">
+          </a>
+          <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <img src="images/socialicons/linkedin_24dp.svg" alt="LinkedIn Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/0A66C2/FFFFFF?text=LI';">
+          </a>
+          <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter) profile">
+              <img src="images/socialicons/twitter_24dp.svg" alt="X (formerly Twitter) Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/000000/FFFFFF?text=X';">
+          </a>
+        </div>
+      </div>
+
+      <h2 class="section-title">About Me</h2>
+      <div class="content-block">
+        <p>Hello! I'm Alex Malunda, a passionate full-stack developer with a keen interest in creating intuitive and engaging web experiences. My journey into programming began with a fascination for how digital products are built, evolving into a dedication to crafting robust and user-friendly applications.</p>
+        <p>I specialize in front-end technologies like HTML, CSS, and JavaScript, with a strong foundation in responsive design and modern web standards. On the back-end, I have experience with Node.js and various database solutions. CineWatch is a personal project born out of my love for cinema and television, aimed at providing a seamless platform for discovering and engaging with content.</p>
+      </div>
+
+      <h2 class="section-title">My Journey in Web Development</h2>
+      <div class="content-block">
+        <p>My path to becoming a developer has been driven by continuous learning and hands-on experience. I believe in the power of code to solve real-world problems and enhance daily lives. Key milestones include:</p>
+        <ul>
+          <li><strong>Self-Taught Foundations:</strong> Began with online courses and tutorials, building a strong understanding of core web technologies.</li>
+          <li><strong>Project-Based Learning:</strong> Continuously working on personal and collaborative projects to apply theoretical knowledge and explore new frameworks.</li>
+          <li><strong>Focus on User Experience:</strong> Always striving to ensure that the applications I build are not just functional, but also delightful and easy to use.</li>
+          <li><strong>Adaptability:</strong> Committed to staying updated with the latest industry trends and evolving technologies to deliver cutting-edge solutions.</li>
+        </ul>
+      </div>
+
+      <h2 class="section-title">My Projects</h2>
+      <div class="content-block">
+        <p>Here are some of the projects I've developed:</p>
+        <div class="project-grid">
+          <!-- CineWatch Project -->
+          <div class="project-card">
+            <img src="images/icons&logos/CineWatch.webp" alt="CineWatch Project Thumbnail">
+            <div class="project-card-info">
+              <h4>CineWatch</h4>
+              <p>CineWatch is a comprehensive movie and TV show streaming platform design, focusing on intuitive user experience and dynamic content display. Currently, I am actively implementing download and uploading features, and also developing a system for users to write reviews for shows.</p>
+              <h5>Key Features:</h5>
+              <ul>
+                  <li>Dynamic Hero Slideshow</li>
+                  <li>Categorized Show Listings with Carousels</li>
+                  <li>Interactive Search Functionality</li>
+                  <li>User Account Management (Login/Logout, Watchlist)</li>
+                  <li>Dark Mode Toggle</li>
+                  <li>Download and Upload Features (In Progress)</li>
+                  <li>User Review System (In Progress)</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Whitewater Rafting Site Project -->
+          <div class="project-card">
+            <img src="images/icons&logos/WhitewaterRafting.webp" alt="Whitewater Rafting Site Thumbnail">
+            <div class="project-card-info">
+              <h4>Whitewater Rafting Site</h4>
+              <p>A multi-page website designed for a whitewater rafting company, showcasing responsive design principles and engaging user interface.</p>
+              <p><strong>Technologies Used:</strong> HTML, CSS, JavaScript.</p>
+              <div class="project-links">
+                <a href="https://github.com/Asleki/wdd130" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+              </div>
+            </div>
+          </div>
+          <!-- Simulation Bank App and GUI Project -->
+          <div class="project-card">
+            <img src="images/icons&logos/lafamilia.webp" alt="Simulation Bank App Thumbnail">
+            <div class="project-card-info">
+              <h4>Simulation Bank App and GUI</h4>
+              <p>A command-line and graphical user interface application simulating basic banking operations.</p>
+              <p><strong>Technologies Used:</strong> Python (Tkinter for GUI).</p>
+              <div class="project-links">
+                <a href="https://github.com/Asleki/cse111" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connect with Me Section -->
+      <section id="connect-with-me" class="dev-section">
+          <h3>Connect with Me</h3>
+          <p>I'd love to connect! Feel free to reach out through any of the channels below:</p>
+          <ul class="contact-list">
+              <li>
+                  <a href="mailto:alexmalunda@aol.com" aria-label="Email Alex Malunda">
+                      <img src="images/socialicons/emailicon.webp" alt="Email Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/FFC300/FFFFFF?text=Email';"> alexmalunda@aol.com
+                  </a>
+              </li>
+              <li>
+                  <a href="tel:+254707176595" aria-label="Call Alex Malunda on phone number +254 707 176595">
+                      <img src="images/socialicons/icons8-phone.svg" alt="Phone Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/4CAF50/FFFFFF?text=Phone';"> +254 707 176595
+                  </a>
+              </li>
+              <li>
+                  <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile of Alex Malunda">
+                      <img src="images/socialicons/linkedin_24dp.svg" alt="LinkedIn Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/0A66C2/FFFFFF?text=LI';"> linkedin.com/in/alexmalunda
+                  </a>
+              </li>
+              <li>
+                  <a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile of Alex Malunda (Asleki)">
+                      <img src="images/socialicons/icons8-github-logo.svg" alt="GitHub Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/000000/FFFFFF?text=GH';"> github.com/Asleki
+                  </a>
+              </li>
+              <li>
+                  <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook profile of Alex Malunda (aslekiymastamynd)">
+                      <img src="images/socialicons/facebook_24dp.svg" alt="Facebook Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/1877F2/FFFFFF?text=FB';"> facebook.com/aslekiymastamynd
+                  </a>
+              </li>
+              <li>
+                  <a href="https://wa.me/254110029069" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp message to Alex Malunda">
+                      <img src="images/socialicons/icons8-whatsapp-logo.svg" alt="WhatsApp Icon" width="24" height="24" onerror="this.onerror=null;this.src='https://placehold.co/24x24/25D366/FFFFFF?text=WA';"> Send me a message
+                  </a>
+              </li>
+          </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
+  <div id="customAlert" class="custom-alert-overlay">
+    <div class="alert-content">
+        <i class="fas fa-info-circle alert-icon blue-icon"></i>
+        <p id="alertMessage">This is a custom message.</p>
+        <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- Site Footer (Unified Structure) -->
+  <footer class="site-footer">
+      <div class="footer-content">
+          <div class="footer-section about">
+              <h3>CineWatch</h3>
+              <p>Your ultimate destination for movies and TV shows.</p>
+          </div>
+          <div class="footer-section quick-links">
+              <h3>Quick Links</h3>
+              <ul>
+                  <li><a href="cinewatch_home.html">Home</a></li>
+                  <li><a href="movies.html">Movies</a></li>
+                  <li><a href="tv_shows.html">TV Shows</a></li>
+                  <li><a href="cinema_guide.html">Cinema Guide</a></li>
+              </ul>
+          </div>
+          <div class="footer-section developer-info">
+              <h3>Developer</h3>
+              <ul>
+                  <li><a href="developer.html">About Alex Malunda</a></li>
+                  <li><a href="https://github.com/Asleki" target="_blank" rel="noopener noreferrer">My GitHub</a></li>
+              </ul>
+          </div>
+          <div class="footer-section legal-links">
+              <h3>Legal</h3>
+              <ul>
+                  <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                  <li><a href="termsof_services.html">Terms of Service</a></li>
+                  <li><a href="copyright_information.html">Copyright Information</a></li>
+                  <li><a href="faqs.html">FAQs</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+              </ul>
+          </div>
+          <div class="footer-section contact-social">
+              <h3>Connect With Me</h3>
+              <p>Email: <a href="mailto:alexmalunda@aol.com">alexmalunda@aol.com</a></p>
+              <p>Last Modified: <span id="last-modified"></span></p>
+              <div class="social-icons">
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                      <img src="images/icons&logos/instagram_24dp.svg" alt="Instagram" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=Insta';">
+                  </a>
+                <a href="https://www.facebook.com/aslekiymastamynd" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=FB';">
+                </a>
+                <a href="https://www.linkedin.com/in/alexmalunda" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=LI';">
+                </a>
+                <a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                    <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)" onerror="this.onerror=null;this.src='https://placehold.co/30x30/000080/FFFFFF?text=X';">
+                </a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+    // Placeholder for global showMessageBox for reusability
+    function showMessageBox(message, iconClass = 'blue-icon', duration = 3000) {
+        const customAlert = document.getElementById('customAlert');
+        const alertMessage = document.getElementById('alertMessage');
+        const alertIcon = customAlert.querySelector('.alert-icon');
+        const closeAlertBtn = document.getElementById('closeAlertBtn');
+
+        alertMessage.textContent = message;
+        alertIcon.className = `fas alert-icon ${iconClass}`; // Update icon class
+
+        customAlert.classList.add('show');
+
+        // Automatically hide after a duration
+        const timeoutId = setTimeout(() => {
+            customAlert.classList.remove('show');
+        }, duration);
+
+        // Close button functionality
+        closeAlertBtn.onclick = () => {
+            customAlert.classList.remove('show');
+            clearTimeout(timeoutId); // Clear auto-hide timeout if manually closed
+        };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Common elements
+      const body = document.body;
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const accountIcon = document.getElementById('accountIcon');
+      const accountDropdownContent = document.getElementById('accountDropdownContent');
+      const hamburgerMenu = document.getElementById('hamburgerMenu');
+      const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+      const closeMobileNavBtn = document.getElementById('closeMobileNav');
+      const mobileProfileLink = document.getElementById('mobileProfileLink');
+      const mobileLogoutLink = document.getElementById('mobileLogoutLink');
+      const mobileLoginLink = document.getElementById('mobileLoginLink');
+
+      // Search Overlay Elements
+      const searchIcon = document.getElementById('searchIcon');
+      const searchSubheaderOverlay = document.getElementById('searchSubheaderOverlay');
+      const closeSearchBtn = document.getElementById('closeSearchBtn');
+      const searchInput = document.getElementById('searchInput');
+      const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+      const searchScopeButtons = document.getElementById('searchScopeButtons');
+      const suggestionsBox = document.getElementById('suggestionsBox');
+      let searchScope = 'all'; // Default search scope
+
+      // Sample Data for Search Suggestions (Extend as needed)
+      const allSuggestions = [
+          "Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse",
+          "The Marvels", "The Last of Us", "Succession", "Ted Lasso", "Breaking Bad",
+          "Better Call Saul", "The Crown", "Stranger Things", "Westworld",
+          "AMC Cinemas", "IMAX Theaters", "Grand Cinemas"
+      ];
+      const movieSuggestions = ["Dune: Part Two", "Oppenheimer", "Barbie", "Spider-Man: Across the Spider-Verse", "The Marvels"];
+      const tvShowSuggestions = ["The Last of Us", "Succession", "Ted Lasso", "Breaking Bad", "Better Call Saul", "The Crown", "Stranger Things", "Westworld"];
+      const cinemaSuggestions = ["AMC Cinemas", "IMAX Theaters", "Grand Cinemas", "Cinema Paradiso", "Starflix"];
+
+
+      // --- Dark Mode Toggle ---
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+          } else {
+            localStorage.setItem('theme', 'light');
+            darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            darkModeToggle.setAttribute('title', 'Toggle Dark Mode');
+          }
+        });
+      }
+
+      // Initial dark mode setup on page load
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        body.classList.add('dark-mode');
+        if (darkModeToggle) {
+          darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+          darkModeToggle.setAttribute('title', 'Toggle Light Mode');
+        }
+      }
+
+      // --- Account Dropdown Toggle ---
+      if (accountIcon) {
+        accountIcon.addEventListener('click', (event) => {
+          accountDropdownContent.classList.toggle('show');
+          event.stopPropagation(); // Prevent clicks on body from closing immediately
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', (event) => {
+          if (!accountDropdownContent.contains(event.target) && event.target !== accountIcon) {
+            accountDropdownContent.classList.remove('show');
+          }
+        });
+      }
+
+
+      // --- Search Functionality ---
+      if (searchIcon && searchSubheaderOverlay && closeSearchBtn && searchInput && searchSubmitBtn && searchScopeButtons && suggestionsBox) {
+          searchIcon.addEventListener('click', () => {
+              searchSubheaderOverlay.classList.add('show');
+              searchInput.focus(); // Focus on the input when search opens
+          });
+
+          closeSearchBtn.addEventListener('click', () => {
+              searchSubheaderOverlay.classList.remove('show');
+              suggestionsBox.classList.remove("active");
+              searchInput.value = ""; // Clear search input on close
+              searchScope = 'all'; // Reset search scope
+              document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                  button.classList.remove('active');
+                  if (button.dataset.scope === 'all') {
+                      button.classList.add('active');
+                  }
+              });
+          });
+
+          searchScopeButtons.addEventListener('click', (event) => {
+              if (event.target.tagName === 'BUTTON') {
+                  document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                      button.classList.remove('active');
+                  });
+                  event.target.classList.add('active');
+                  searchScope = event.target.dataset.scope;
+                  renderSuggestions(searchInput.value); // Re-render suggestions based on new scope
+              }
+          });
+
+          searchInput.addEventListener('input', (event) => {
+              const query = event.target.value;
+              renderSuggestions(query);
+          });
+
+          // Handle clicking on a suggestion
+          suggestionsBox.addEventListener('click', (event) => {
+              if (event.target.tagName === 'LI') {
+                  searchInput.value = event.target.textContent;
+                  suggestionsBox.classList.remove('active'); // Hide suggestions after selection
+                  performSearch(searchInput.value, searchScope); // Perform search with selected suggestion
+              }
+          });
+
+
+          searchSubmitBtn.addEventListener('click', () => {
+              performSearch(searchInput.value, searchScope);
+          });
+
+          searchInput.addEventListener('keypress', (event) => {
+              if (event.key === 'Enter') {
+                  performSearch(searchInput.value, searchScope);
+              }
+          });
+
+          // Function to filter and render suggestions
+          function renderSuggestions(query) {
+              suggestionsBox.innerHTML = ''; // Clear previous suggestions
+              if (query.length === 0) {
+                  suggestionsBox.classList.remove('active');
+                  return;
+              }
+
+              let currentSuggestions = [];
+              if (searchScope === 'all') {
+                  currentSuggestions = allSuggestions;
+              } else if (searchScope === 'movies') {
+                  currentSuggestions = movieSuggestions;
+              } else if (searchScope === 'tv_shows') {
+                  currentSuggestions = tvShowSuggestions;
+              } else if (searchScope === 'cinemas') {
+                  currentSuggestions = cinemaSuggestions;
+              }
+
+              const filteredSuggestions = currentSuggestions.filter(item =>
+                  item.toLowerCase().includes(query.toLowerCase())
+              );
+
+              if (filteredSuggestions.length > 0) {
+                  const ul = document.createElement('ul');
+                  filteredSuggestions.forEach(item => {
+                      const li = document.createElement('li');
+                      li.textContent = item;
+                      ul.appendChild(li);
+                  });
+                  suggestionsBox.appendChild(ul);
+                  suggestionsBox.classList.add('active');
+              } else {
+                  suggestionsBox.classList.remove('active');
+              }
+          }
+
+          // Function to perform search (simulated)
+          function performSearch(query, scope) {
+              searchSubheaderOverlay.classList.remove('show'); // Hide search overlay
+              suggestionsBox.classList.remove("active"); // Hide suggestions
+              searchInput.value = ""; // Clear input
+
+              // In a real application, you would navigate to a search results page
+              // or filter content on the current page.
+              console.log(`Performing search for "${query}" within scope "${scope}"`);
+              showMessageBox(`Searching for "${query}" in ${scope}... (Feature under development)`, 'blue-icon');
+          }
+
+
+          // Close search subheader and account dropdown if clicked outside
+          document.addEventListener("click", e => {
+              const isClickInsideSearchIcon = searchIcon && searchIcon.contains(e.target);
+              const isClickInsideSearchSubheader = searchSubheaderOverlay && searchSubheaderOverlay.contains(e.target);
+              const isClickInsideAccountIcon = accountIcon && accountIcon.contains(e.target);
+              const isClickInsideAccountDropdown = accountDropdownContent && accountDropdownContent.contains(e.target);
+
+              if (searchSubheaderOverlay.classList.contains("show") && !isClickInsideSearchIcon && !isClickInsideSearchSubheader) {
+                   searchSubheaderOverlay.classList.remove("show");
+                   suggestionsBox.classList.remove("active");
+                   searchInput.value = "";
+                   searchScope = 'all'; // Reset search scope
+                   document.querySelectorAll('.search-scope-buttons button').forEach(button => {
+                       button.classList.remove('active');
+                       if (button.dataset.scope === 'all') {
+                           button.classList.add('active');
+                       }
+                   });
+              }
+
+              if (accountDropdownContent && accountDropdownContent.classList.contains("show") && !isClickInsideAccountIcon && !isClickInsideAccountDropdown) {
+                  accountDropdownContent.classList.remove("show");
+              }
+          });
+
+      } else {
+          console.warn("Search elements not found. Search functionality skipped.");
+      }
+
+      // --- Mobile Navigation (Hamburger Menu) ---
+      if (hamburgerMenu && mobileNavOverlay && closeMobileNavBtn) {
+          hamburgerMenu.addEventListener('click', () => {
+              mobileNavOverlay.classList.add('show');
+          });
+
+          // Close mobile nav when clicking on overlay itself or a link inside
+          mobileNavOverlay.addEventListener('click', (event) => {
+              if (event.target === mobileNavOverlay || event.target.tagName === 'A') {
+                  mobileNavOverlay.classList.remove('show');
+              }
+          });
+          // Close button for mobile nav
+          closeMobileNavBtn.addEventListener('click', () => {
+              mobileNavOverlay.classList.remove('show');
+          });
+      }
+
+      // Initial update of account dropdown state
+      const userLoggedIn = false; // This would come from session storage or a backend check
+      const updateAccountDropdown = (loggedIn) => {
+          // These elements might not exist on all pages, so check before manipulating
+          const desktopLoginLink = document.getElementById('loginLink');
+          const desktopLogoutLink = document.getElementById('logoutLink');
+          const desktopProfileLink = document.getElementById('profileLink');
+
+          if (loggedIn) {
+              // Hide login, show profile/logout
+              if (desktopLoginLink) desktopLoginLink.style.display = 'none';
+              if (desktopLogoutLink) desktopLogoutLink.style.display = 'block';
+              if (desktopProfileLink) desktopProfileLink.style.display = 'block';
+
+              if (mobileLoginLink) mobileLoginLink.style.display = 'none';
+              if (mobileLogoutLink) mobileLogoutLink.style.display = 'flex';
+              if (mobileProfileLink) mobileProfileLink.style.display = 'flex';
+          } else {
+              // Show login, hide profile/logout
+              if (desktopLoginLink) desktopLoginLink.style.display = 'block';
+              if (desktopLogoutLink) desktopLogoutLink.style.display = 'none';
+              if (desktopProfileLink) desktopProfileLink.style.display = 'none';
+
+              if (mobileLoginLink) mobileLoginLink.style.display = 'flex';
+              if (mobileLogoutLink) mobileLogoutLink.style.display = 'none';
+              if (mobileProfileLink) mobileProfileLink.style.display = 'none';
+          }
+      };
+      updateAccountDropdown(userLoggedIn);
+
+      // JavaScript to update the "Last Modified" date in the footer
+      const lastModifiedSpan = document.getElementById('last-modified');
+      if (lastModifiedSpan) {
+          lastModifiedSpan.textContent = new Date(document.lastModified).toLocaleDateString();
+      } else {
+          console.warn("Last Modified span not found.");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -3,451 +3,205 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CineWatch - Stream, Discover, Repeat</title>
+  <title>CineWatch - Cinema Guide</title>
   
-  <!-- Font Awesome CDN for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Inter Font (for consistent typography across the site) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Consolidated Main Stylesheet -->
-  <style>
-  /*
-   * File: cinema_guide.css (Embedded Styles)
-   * Description: Styles for the cinema guide page, including loading screen,
-   * hero section, city filter, cinema listings, and multi-step booking modal.
-   */
-
-
-  /* Root Theme Variables */
-  :root {
-    --bg: #fff;
-    --text: #111;
-    --header-bg: #f0ecec;
-    --search-bg: #f4f4f4;
-    --highlight: rgb(28, 12, 241); /* Blue used for highlight */
-    --danger: #f44336;
-    --cinewatch-blue: #000080;
-    --button-bg: var(--cinewatch-blue);
-    --button-hover-bg: #000066;
-    --input-border: #ccc;
-    --dropdown-border: #ddd;
-    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --placeholder-color: #999;
-    --scrollbar-thumb: #888;
-    --scrollbar-track: #f1f1f1;
-    --primary-color: #333; /* For general text and headings */
-    --secondary-color: var(--highlight); /* For links and interactive elements */
-    --accent-color: #ff4500; /* A contrasting color, e.g., for dark mode highlights */
-
-    /* Variables for stepper colors */
-    --step-inactive: #888; /* Grey for inactive steps */
-    --step-active: var(--highlight); /* Blue for the active step (using your existing highlight color) */
-    --step-complete: #28a745; /* Green for completed steps */
-    --primary-button: rgb(2, 106, 252);
-    --primary-button-hover: #070bec;
-    --secondary-button: #6c757d;
-  }
-
-  /* Dark Mode Variables */
-  body.dark-mode {
-    --bg: #1a1a1a;
-    --text: #eee;
-    --header-bg: #222;
-    --search-bg: #333;
-    --highlight: #6699ff; /* Lighter blue for dark mode */
-    --danger: #ff6655;
-    --cinewatch-blue: #6699ff;
-    --button-bg: #6699ff;
-    --button-hover-bg: #4477ee;
-    --input-border: #555;
-    --dropdown-border: #444;
-    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    --placeholder-color: #aaa;
-    --scrollbar-thumb: #555;
-    --scrollbar-track: #2a2a2a;
-    --primary-color: #eee;
-    --secondary-color: #99bbff;
-    --accent-color: #ffa07a; /* Lighter contrasting color for dark mode */
-
-    --step-inactive: #bbb;
-    --step-active: #6699ff; /* Lighter blue for dark mode */
-    --step-complete: #28a745; /* Green for completed steps */
-    --primary-button: #6699ff;
-    --primary-button-hover: #4477ee;
-    --secondary-button: #5a6268;
-  }
-
-  /* General Styles */
-  html, body {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden; /* Prevent horizontal scroll bar */
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.3s, color 0.3s;
-  }
-
-  /* Hero Section */
-  .hero-section-cinema {
-      position: relative;
-      width: 100vw; /* Ensure it takes the full viewport width */
-      height: 300px; /* Adjust height as needed */
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      overflow: hidden;
-      transition: background-image 0.5s ease-in-out;
-      left: 50%; /* Center the element */
-      transform: translateX(-50%); /* Pull it back by half its width to truly center and span full width */
-  }
-
-  .hero-content-cinema {
-      position: absolute;
-      width: 100%; /* Ensure content within also spans full width */
-      text-align: center;
-      overflow: hidden;
-  }
-
-  /* Stepper progress container */
-  .stepper-progress {
-      padding: 20px 10px; /* Increased padding */
-      background-color: var(--search-bg);
-      border-bottom: 1px solid var(--dropdown-border);
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start; /* Align items to the start to manage vertical space */
-      flex-wrap: wrap; /* Allow steps to wrap on smaller screens */
-  }
-
-  .step-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1; /* Distribute space equally */
-      text-align: center;
-      min-width: 80px; /* Ensure a minimum width for each step */
-      margin: 5px; /* Add some margin between items */
-  }
-
-  .step-circle {
-      width: 35px; /* Slightly larger circle */
-      height: 35px; /* Slightly larger circle */
-      border-radius: 50%;
-      background-color: var(--step-inactive);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: 700; /* Bolder number */
-      margin-bottom: 8px; /* Increased space between circle and text */
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      font-size: 1rem; /* Larger font size for the number */
-      border: 2px solid transparent; /* Add a subtle border */
-  }
-
-  .step-item.active .step-circle {
-      background-color: var(--step-active);
-      border-color: var(--highlight); /* Highlight border for active step */
-      transform: scale(1.1); /* Slightly enlarge active circle */
-  }
-
-  .step-item.completed .step-circle {
-      background-color: var(--step-complete);
-      border-color: var(--step-complete); /* Green border for completed step */
-  }
-
-  .step-name {
-      font-size: 0.95rem; /* Larger font size for step name */
-      color: var(--text);
-      opacity: 0.8;
-      transition: color 0.3s ease, opacity 0.3s ease;
-      line-height: 1.2; /* Improve line spacing for readability */
-  }
-
-  .step-item.active .step-name {
-      opacity: 1;
-      font-weight: 700; /* Bolder text for active step */
-      color: var(--step-active); /* Highlight color for active step name */
-  }
-
-  .step-item.completed .step-name {
-      color: var(--step-complete); /* Green color for completed step name */
-      font-weight: 600; /* Bold text for completed step */
-  }
-
-  /* Responsive adjustments for stepper on small screens */
-  @media (max-width: 600px) {
-      .stepper-progress {
-          padding: 15px 5px;
-          justify-content: center; /* Center items when they wrap */
-      }
-
-      .step-item {
-          min-width: unset; /* Remove min-width on very small screens */
-          width: 30%; /* Allow more flexible wrapping */
-          margin: 5px 2px; /* Reduce horizontal margin */
-      }
-
-      .step-name {
-          font-size: 0.8rem; /* Smaller font for very small screens */
-      }
-  }
-
-
-  /* Footer Styles */
-  footer {
-      background-color: #f2f2f2; /* Light grey for footer in light mode */
-      color: #333; /* Darker text for readability */
-      padding: 20px 0;
-      text-align: center;
-      border-top: 1px solid #e0e0e0; /* Subtle border at the top */
-      font-size: 0.9em;
-      margin-top: 30px; /* Add some space above the footer */
-  }
-
-  /* Dark mode styles for footer */
-  body.dark-mode footer {
-      background-color: #222; /* Dark background for footer in dark mode */
-      color: #eee; /* Lighter text for readability */
-      border-top-color: #333; /* Adjust border color for dark mode */
-  }
-
-  footer p {
-      margin: 5px 0;
-  }
-
-  footer a {
-      color: var(--highlight); /* Use the highlight color for links in the footer */
-      text-decoration: none;
-      transition: color 0.3s ease;
-  }
-
-  footer a:hover {
-      color: var(--highlight); /* Keep highlight color on hover or slightly darker/lighter */
-      text-decoration: underline;
-  }
-
-  /* Footer Content Styles */
-  .footer-content {
-      display: flex;
-      flex-direction: row; /* Single row on large screens */
-      flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
-      justify-content: space-around; /* Distribute items with space around them */
-      gap: 20px;
-      max-width: 1200px; /* Increased max-width for better multi-column display */
-      margin: 0 auto; /* Center the footer content */
-      padding: 0 20px; /* Add padding for content inside footer */
-      text-align: left; /* Default text alignment for multi-column */
-  }
-
-  .footer-section {
-      flex: 1; /* Allow sections to grow and shrink */
-      min-width: 200px; /* Minimum width for each column */
-      max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
-      text-align: left; /* Align text left within each section */
-  }
-
-  .footer-section h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--primary-color);
-  }
-
-  body.dark-mode .footer-section h3 {
-      color: var(--accent-color);
-  }
-
-  .footer-section p,
-  .footer-section a {
-      font-size: 0.9rem;
-      color: inherit;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.5rem;
-      transition: color 0.3s ease;
-  }
-
-  .footer-section a:hover {
-      color: var(--secondary-color); /* Apply hover color */
-      text-decoration: underline; /* Add underline on hover */
-  }
-
-  /* Social Icons Container */
-  .social-icons { 
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 1rem;
-  }
-
-  .social-icons img {
-      height: 30px;
-      width: 30px;
-      transition: transform 0.2s ease, filter 0.3s ease;
-  }
-
-  .social-icons img:hover {
-      transform: scale(1.1);
-  }
-
-  body.dark-mode .social-icons img {
-      filter: invert(1);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-      .footer-content {
-          flex-direction: column; /* Stack vertically on small screens */
-          align-items: center;
-          text-align: center; /* Center text for stacked layout */
-      }
-      .footer-section {
-          width: 100%; /* Full width for sections on small screens */
-          max-width: unset; /* Remove max-width constraint */
-          text-align: center; /* Center text within sections on mobile */
-      }
-      .social-icons {
-          justify-content: center; /* Ensure social icons remain centered on mobile */
-      }
-  }
-</style>
+  <link rel="stylesheet" href="styles/about_us1.css">
+  <link rel="stylesheet" href="styles/cinema_guide.css">
 </head>
 <body>
-
-  <!-- Utility Header (Fixed/Sticky - contains Logo and Icons) -->
-  <header id="utilityHeader">
-    <div class="logo"><a href="cinewatch_home.html">CineWatch</a></div>
-    <div class="header-icons">
-      <i id="searchIcon" class="fas fa-search" title="Search"></i>
-      <i id="addIcon" class="fas fa-plus-circle" title="Add to Watchlist"></i>
-      <i id="accountIcon" class="fas fa-user-circle" title="Account"></i>
-      <i id="darkModeToggle" class="fas fa-moon" title="Toggle Dark Mode"></i>
-      <i id="hamburgerMenu" class="fas fa-bars" title="Menu"></i>
+    <div id="loadingScreen">
+        <h2 class="loading-text">CineWatch</h2>
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
-  </header>
 
-  <!-- Search Subheader (Initially hidden, slides down on search icon click) -->
-  <div id="searchSubheader" class="search-subheader">
-    <div class="search-bar-container">
-      <input type="text" id="searchInput" placeholder="Search movies, series, genres..." autocomplete="off">
-      <button id="clearSearch" class="clear-search-btn" title="Clear search"><i class="fas fa-times"></i></button>
-    </div>
-    <div id="suggestionsBox" class="suggestions-box">
-      <!-- Search suggestions will be rendered here by JavaScript -->
-    </div>
-  </div>
+    <header id="utilityHeader">
+        <div class="logo">
+            <a href="cinewatch_home.html">CineWatch</a>
+        </div>
+        <div class="header-icons">
+            <i class="fas fa-search" id="searchIcon" title="Search"></i>
+            <i class="fas fa-moon" id="darkModeToggle" title="Toggle Dark Mode"></i>
+            <i class="fas fa-user-circle" id="accountIcon" title="Account"></i>
+            <i class="fas fa-bars" id="hamburgerMenu" title="Menu"></i>
+        </div>
 
-  <!-- Account Dropdown (Hidden by default, appears on account icon click) -->
-  <div id="accountDropdown" class="account-dropdown">
-    <a href="login.html" id="loginLink"><i class="fas fa-sign-in-alt"></i> Login</a>
-    <a href="signup.html" id="registerLink"><i class="fas fa-user-plus"></i> Register</a>
-    <a href="profile.html" id="profileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
-    <a href="#" id="playlistLink" class="account-item"><i class="fas fa-list-ul"></i> Playlist</a>
-    <a href="#" id="bookmarksLink" class="account-item"><i class="fas fa-bookmark"></i> Bookmarks</a>
-    <a href="#" id="favoritesLink" class="account-item"><i class="fas fa-heart"></i> Favorites</a>
-    <a href="settings.html" id="settingsLink" class="account-item"><i class="fas fa-cog"></i> Settings</a>
-    <a href="#" id="logoutLink" style="display:none;" class="account-item logout-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-  </div>
+        <div class="search-subheader" id="searchSubheader">
+            <div class="search-bar-container">
+                <input type="text" id="searchInput" placeholder="Search movies, shows...">
+                <button class="clear-search-btn" id="clearSearchBtn" style="display: none;">&times;</button>
+            </div>
+            <div class="suggestions-box" id="suggestionsBox"></div>
+        </div>
 
-  <!-- Main Subheader (Contains Nav Links and Tagline, Scrolls with page) -->
-  <div id="mainSubheader" class="main-subheader">
-    <p class="site-tagline">Stream, Discover, Repeat</p>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="movies.html">Movies</a></li>
-        <li><a href="tv_shows.html">TV Shows</a></li>
-        <li><a href="cinema_guide.html">Cinema Guide</a></li>
-        <li><a href="about_us.html">About Us</a></li>
-      </ul>
+        <div class="account-dropdown" id="accountDropdown">
+            </div>
+    </header>
+
+    <nav class="main-subheader">
+        <div class="site-tagline">Your ultimate streaming guide.</div>
+        <ul class="main-nav">
+            <li><a href="cinewatch_home.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="tv_shows.html">TV Shows</a></li>
+            <li><a href="cinema_guide.html" class="active">Cinema Guide</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
     </nav>
-  </div>
 
-  <!-- Mobile Navigation Overlay (Hidden by default, appears on hamburger click) -->
-  <div id="mobileNavOverlay" class="mobile-nav-overlay">
-    <div class="mobile-nav-content">
-      <i id="closeMobileNav" class="fas fa-times close-btn"></i>
-      <a href="cinewatch_home.html" class="active">Home</a>
-      <a href="movies.html">Movies</a>
-      <a href="tv_shows.html">TV Shows</a>
-      <a href="cinema_guide.html">Cinema Guide</a>
-      <a href="developer.html">Developer</a>
-      <a href="faqs.html">FAQs</a>
-      <a href="privacy_policy.html">Privacy Policy</a>
-      <a href="copyright_information.html">Copyright Information</a>
-      <a href="termsof_services.html">Terms of Service</a>
-      <a href="contact_us.html">Contact Us</a>
-      <a href="profile.html" id="mobileProfileLink" style="display:none;"><i class="fas fa-user"></i> Profile</a>
-      <a href="login.html" class="mobile-login-btn" id="mobileLoginLink">Login / Register</a>
-      <a href="#" class="mobile-logout-btn" id="mobileLogoutLink" style="display:none;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-content">
+            <i class="fas fa-times close-btn" id="closeMobileNav"></i>
+            <a href="cinewatch_home.html"><i class="fas fa-home"></i> Home</a>
+            <a href="movies.html"><i class="fas fa-film"></i> Movies</a>
+            <a href="tv_shows.html"><i class="fas fa-tv"></i> TV Shows</a>
+            <a href="cinema_guide.html" class="active"><i class="fas fa-map-marker-alt"></i> Cinema Guide</a>
+            <a href="about_us.html"><i class="fas fa-info-circle"></i> About Us</a>
+            <button class="mobile-login-btn" id="mobileAuthButton"></button>
+        </div>
     </div>
-  </div>
 
-  <main>
-    <!-- Hero Section with dynamic background and content -->
-    <section id="heroSection" class="hero-section">
-      <div class="hero-content">
-        <div class="hero-show-card">
-            <img src="" alt="Show Poster" class="hero-poster" id="heroPoster">
+    <div class="custom-alert-overlay" id="customAlertOverlay">
+        <div class="alert-content">
+            <i id="alertIcon" class="alert-icon"></i>
+            <p id="alertMessage"></p>
+            <button class="close-alert-btn" id="closeAlertBtn">OK</button>
         </div>
-        <div class="hero-quote-card">
-            <p class="hero-quote" id="heroQuote"></p>
+    </div>
+
+    <section class="hero-section-cinema" style="background-image: url('https://source.unsplash.com/1600x900/?cinema,theater');">
+        <div class="hero-content-cinema">
+            <h1 class="hero-text-cinema">Experience the Magic of Cinema</h1>
         </div>
-      </div>
-      <!-- Removed hero navigation buttons as requested -->
     </section>
 
-    <!-- Category Sections (Dynamic Content) -->
-    <section id="categorySections" class="category-sections">
-      <!-- Categories and their show cards will be dynamically rendered here by JavaScript -->
-    </section>
-  </main>
+    <main class="cinema-guide-main">
+        <h2 class="page-title">Find Showtimes Near You</h2>
 
-  <!-- Footer -->
-  <footer class="footer">
-      <div class="footer-container">
-          <div class="footer-logo">CineWatch</div>
-          <nav class="footer-nav">
-              <ul>
-                  <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Terms of Service</a></li>
-                  <li><a href="#">Contact Us</a></li>
-                  <li><a href="#">FAQs</a></li>
-              </ul>
-          </nav>
-          <div class="footer-info">
-              <p>&copy; <span id="current-year"></span> CineWatch. All rights reserved.</p>
-              <p>Last Modified: <span id="last-modified"></span></p>
-              <div class="social-links">
-                  <a href="https://www.facebook.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                      <img src="images/icons&logos/facebook_24dp.svg" alt="Facebook">
-                  </a>
-                  <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                      <img src="images/icons&logos/linkedin_24dp.svg" alt="LinkedIn">
-                  </a>
-                  <a href="https://x.com/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
-                      <img src="images/icons&logos/twitter_24dp.svg" alt="X (formerly Twitter)">
-                  </a>
-              </div>
-          </div>
-      </div>
-  </footer>
+        <section class="city-filter">
+            <label for="citySelect">Select City:</label>
+            <select id="citySelect">
+                <option value="all">All Cities</option>
+                <option value="nairobi">Nairobi</option>
+                <option value="mombasa">Mombasa</option>
+                <option value="kisumu">Kisumu</option>
+                <option value="nakuru">Nakuru</option>
+            </select>
+        </section>
 
-  <!-- Custom Alert/Message Box (controlled by showMessageBox function in JS) -->
-  <div id="customAlert" class="custom-alert-overlay">
-    <div class="alert-content">
-        <i class="fas fa-info-circle alert-icon blue-icon"></i>
-        <p id="alertMessage">This is a custom message.</p>
-        <button id="closeAlertBtn" class="close-alert-btn">OK</button>
+        <section class="city-cinema-halls-container" id="cinemaHallsContainer">
+            </section>
+    </main>
+
+    <div id="bookingModal" class="custom-alert-overlay">
+        <div class="booking-modal-content">
+            <i class="fas fa-times close-btn" id="closeBookingModal"></i>
+            <h2 class="modal-title">Book Your Tickets</h2>
+
+            <div class="stepper-header">
+                <div class="step-indicator active" data-step="1">1</div>
+                <div class="step-indicator" data-step="2">2</div>
+                <div class="step-indicator" data-step="3">3</div>
+            </div>
+
+            <div class="booking-step active" data-step="1">
+                <h3>Show Details</h3>
+                <p><strong>Movie:</strong> <span id="modalMovieTitle"></span></p>
+                <p><strong>Cinema:</strong> <span id="modalCinemaHall"></span></p>
+                <p><strong>Time:</strong> <span id="modalShowtime"></span></p>
+
+                <div class="form-group">
+                    <label for="numTickets">Number of Tickets:</label>
+                    <input type="number" id="numTickets" min="1" value="1">
+                </div>
+                <div class="modal-buttons">
+                    <button class="next-step">Next</button>
+                </div>
+            </div>
+
+            <div class="booking-step" data-step="2">
+                <h3>Select Your Seats</h3>
+                <div class="seats-grid" id="seatsGrid">
+                    </div>
+                <div class="seat-info">
+                    <span class="legend-box legend-available"></span> Available
+                    <span class="legend-box legend-selected"></span> Selected
+                    <span class="legend-box legend-booked"></span> Booked
+                </div>
+                <div class="modal-buttons">
+                    <button class="prev-step">Previous</button>
+                    <button class="next-step">Next</button>
+                </div>
+            </div>
+
+            <div class="booking-step" data-step="3">
+                <h3>Confirm Booking & Pay</h3>
+                <div class="summary-details">
+                    <p><strong>Movie:</strong> <span id="summaryMovieTitle"></span></p>
+                    <p><strong>Cinema:</strong> <span id="summaryCinemaHall"></span></p>
+                    <p><strong>Showtime:</strong> <span id="summaryShowtime"></span></p>
+                    <p><strong>Tickets:</strong> <span id="summaryNumTickets"></span></p>
+                    <p><strong>Seats:</strong> <span id="summarySeats"></span></p>
+                    <p><strong>Total Price:</strong> <span id="summaryTotalPrice">Ksh 0.00</span></p>
+                </div>
+
+                <div class="payment-options">
+                    <div class="payment-option">
+                        <input type="radio" id="mpesa" name="paymentMethod" value="mpesa" checked>
+                        <label for="mpesa">M-Pesa</label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" id="card" name="paymentMethod" value="card">
+                        <label for="card">Credit/Debit Card</label>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="prev-step">Previous</button>
+                    <button class="confirm-booking">Confirm Booking</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Consolidated JavaScript -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section footer-info">
+                <h3>CineWatch</h3>
+                <p>Your ultimate destination for movies and TV shows. Discover, track, and enjoy your favorite content effortlessly.</p>
+                <p>&copy; <span id="current-year"></span> CineWatch. All rights reserved.</p>
+                <p>Last Modified: <span id="last-modified"></span></p>
+            </div>
+            <div class="footer-section footer-nav">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="cinewatch_home.html">Home</a></li>
+                    <li><a href="movies.html">Movies</a></li>
+                    <li><a href="tv_shows.html">TV Shows</a></li>
+                    <li><a href="cinema_guide.html">Cinema Guide</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: info@cinewatch.com</p>
+                <p>Phone: +1 (123) 456-7890</p>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><img src="images/facebook-icon.png" alt="Facebook"></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><img src="images/twitter-icon.png" alt="Twitter"></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><img src="images/instagram-icon.png" alt="Instagram"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
+  <script src="scripts/about_us.js"></script>
+  <script src="js/cinema_guide.js"></script>
 </body>
 </html>

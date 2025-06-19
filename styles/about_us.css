@@ -1,0 +1,1320 @@
+/* Universal Styles & Variables */
+:root {
+    /* Prioritized from movies.html for consistency across pages */
+    --primary-color: #0056b3; /* A vibrant blue for main accents and headings */
+    --secondary-color: #007bff; /* A slightly lighter blue for links and secondary actions */
+    --accent-color: #f39c12; /* Orange for highlights and call-to-action elements */
+    --text-color-light: #2C3E50; /* Dark, almost black blue-gray for readability */
+
+    /* General site colors, adjusted for overall consistency */
+    --text-color: #111; /* Default text color in light mode (from movies.html --text) */
+    --text-color-dark-bg: #ffffff; /* Text color on dark backgrounds */
+    --body-bg-color: #F0F8FF; /* Alice Blue - very light, airy blue (from movies.html --background-color-light) */
+    --card-bg-color: #ffffff; /* From movies.html --card-bg */
+    --section-bg-color-light: #E6F7FF; /* Pale blue for section backgrounds (from movies.html --section-bg-light) */
+    --section-bg-color-dark: #f0ecec; /* Adjusted from movies.html --header-bg to be cohesive */
+    --border-color: #A0D9EF; /* Medium blue for borders (from movies.html --border-color-light) */
+    --shadow-color: rgba(70, 130, 180, 0.2); /* Steel blue with transparency for subtle shadow (from movies.html --shadow-color-light) */
+
+    /* Specific to Dark Mode Toggle */
+    --dark-mode-toggle-color: var(--text-color); /* Changed to black for visibility in light mode */
+
+    /* Search Bar (adjusted for movies.html consistency) */
+    --search-bg-color: #f4f4f4; /* From movies.html */
+    --search-border-color: #ced4da; /* A neutral light border */
+    --search-text-color: #333333; /* Dark text for light search bar */
+    --search-placeholder-color: #6c757d; /* Grey placeholder */
+
+    /* Dropdowns/Overlays (adjusted for movies.html consistency) */
+    --dropdown-bg-color: #fff; /* From movies.html --dropdown-bg */
+    --dropdown-border-color: #ddd; /* From movies.html --dropdown-border */
+    --dropdown-item-hover-bg: #f0f0f0; /* From movies.html */
+
+    /* Buttons (retained from original, but check if --primary-color fits the new blue) */
+    --button-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    --button-shadow-hover: 0 6px 15px rgba(0, 0, 0, 0.6);
+    --secondary-button-bg: transparent;
+    --secondary-button-text: var(--primary-color);
+
+    /* Custom Alert Box (adjusted for movies.html consistency) */
+    --alert-bg-color: #fff; /* From movies.html --message-box-bg */
+    --alert-border-color: #ccc; /* From movies.html --message-box-border */
+    --alert-text-color: #111; /* From movies.html --message-box-text */
+    --alert-icon-blue: #0d6efd;
+    --alert-icon-green: #28a745;
+    --alert-icon-red: #dc3545;
+
+    /* Additional variables from movies.html */
+    --bg: #fff;
+    --text: #111;
+    --search-bg: #f4f4f4;
+    --highlight: rgb(28, 12, 241);
+    --danger: #f44336;
+    --cinewatch-blue: #000080; /* Dark blue color for CineWatch name */
+    --cinewatch-blue-hover: #00004d; /* Darker blue for CineWatch name hover */
+
+    --message-box-bg: #fff;
+    --message-box-text: #111;
+    --message-box-border: #ccc;
+    --message-box-button-bg: #007bff;
+    --message-box-button-text: white;
+    --message-box-button-hover-bg: #0056b3;
+
+    --dropdown-bg: #fff;
+    --dropdown-item-hover-bg: #f0f0f0;
+    --dropdown-border: #ddd;
+
+    --carousel-bg: #f0f0f0;
+    --card-border: #e0e0e0;
+    --play-icon-color: rgba(255, 255, 255, 0.8);
+    --play-icon-hover-color: rgba(255, 255, 255, 1);
+
+    /* Footer & Header unified colors */
+    --footer-bg-light-grey: #e0e0e0; /* Light grey for footer/header in light mode */
+    --footer-bg-dark-grey: #333333; /* Darker grey for footer/header in dark mode */
+    --header-bg-color: var(--footer-bg-light-grey); /* Header color unified with footer light mode */
+}
+
+/* Dark Mode Specific Variables */
+body.dark-mode {
+    /* Prioritized from movies.html for consistency across pages */
+    --bg: #1a1a1a;
+    --text: #f0f0f0;
+    --search-bg: #3a3a3a; /* From movies.html */
+    --highlight: #6699ff;
+    --danger: #ff6b6b;
+    --cinewatch-blue: #ADD8E6; /* Light blue for CineWatch name in dark mode */
+
+    /* Specific to Dark Mode Toggle */
+    --dark-mode-toggle-color: var(--toggle-sun-color); /* Use yellow in dark mode */
+    --toggle-sun-color: #fdd835; /* Yellow for the sun icon */
+
+    /* General site colors, adjusted for overall consistency in dark mode */
+    --body-bg-color: #1c1c1c; /* Similar to original */
+    --text-color: #f0f0f0; /* From movies.html --text */
+    --text-color-light: #b0b0b0; /* Retained from original */
+    --heading-color: #ffffff; /* Retained from original */
+    --card-bg-color: #3a3a3a; /* From movies.html --card-bg */
+    --section-bg-color-light: #222222; /* Retained from original */
+    --section-bg-color-alt: #2a2a2a; /* For the location section, retained from original */
+    --section-bg-color-dark: #141414; /* Retained from original */
+    --border-color: #333333; /* Retained from original */
+    --card-shadow: rgba(0, 0, 0, 0.3); /* From movies.html */
+    --card-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.5); /* Retained from original */
+    --shadow-color: rgba(0, 0, 0, 0.5); /* Retained from original */
+
+    /* Dropdowns/Overlays (from movies.html) */
+    --dropdown-bg-color: #333;
+    --dropdown-border-color: #555;
+    --dropdown-item-hover-bg: #444;
+
+    /* Search Bar (from movies.html) */
+    --search-text-color: #ffffff;
+    --search-placeholder-color: #aaaaaa;
+
+    /* Alert Box (from movies.html) */
+    --message-box-bg: #333;
+    --message-box-text: #f0f0f0;
+    --message-box-border: #555;
+    --message-box-button-bg: #6699ff;
+    --message-box-button-text: #111;
+    --message-box-button-hover-bg: #4477ee;
+
+    /* Footer & Header unified colors in dark mode */
+    --header-bg-color: var(--footer-bg-dark-grey); /* Header color unified with footer dark mode */
+    --text-color-dark: var(--text); /* Explicitly set for footer text in dark mode */
+    --shadow-color-dark: var(--card-shadow); /* Explicitly set for footer shadow in dark mode */
+}
+
+/* Light Mode Specific Variables (if needed to override or define explicitly) */
+body.light-mode {
+    --body-bg-color: #f0f2f5; /* Light background */
+    --header-bg-color: var(--footer-bg-light-grey); /* Unified with footer */
+    --footer-bg-color: var(--footer-bg-light-grey); /* Unified with header */
+    --text-color: #333333;
+    --text-color-light: #666666;
+    --heading-color: #1a1a1a;
+    --card-bg-color: #ffffff;
+    --section-bg-color-light: #e9ecef;
+    --section-bg-color-alt: #f8f9fa;
+    --section-bg-color-dark: #e0e0e0;
+    --border-color: #cccccc;
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --dropdown-bg-color: #ffffff;
+    --dropdown-border-color: #e0e0e0;
+    --dropdown-item-hover-bg: #f0f0f0;
+    --search-bg-color: #f8f9fa;
+    --search-border-color: #ced4da;
+    --search-text-color: #333333;
+    --search-placeholder-color: #6c757d;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding-top: 130px; /* Space for fixed header components */
+    background-color: var(--body-bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-color-hover);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Utility Header (Fixed/Sticky - contains Logo and Icons) */
+#utilityHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--header-bg-color); /* Now unified with footer */
+    color: white; /* Default text color in header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+#utilityHeader .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+#utilityHeader .logo a {
+    color: var(--cinewatch-blue); /* CineWatch logo text color */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#utilityHeader .logo a:hover {
+    color: var(--cinewatch-blue-hover); /* CineWatch logo hover color */
+}
+
+/* Header Icons */
+.header-icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-icons i {
+    font-size: 1.4em;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+    color: var(--text-color); /* Default icon color (black in light mode) */
+}
+
+.header-icons i:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Dark mode specific for header icons */
+body.dark-mode .header-icons i {
+    color: var(--highlight); /* Blue in dark mode */
+}
+
+#darkModeToggle {
+    color: var(--dark-mode-toggle-color); /* Ensures moon/sun icon is visible and yellow in dark mode */
+}
+
+/* Search Subheader */
+#searchSubheader {
+    position: fixed;
+    top: 65px; /* Directly below utility header */
+    left: 0;
+    width: 100%;
+    background-color: var(--search-bg-color);
+    padding: 15px 25px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    border-top: 1px solid var(--search-border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#searchSubheader.visible {
+    transform: translateY(0);
+}
+
+.search-bar-container {
+    display: flex;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+}
+
+#searchInput {
+    flex-grow: 1;
+    padding: 12px 40px 12px 15px; /* Left padding for text, right for clear icon */
+    border: 1px solid var(--search-border-color);
+    border-radius: 5px;
+    background-color: var(--card-bg-color);
+    color: var(--search-text-color);
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput::placeholder {
+    color: var(--search-placeholder-color);
+}
+
+#searchInput:focus {
+    border-color: var(--primary-color);
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--search-placeholder-color);
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.clear-search-btn:hover {
+    color: var(--primary-color);
+}
+
+.suggestions-box {
+    width: 100%;
+    max-width: 700px;
+    background-color: var(--dropdown-bg-color);
+    border: 1px solid var(--dropdown-border-color);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    margin-top: -1px; /* Overlap border */
+    max-height: 300px;
+    overflow-y: auto;
+    display: none; /* Controlled by JS */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.suggestions-box.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--dropdown-border-color);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+    background-color: var(--dropdown-item-hover-bg);
+}
+
+.suggestion-item strong {
+    color: var(--primary-color);
+}
+
+/* Account Dropdown */
+#accountDropdown {
+    position: fixed;
+    top: 65px; /* Directly below utility header */
+    right: 25px;
+    background-color: var(--dropdown-bg-color);
+    border: 1px solid var(--dropdown-border-color);
+    border-radius: 8px;
+    box-shadow: 0 8px 16px var(--shadow-color);
+    min-width: 200px;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    padding: 10px 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#accountDropdown.visible {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#accountDropdown a {
+    padding: 12px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#accountDropdown a:hover {
+    background-color: var(--dropdown-item-hover-bg);
+    color: var(--primary-color);
+}
+
+#accountDropdown a .fas {
+    font-size: 1.1em;
+    width: 20px; /* Align icons */
+    text-align: center;
+}
+
+.logout-item {
+    border-top: 1px solid var(--dropdown-border-color);
+    margin-top: 5px;
+    padding-top: 10px !important;
+}
+
+/* Main Subheader (Navigation) */
+#mainSubheader {
+    position: fixed;
+    top: 65px; /* Below utility header */
+    left: 0;
+    width: 100%;
+    background-color: var(--header-bg-color); /* Now unified with footer */
+    padding: 10px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-color); /* Added shadow for separation */
+    z-index: 900; /* Below utility header, above main content */
+    transition: background-color 0.3s ease;
+}
+
+.site-tagline {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    color: var(--text-color-light);
+    font-style: italic;
+    margin-right: 20px; /* Space between tagline and nav */
+    display: none; /* Hidden by default, shown on larger screens */
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav ul li a {
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+    padding-bottom: 5px; /* For hover underline effect */
+}
+
+.main-nav ul li a:hover,
+.main-nav ul li a.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+}
+
+.mobile-nav-overlay.show {
+    transform: translateX(0);
+}
+
+.mobile-nav-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+}
+
+.mobile-nav-content a {
+    color: white;
+    font-size: 1.8em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.mobile-nav-content a:hover {
+    color: var(--primary-color);
+}
+
+.close-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 2.2em;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: var(--primary-color);
+}
+
+.mobile-login-btn, .mobile-logout-btn {
+    margin-top: 30px;
+    background-color: var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.2em !important;
+    font-weight: 700 !important;
+    color: white !important;
+    text-align: center;
+    width: fit-content;
+    display: block;
+}
+
+.mobile-login-btn:hover, .mobile-logout-btn:hover {
+    background-color: var(--primary-color-hover);
+    color: white !important;
+}
+
+/* Main About Page Content Styles */
+/* General Body and Page Structure */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--body-bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Sections Padding */
+.section-padding {
+    padding: 60px 0;
+}
+
+.bg-light {
+    background-color: var(--section-bg-color-light);
+}
+
+.bg-dark {
+    background-color: var(--section-bg-color-dark);
+    color: var(--text-color-dark-bg);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/man-watching-show-his-tv_926199-1957605.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    border-bottom: 5px solid var(--primary-color);
+}
+
+.hero-section h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .tagline {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    opacity: 0.9;
+}
+
+/* Story Section */
+.story-section .content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+}
+
+.story-section .text-content {
+    flex: 2;
+    min-width: 300px;
+}
+
+.story-section .text-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.story-section .text-content p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.story-section .text-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.story-section .text-content a:hover {
+    text-decoration: underline;
+}
+
+.story-section .image-content {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.story-section .story-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Team Section */
+.team-section h2 {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8em;
+    color: var(--heading-color);
+    margin-bottom: 15px;
+}
+
+.team-section .section-description {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.team-member {
+    background-color: var(--card-bg-color);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 4px solid var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.team-member h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.8em;
+    color: var(--heading-color);
+    margin-bottom: 5px;
+}
+
+.team-member .role {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.team-member p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.95em;
+    color: var(--text-color-light);
+}
+
+/* Location and Contact Section */
+.location-contact-section {
+    background-color: var(--section-bg-color-alt);
+    border-top: 1px solid var(--border-color);
+}
+
+.location-contact-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8em;
+    color: var(--heading-color);
+    margin-bottom: 15px;
+}
+
+.location-contact-section .section-description {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-bottom: 30px;
+}
+
+.map-container {
+    border: 5px solid var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.map-container iframe {
+    width: 100%;
+    min-height: 400px;
+    display: block; /* Removes extra space below iframe */
+}
+
+.contact-button-container {
+    margin-top: 30px;
+}
+
+.contact-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--button-shadow);
+}
+
+.contact-button:hover {
+    background-color: var(--primary-color-hover);
+    transform: translateY(-3px);
+}
+
+/* CTA Section */
+.cta-section {
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/cta-bg\ .webp') no-repeat center center/cover;
+    color: white;
+    border-top: 5px solid var(--primary-color);
+}
+
+.cta-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cta-section p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: var(--button-shadow);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--button-shadow-hover);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-button-bg);
+    color: var(--secondary-button-text);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--button-shadow-hover);
+}
+
+/* Site Footer (Updated to match movies.html styling) */
+.site-footer {
+    background-color: var(--footer-bg-light-grey);
+    color: var(--text-color-light);
+    padding: 2rem 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 5px var(--shadow-color-light);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .site-footer {
+    background-color: var(--footer-bg-dark-grey);
+    color: var(--text-color-dark);
+    box-shadow: 0 -2px 5px var(--shadow-color-dark);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row; /* Single row on large screens */
+    flex-wrap: wrap; /* Allow items to wrap if screen is not wide enough */
+    justify-content: space-around; /* Distribute items with space around them */
+    gap: 20px;
+    max-width: 1200px; /* Increased max-width for better multi-column display */
+    margin: 0 auto; /* Center the footer content */
+    padding: 0 20px; /* Add padding for content inside footer */
+    text-align: left; /* Default text alignment for multi-column */
+}
+
+.footer-section {
+    flex: 1; /* Allow sections to grow and shrink */
+    min-width: 200px; /* Minimum width for each column */
+    max-width: 250px; /* Maximum width for each column to prevent excessive stretching */
+    text-align: left; /* Align text left within each section */
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+body.dark-mode .footer-section h3 {
+    color: var(--accent-color);
+}
+
+.footer-section p,
+.footer-section a {
+    font-size: 0.9rem;
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--secondary-color); /* Apply hover color */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Social Icons Container */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.social-icons img {
+    height: 30px;
+    width: 30px;
+    transition: transform 0.2s ease, filter 0.3s ease;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1);
+}
+
+/* Custom Alert/Message Box */
+.custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-alert-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert-content {
+    background-color: var(--alert-bg-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border: 1px solid var(--alert-border-color);
+}
+
+.custom-alert-overlay.show .alert-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.alert-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.alert-icon.blue-icon { color: var(--alert-icon-blue); }
+.alert-icon.green-icon { color: var(--alert-icon-green); }
+.alert-icon.red-icon { color: var(--alert-icon-red); }
+
+#alertMessage {
+    color: var(--alert-text-color);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.close-alert-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.close-alert-btn:hover {
+    background-color: var(--primary-color-hover);
+}
+
+/* Responsive Design */
+@media (min-width: 993px) {
+    .site-tagline {
+        display: block; /* Show tagline on larger screens */
+    }
+
+    #hamburgerMenu, .mobile-nav-overlay {
+        display: none; /* Hide hamburger and mobile nav on larger screens */
+    }
+}
+
+
+@media (max-width: 992px) {
+    body {
+        padding-top: 110px; /* Adjust padding for smaller header */
+    }
+
+    #utilityHeader {
+        padding: 12px 20px;
+    }
+
+    #utilityHeader .logo {
+        font-size: 1.6em;
+    }
+
+    .header-icons {
+        gap: 15px;
+    }
+
+    .header-icons i {
+        font-size: 1.3em;
+    }
+
+    #searchSubheader, #accountDropdown {
+        top: 58px; /* Adjust top position */
+    }
+
+    #mainSubheader {
+        top: 58px; /* Adjust top position */
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    .site-tagline {
+        margin-bottom: 10px;
+        font-size: 1em;
+    }
+
+    .main-nav ul {
+        width: 100%;
+        justify-content: space-around;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .main-nav ul li a {
+        font-size: 1em;
+    }
+
+    #hamburgerMenu {
+        display: block; /* Show hamburger on smaller screens */
+    }
+
+    .story-section .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .story-section .text-content,
+    .story-section .image-content {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .story-section .text-content h2 {
+        display: block;
+        text-align: center;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .hero-section h1 {
+        font-size: 2.8em;
+    }
+
+    .hero-section .tagline {
+        font-size: 1.2em;
+    }
+
+    .team-section h2,
+    .location-contact-section h2,
+    .cta-section h2 {
+        font-size: 2.2em;
+    }
+
+    .team-section .section-description,
+    .location-contact-section .section-description,
+    .cta-section p {
+        font-size: 1em;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 100px; /* Even less padding for very small header */
+    }
+
+    #utilityHeader {
+        padding: 10px 15px;
+    }
+
+    #utilityHeader .logo {
+        font-size: 1.5em;
+    }
+
+    .header-icons {
+        gap: 12px;
+    }
+
+    .header-icons i {
+        font-size: 1.2em;
+    }
+
+    #searchSubheader, #accountDropdown {
+        top: 50px; /* Adjust top position */
+        right: 15px; /* Adjust right position for dropdown */
+    }
+
+    #mainSubheader {
+        top: 50px; /* Adjust top position */
+        padding: 8px 15px;
+    }
+
+    .site-tagline {
+        font-size: 0.9em;
+    }
+
+    .main-nav ul {
+        gap: 10px;
+    }
+
+    .main-nav ul li a {
+        font-size: 0.9em;
+    }
+
+    .section-padding {
+        padding: 40px 0;
+    }
+
+    .hero-section {
+        padding: 80px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5em;
+    }
+
+    .hero-section .tagline {
+        font-size: 1.1em;
+    }
+
+    .story-section .text-content h2 {
+        font-size: 2em;
+    }
+
+    .story-section .text-content p {
+        font-size: 1em;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+
+    .team-member {
+        padding: 20px;
+    }
+
+    .team-member img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .team-member h3 {
+        font-size: 1.6em;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        width: 80%; /* Make buttons wider on small screens */
+        margin: 0 auto;
+    }
+
+    .map-container iframe {
+        min-height: 300px;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    #utilityHeader .logo {
+        font-size: 1.3em;
+    }
+
+    .header-icons {
+        gap: 10px;
+    }
+
+    .header-icons i {
+        font-size: 1.1em;
+    }
+
+    #searchSubheader {
+        padding: 10px 15px;
+    }
+
+    #searchInput {
+        padding: 10px 35px 10px 10px;
+        font-size: 0.9em;
+    }
+
+    .clear-search-btn {
+        font-size: 1em;
+        right: 5px;
+    }
+
+    .suggestion-item {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+
+    #accountDropdown {
+        min-width: 180px;
+        right: 15px;
+    }
+
+    #accountDropdown a {
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+
+    #accountDropdown a .fas {
+        font-size: 1em;
+    }
+
+    .mobile-nav-content a {
+        font-size: 1.5em;
+    }
+
+    .close-btn {
+        font-size: 1.8em;
+        top: 20px;
+        right: 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2em;
+    }
+
+    .hero-section .tagline {
+        font-size: 1em;
+    }
+
+    .story-section .text-content h2 {
+        font-size: 1.8em;
+    }
+
+    .team-section h2,
+    .location-contact-section h2,
+    .cta-section h2 {
+        font-size: 2em;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    .footer-section h3 {
+        font-size: 1.2em;
+    }
+
+    .footer-section p,
+    .footer-section ul li {
+        font-size: 0.9em;
+    }
+
+    .alert-content {
+        padding: 20px;
+    }
+
+    #alertMessage {
+        font-size: 1em;
+    }
+
+    .close-alert-btn {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+}
